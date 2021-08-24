@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "302547546268",
+    "project_id": "beingvaidya-12b2c",
+    "storage_bucket": "beingvaidya-12b2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302547546268:android:9237e89e22756248dd3d59",
+        "android_client_info": {
+          "package_name": "com.mayurkakade.beingvaidya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302547546268-99ev5kns9fqfm4f8pelt0dk393bdmsk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuNToI7vbG8orWM3Lxbj3vFNW9ESKKwIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302547546268-99ev5kns9fqfm4f8pelt0dk393bdmsk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

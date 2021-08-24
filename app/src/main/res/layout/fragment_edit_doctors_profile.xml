@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    tools:context=".ui.fragments.doctor.EditDoctorsProfileFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_gravity="center"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:src="@drawable/ic_baseline_camera_alt_24"
+                    app:tint="@color/black"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#000000"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name : "
+                    android:visibility="gone"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="name"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelTextColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_qualification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Qualification : "
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_qualification"
+                    android:layout_width="0dp"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Qualification"
+                    app:met_floatingLabel="highlight"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabelTextColor="@color/black"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_qualification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_university"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="University : "
+                    android:visibility="gone"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_university"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="University"
+                    app:met_floatingLabel="highlight"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabelTextColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_university"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_degree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Degree : "
+                    android:visibility="gone"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <Spinner
+                    android:id="@+id/et_degree"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"
+                    android:entries="@array/sp_degree"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_phone_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone No : "
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_margin="12dp"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_phone_no"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Phone Number"
+                    app:met_floatingLabel="highlight"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabelTextColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_phone_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_mail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mail : "
+                    android:visibility="gone"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_mail"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Email"
+                    app:met_floatingLabel="highlight"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabelTextColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="12dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tv_pincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pincode : "
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_margin="12dp"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_pincode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:layout_weight="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Pincode"
+                    app:met_floatingLabelTextColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/iv_edit_pincode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:text="Availability :"
+                    android:visibility="gone"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_availablity"
+                    android:layout_width="0dp"
+                    android:layout_margin="12dp"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Availability"
+                    app:met_floatingLabel="highlight"
+                    android:enabled="false"
+                    android:textColor="@drawable/edit_text_selector"
+                    app:met_textColor="@drawable/edit_text_selector"
+                    app:met_floatingLabelTextColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/iv_edit_availability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:layout_marginStart="12dp"
+                    app:tint="@color/green_700"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_baseline_edit_24"/>
+
+
+        </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:text="Availability :"
+                            android:visibility="gone"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_bio"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="Bio"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/iv_edit_bio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleType="fitCenter"
+                            android:layout_marginStart="12dp"
+                            app:tint="@color/green_700"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_baseline_edit_24"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:text="Availability :"
+                            android:visibility="gone"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_awards_and_honors"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="Awards and Honors"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_link_awards_and_honors"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="link for awards and honors"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/iv_edit_awards_and_honors"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleType="fitCenter"
+                            android:layout_marginStart="12dp"
+                            app:tint="@color/green_700"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_baseline_edit_24"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_publication"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="Publication"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_link_publication"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="link for publication"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/iv_edit_publication"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleType="fitCenter"
+                            android:layout_marginStart="12dp"
+                            app:tint="@color/green_700"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_baseline_edit_24"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_presentation"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="Presentation"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_link_presentation"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="link for presentation"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/iv_edit_presentation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleType="fitCenter"
+                            android:layout_marginStart="12dp"
+                            app:tint="@color/green_700"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_baseline_edit_24"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_course"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="Course"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_link_course"
+                            android:layout_width="0dp"
+                            android:layout_margin="12dp"
+                            app:met_floatingLabelAlwaysShown="true"
+                            app:met_floatingLabelText="link for course"
+                            app:met_floatingLabel="highlight"
+                            android:enabled="false"
+                            android:textColor="@drawable/edit_text_selector"
+                            app:met_textColor="@drawable/edit_text_selector"
+                            app:met_floatingLabelTextColor="@color/black"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageView
+                            android:id="@+id/iv_edit_course"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleType="fitCenter"
+                            android:layout_marginStart="12dp"
+                            app:tint="@color/green_700"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_baseline_edit_24"/>
+
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.auth.SignUpFragment"
+        android:label="Signup"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signUpFragment_to_doctorRegistrationFragment"
+            app:destination="@id/doctorRegistrationFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_signUpFragment_to_patientRegistrationFragment"
+            app:destination="@id/patientRegistrationFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/patientRegistrationFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.auth.PatientRegistration"
+        android:label="Patient Registration"
+        tools:layout="@layout/fragment_patient_registration" />
+
+    <fragment
+        android:id="@+id/doctorRegistrationFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.auth.DoctorRegistration"
+        android:label="Doctor Registration"
+        tools:layout="@layout/fragment_doctor_registration" />
+
+</navigation>

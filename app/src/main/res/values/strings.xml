@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">BeingVaidya</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="upload">upload</string>
+    <string name="google_play_license_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApbyfytWcKd/kHtfvw4b4mQH0PlgtXaYljqyQuBTpwOUsfz1+GgGSltXxJIjmAM0gaEHGzF1mtRvKp9BypIHuZ5odYTw3MJhf6/LdhWRqsqwRMr4Vc5ZS/3/+a+dH1gKfRbkHI++4ggWFCqOGZc+w6a/lmQx/cHUumbrLeh+BxtPnzkG6VhzlFhpeKg2qCgCxwyg0KOjCYWiNX9QJZXWIodRDLc+a80RkesZB02gS5kA/eoWe+jr2oOXRG/1E3mXd17NLemGWKx6kZ4rAUpBS2EwOHZ1tZOGnnVIOmAvD0mGK3I3VGTlJwpz5ldKBTCpZNCVVruy/mMdM1mpLQ1S54wIDAQAB</string>
+
+    <array name="sp_gender">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </array>
+
+    <array name="sp_degree">
+        <item>Select Degree</item>
+        <item>MBBS</item>
+        <item>BAMS</item>
+        <item>BDS</item>
+        <item>BUMS</item>
+        <item>BNYS</item>
+        <item>MD/MS</item>
+    </array>
+</resources>

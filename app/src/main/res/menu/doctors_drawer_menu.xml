@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/my_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="My Profile" />
+
+    <item
+        android:id="@+id/my_subscription"
+        android:icon="@drawable/ic_baseline_subscriptions_24"
+        android:title="My Subscription Plan" />
+
+    <item
+        android:id="@+id/share_my_doc_id"
+        android:icon="@drawable/ic_baseline_ios_share_24"
+        android:title="Share My Doc Id" />
+
+    <item
+        android:id="@+id/my_posts"
+        android:icon="@drawable/ic_baseline_edit_note_24"
+        android:title="My Posts" />
+
+    <item
+        android:id="@+id/patients_community"
+        android:icon="@drawable/ic_baseline_people_24"
+        android:title="Patients Community" />
+
+    <item
+        android:id="@+id/saved_posts"
+        android:icon="@drawable/ic_baseline_save_alt_24"
+        android:title="Saved posts" />
+
+    <item
+        android:id="@+id/contact_us"
+        android:icon="@drawable/ic_baseline_contacts_24"
+        android:title="Contact Us" />
+
+    <item
+        android:id="@+id/search_doctors"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:visible="false"
+        android:title="Search Doctors" />
+    <item
+        android:id="@+id/rate_us"
+        android:icon="@drawable/ic_baseline_star_rate_24"
+        android:title="Rate Us" />
+
+    <item
+        android:id="@+id/share_the_app"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="Share the app" />
+
+    <item
+        android:id="@+id/log_out"
+        android:icon="@drawable/ic_baseline_logout_24"
+        android:title="Log out" />
+
+</menu>

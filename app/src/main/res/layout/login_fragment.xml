@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_authentication"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.auth.LoginFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@drawable/login_page"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Register"
+        android:background="@color/black"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="end"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_weight="0.5"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Being Vaidya"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="48sp"
+        android:layout_margin="24dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kindly provide your phone number to Continue"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        android:layout_margin="24dp"
+        android:gravity="start"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_margin="12dp"
+            android:hint="enter mobile no"
+            android:text="India (+91)"
+            android:clickable="false"
+            android:focusable="false"
+            android:inputType="number"
+            android:background="@drawable/round_corner_white_background"
+            android:padding="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/et_phone_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_margin="12dp"
+            android:hint="Your Phone Number"
+            android:inputType="number"
+            android:background="@drawable/round_corner_white_background"
+            android:padding="12dp"/>
+
+    </LinearLayout>
+
+
+
+
+        <Button
+        android:id="@+id/bt_send_otp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Login"
+        android:backgroundTint="@color/black"
+        android:textSize="18sp"
+        android:layout_margin="12dp"
+        android:layout_marginBottom="48dp"
+        android:gravity="end"/>
+
+        <TextView
+            android:id="@+id/cb_terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:padding="12dp"
+            android:gravity="center"
+            android:text="By logging in, you agree to our terms and conditions"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

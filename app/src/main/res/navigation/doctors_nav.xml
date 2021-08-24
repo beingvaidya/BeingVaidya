@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/doctors_nav"
+    app:startDestination="@id/patientsFragment">
+
+    <fragment
+        android:id="@+id/patientsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientsFragment"
+        android:label="PATIENTS"
+        tools:layout="@layout/fragment_patients" >
+        <action
+            android:id="@+id/action_patientsFragment_to_patientDetailsFragment"
+            app:destination="@id/patientDetailsFragment"
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.FeedFragment"
+        android:label="FEED"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_uploadFeedItemFragment"
+            app:destination="@id/uploadFeedItemFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_doctorsProfileShowFragment"
+            app:destination="@id/doctorsProfileShowFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/learningFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.LearningFragment"
+        android:label="LEARNING"
+        tools:layout="@layout/fragment_learning" >
+        <action
+            android:id="@+id/action_learningFragment_to_pdfListFragment"
+            app:destination="@id/pdfListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.StoreFragment"
+        android:label="STORE"
+        tools:layout="@layout/fragment_store" >
+        <action
+            android:id="@+id/action_storeFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/patientDetailsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientDetailsFragment"
+        android:label="Patient Details"
+        tools:layout="@layout/fragment_patient_details">
+        <argument
+            android:name="argName"
+            app:argType="string" />
+        <argument
+            android:name="argAge"
+            app:argType="integer" />
+        <argument
+            android:name="argPhoneNo"
+            app:argType="string" />
+        <argument
+            android:name="argEmail"
+            app:argType="string" />
+        <argument
+            android:name="argAddress"
+            app:argType="string" />
+        <argument
+            android:name="argDoctorId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_patientDetailsFragment_to_patientsReportsFragment"
+            app:destination="@id/patientsReportsFragment" />
+        <action
+            android:id="@+id/action_patientDetailsFragment_to_patientPrescriptionsFragment"
+            app:destination="@id/patientPrescriptionsFragment" />
+        <action
+            android:id="@+id/action_patientDetailsFragment_to_patientsFragment"
+            app:destination="@id/patientsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadFeedItemFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.UploadFeedItemFragment"
+        android:label="Upload To Feed"
+        tools:layout="@layout/fragment_upload_feed_item" />
+    <dialog
+        android:id="@+id/fullScreenImageFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.FullScreenImageFragment"
+        android:label="Full Screen Image View"
+        tools:layout="@layout/fragment_full_screen_image" >
+        <argument
+            android:name="imgUrl"
+            app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/commentsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.CommentsFragment"
+        android:label="Comments"
+        tools:layout="@layout/fragment_comments" >
+        <argument
+            android:name="feedId"
+            app:argType="string" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/patientsCommunityFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientsCommunityFragment"
+        android:label="Patients Community"
+        tools:layout="@layout/fragment_patients_community" >
+        <action
+            android:id="@+id/action_patientsCommunityFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorsProfileFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.EditDoctorsProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_edit_doctors_profile" />
+    <fragment
+        android:id="@+id/myPostsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.MyPostsFragment"
+        android:label="My Posts"
+        tools:layout="@layout/fragment_my_posts" >
+        <action
+            android:id="@+id/action_myPostsFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+        <action
+            android:id="@+id/action_myPostsFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedPostsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.SavedPostsFragment"
+        android:label="Saved Posts"
+        tools:layout="@layout/fragment_saved_posts" >
+        <action
+            android:id="@+id/action_savedPostsFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+        <action
+            android:id="@+id/action_savedPostsFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientsReportsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientsReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_patients_reports">
+        <argument
+            android:name="arg_patient_id"
+            app:argType="string" />
+        <argument
+            android:name="arg_doctor_id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_patientsReportsFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+        <action
+            android:id="@+id/action_patientsReportsFragment_to_patientDetailsFragment"
+            app:destination="@id/patientDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientPrescriptionsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientPrescriptionsFragment"
+        android:label="Prescription"
+        tools:layout="@layout/fragment_patient_prescriptions">
+        <action
+            android:id="@+id/action_patientPrescriptionsFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+        <action
+            android:id="@+id/action_patientPrescriptionsFragment_to_patientDetailsFragment"
+            app:destination="@id/patientDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pdfListFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PdfListFragment"
+        android:label="Pdf List"
+        tools:layout="@layout/fragment_pdf_list" >
+        <argument
+            android:name="docId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_pdfListFragment_to_pdfViewerFragment"
+            app:destination="@id/pdfViewerFragment" />
+        <argument
+            android:name="is_purchased"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/pdfViewerFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PdfViewerFragment"
+        android:label="Pdf Viewer"
+        tools:layout="@layout/fragment_pdf_viewer" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchDoctorsFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.SearchDoctorsFragment"
+        android:label="Search Doctors"
+        tools:layout="@layout/fragment_search_doctors">
+        <action
+            android:id="@+id/action_searchDoctorsFragment_to_doctorsProfileShowFragment"
+            app:destination="@id/doctorsProfileShowFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorsProfileShowFragment"
+        android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.DoctorsProfileShowFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_doctors_profile_show" >
+        <action
+            android:id="@+id/action_doctorsProfileShowFragment_to_doctorsProfileFragment"
+            app:destination="@id/doctorsProfileFragment" />
+        <argument
+            android:name="doc_id"
+            app:argType="string" />
+        <argument
+            android:name="from"
+            app:argType="string" />
+    </fragment>
+</navigation>
