@@ -5,11 +5,16 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('D:\\BeingVaidyaNew\\BeingVaidya-master\\BeingVaidya-master\\debug.keystore')
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.mayurkakade.beingvaidya"
+        applicationId "com.ayur.beingvaidya"
         minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
@@ -18,6 +23,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+
+//    signingConfigs {
+//        debug {
+//            storeFile debug.keystore
+//            storePassword keystoreProperties['debugStorePassword']
+//            keyAlias keystoreProperties['key0']
+//            keyPassword keystoreProperties['debugKeyPassword']
+//        }
+//    }
 
     buildTypes {
         release {

@@ -1,41 +1,86 @@
 {
   "project_info": {
-    "project_number": "590874687721",
-    "project_id": "beingvaidya-v2",
-    "storage_bucket": "beingvaidya-v2.appspot.com"
+    "project_number": "583238618969",
+    "project_id": "beingvaidya-17c70",
+    "storage_bucket": "beingvaidya-17c70.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:590874687721:android:0d179989ecaa0ccea55878",
+        "mobilesdk_app_id": "1:583238618969:android:7d5599ffe3344f90dd0648",
         "android_client_info": {
-          "package_name": "com.mayurkakade.beingvaidya"
+          "package_name": "com.ayur.beingvaidya"
         }
       },
       "oauth_client": [
         {
-          "client_id": "590874687721-4l0aiib52aoj2mcr88us7cn0to4dnaoe.apps.googleusercontent.com",
+          "client_id": "583238618969-739ph6dp9mt0aakg8isgcbc1st56vh3p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.mayurkakade.beingvaidya",
+            "package_name": "com.ayur.beingvaidya",
+            "certificate_hash": "9df71344dec4560f53cd1271e416ca61b01e562f"
+          }
+        },
+        {
+          "client_id": "583238618969-8lpbvc7fa5thkvea8f1bevcvua18nd2j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayur.beingvaidya",
             "certificate_hash": "74dd5f52c0d28eec58e417dee35ccaaf072282d1"
           }
         },
         {
-          "client_id": "590874687721-6502qeo0fmlh17g92d7767fsj3b0ijhn.apps.googleusercontent.com",
+          "client_id": "583238618969-1fltqb127effulbqooqm6st8i6ts47at.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAD-iN-RwTvtI59OD-9-3ZjQpyH0J33eRE"
+          "current_key": "AIzaSyAJyouOwOKB3WdchN0RaV-rmVH5TbPD-to"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "590874687721-6502qeo0fmlh17g92d7767fsj3b0ijhn.apps.googleusercontent.com",
+              "client_id": "583238618969-1fltqb127effulbqooqm6st8i6ts47at.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583238618969:android:a59b3ae0b71d6954dd0648",
+        "android_client_info": {
+          "package_name": "com.ayur.beingvaidyaadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583238618969-16hqgghj8ldmrjam7eunoavj1n8le6m3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayur.beingvaidyaadmin",
+            "certificate_hash": "74dd5f52c0d28eec58e417dee35ccaaf072282d1"
+          }
+        },
+        {
+          "client_id": "583238618969-1fltqb127effulbqooqm6st8i6ts47at.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJyouOwOKB3WdchN0RaV-rmVH5TbPD-to"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583238618969-1fltqb127effulbqooqm6st8i6ts47at.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -6,8 +6,9 @@ public class StoreModel extends DocId{
     Timestamp currentTime;
     String contact_no,description,downloadUrl,title,tags;
     long price;
+    boolean isWishlisted;
 
-    public StoreModel(Timestamp currentTime, String contact_no, String description, String downloadUrl, String title, String tags, long price) {
+    public StoreModel(Timestamp currentTime, String contact_no, String description, String downloadUrl, String title, String tags, long price, boolean isWishlisted) {
         this.currentTime = currentTime;
         this.contact_no = contact_no;
         this.description = description;
@@ -15,9 +16,18 @@ public class StoreModel extends DocId{
         this.title = title;
         this.tags = tags;
         this.price = price;
+        this.isWishlisted = isWishlisted;
     }
 
     public StoreModel() {
+    }
+
+    public boolean isWishlisted() {
+        return isWishlisted;
+    }
+
+    public void setWishlisted(boolean wishlisted) {
+        isWishlisted = wishlisted;
     }
 
     public String getTags() {

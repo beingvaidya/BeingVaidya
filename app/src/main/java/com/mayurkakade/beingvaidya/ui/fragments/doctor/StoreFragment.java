@@ -40,6 +40,8 @@ import com.mayurkakade.beingvaidya.data.models.StoreModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -150,21 +152,24 @@ public class StoreFragment extends Fragment {
         firebaseFirestore.collection("StoreItems").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult() != null) {
-                        if (!task.getResult().isEmpty()) {
-
-                            for (DocumentChange doc : task.getResult().getDocumentChanges()) {
-                                StoreModel storeModel = doc.getDocument().toObject(StoreModel.class).withId(doc.getDocument().getId());
-                                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("StoreWishlistItems", Context.MODE_PRIVATE);
-                                if (sharedPreferences.getBoolean(doc.getDocument().getId(), false)) {
-                                    itemList.add(new LocalStoreModel(storeModel, true));
-                                } else {
-                                    itemList.add(new LocalStoreModel(storeModel, false));
+                if (isAdded() && getContext() != null) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null) {
+                            if (!task.getResult().isEmpty()) {
+                                List<DocumentChange> result = task.getResult().getDocumentChanges();
+                                for (DocumentChange doc : result) {
+                                    StoreModel storeModel = doc.getDocument().toObject(StoreModel.class).withId(doc.getDocument().getId());
+                                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("StoreWishlistItems", Context.MODE_PRIVATE);
+                                    if (sharedPreferences.getBoolean(doc.getDocument().getId(), false)) {
+                                        itemList.add(0,new LocalStoreModel(storeModel, true));
+                                    } else {
+                                        itemList.add(new LocalStoreModel(storeModel, false));
+                                    }
                                 }
-                            }
-                            adapter.notifyDataSetChanged();
 
+                                adapter.notifyDataSetChanged();
+
+                            }
                         }
                     }
                 }

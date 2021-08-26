@@ -167,21 +167,23 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         firebaseFirestore.collection("AdminPdfs").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (!Objects.requireNonNull(task.getResult()).isEmpty()) {
-                        for (DocumentChange doc : task.getResult().getDocumentChanges()) {
-                            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("StarLearningItems", Context.MODE_PRIVATE);
-                            LearningModel learningModel = doc.getDocument().toObject(LearningModel.class).withId(doc.getDocument().getId());
-                            if (sharedPreferences.getBoolean(doc.getDocument().getId(), false)) {
-                                localLearningList.add(new LocalLearningModel(learningModel,true));
-                            } else {
-                                localLearningList.add(new LocalLearningModel(learningModel,false));
+                if (isAdded() && getContext() != null) {
+                    if (task.isSuccessful()) {
+                        if (!Objects.requireNonNull(task.getResult()).isEmpty()) {
+                            for (DocumentChange doc : task.getResult().getDocumentChanges()) {
+                                SharedPreferences sharedPreferences = requireContext().getSharedPreferences("StarLearningItems", Context.MODE_PRIVATE);
+                                LearningModel learningModel = doc.getDocument().toObject(LearningModel.class).withId(doc.getDocument().getId());
+                                if (sharedPreferences.getBoolean(doc.getDocument().getId(), false)) {
+                                    localLearningList.add(0, new LocalLearningModel(learningModel, true));
+                                } else {
+                                    localLearningList.add(new LocalLearningModel(learningModel, false));
+                                }
                             }
+                            adapter.notifyDataSetChanged();
                         }
-                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.d(TAG, "onComplete: " + Objects.requireNonNull(task.getException()).getMessage());
                     }
-                } else {
-                    Log.d(TAG, "onComplete: " + Objects.requireNonNull(task.getException()).getMessage());
                 }
             }
         });
