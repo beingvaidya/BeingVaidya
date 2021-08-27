@@ -7,7 +7,7 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('D:\\BeingVaidyaNew\\BeingVaidya-master\\BeingVaidya-master\\debug.keystore')
+            storeFile rootProject.file("/debug.keystore")
         }
     }
     compileSdkVersion 30
