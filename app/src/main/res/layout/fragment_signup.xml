@@ -10,11 +10,12 @@
     tools:context=".ui.fragments.auth.SignUpFragment">
 
     <ImageView
+        android:id="@+id/iv_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:background="@drawable/register_bg"/>
-
+        />
+<!--    android:background="@drawable/register_bg"-->
 
     <LinearLayout
         android:layout_width="match_parent"

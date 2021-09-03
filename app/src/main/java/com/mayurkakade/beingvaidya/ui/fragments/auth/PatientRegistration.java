@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -338,6 +339,12 @@ public class PatientRegistration extends Fragment {
         et_address = view.findViewById(R.id.et_address);
         et_doctors_unique_id = view.findViewById(R.id.doctors_unique_id);
         bt_submit = view.findViewById(R.id.bt_submit);
+        ImageView iv_background = view.findViewById(R.id.iv_background);
+        Bitmap bitmapLocal = Config.decodeSampledBitmapFromResource(getResources(), R.drawable.register_bg, 500, 500);
+        if (bitmapLocal != null && iv_background != null) {
+            iv_background.setImageBitmap(bitmapLocal);
+        }
+
     }
 
     @Override

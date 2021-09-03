@@ -1,5 +1,6 @@
 package com.mayurkakade.beingvaidya.ui.fragments.auth;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,12 +17,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.mayurkakade.beingvaidya.Config;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.CheckUserExist;
 
@@ -106,5 +109,12 @@ public class SignUpFragment extends Fragment {
         et_phone_no = view.findViewById(R.id.et_phone_no);
         cb_terms = view.findViewById(R.id.cb_terms);
         switchPatientOrDoc = view.findViewById(R.id.switch_patient_or_doc);
+        iv_background = view.findViewById(R.id.iv_background);
+
+        Bitmap bitmapLocal = Config.decodeSampledBitmapFromResource(getResources(), R.drawable.register_bg, 500, 500);
+        if (bitmapLocal != null && iv_background != null) {
+            iv_background.setImageBitmap(bitmapLocal);
+        }
     }
+    ImageView iv_background;
 }
