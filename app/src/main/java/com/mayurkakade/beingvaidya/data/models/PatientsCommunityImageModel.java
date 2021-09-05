@@ -7,6 +7,15 @@ public class PatientsCommunityImageModel extends DocId {
     String downloadUri;
     String description;
     Timestamp currentTime;
+    String doctor_profile_photo;
+
+    public String getDoctor_profile_photo() {
+        return doctor_profile_photo;
+    }
+
+    public void setDoctor_profile_photo(String doctor_profile_photo) {
+        this.doctor_profile_photo = doctor_profile_photo;
+    }
 
     public PatientsCommunityImageModel() {
     }

@@ -78,9 +78,12 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder> {
         });
 
 
-        getDoctorName(iList.get(position).getDoctor_id(),holder);
+        //getDoctorName(iList.get(position).getDoctor_id(),holder);
+        holder.tv_doctor_name.setText(iList.get(position).getDoctorName());
+        Glide.with(context).load(iList.get(position).getDoctor_profile_photo()).into(holder.civ_profile);
 
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+       /* FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Doctors").document(iList.get(position).getDoctor_id()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -98,7 +101,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder> {
                             }
                         }
                     }
-                });
+                });*/
 
 
 

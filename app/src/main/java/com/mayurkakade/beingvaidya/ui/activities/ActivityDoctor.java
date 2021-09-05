@@ -280,7 +280,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
             Bundle args = new Bundle();
             switch (Integer.parseInt(String.valueOf(notificationType))) {
                 case -1:
-                    Toast.makeText(this, "negative case ran", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(this, "negative case ran", Toast.LENGTH_SHORT).show();
                     break;
                 case Config.NOTIFICATION_TYPE_PDF_ADDED:
                     docId = intent.getStringExtra("docId");

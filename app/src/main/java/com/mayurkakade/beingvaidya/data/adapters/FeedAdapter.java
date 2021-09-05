@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -309,7 +310,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
                                     Intent waIntent = new Intent(Intent.ACTION_SEND);
                                     waIntent.setType("image/*");
-                                    waIntent.putExtra(android.content.Intent.EXTRA_STREAM, imageUri);
+                                    waIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
                                     waIntent.putExtra(Intent.EXTRA_TEXT, "Hey, check this awesome application ... \n\n https://play.google.com/store/apps/details?id="+ BuildConfig.APPLICATION_ID + "\n\n"+feedModel.getCaption());
                                     context.startActivity(Intent.createChooser(waIntent, "Share with"));
                                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -321,7 +322,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
 
                                 } catch(IOException e) {
+                                    Log.e("Error FeedAdapter: " , ""+e.getMessage());
                                     System.out.println(e);
+//                                    Toast.makeText(requi, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressUtils.hideProgress();
                                 }
                             }
                         }).start();

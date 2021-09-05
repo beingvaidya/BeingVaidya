@@ -89,15 +89,68 @@ public class PatientsCommunityFragment extends Fragment {
         onQueryDataListener = new OnQueryDataListener() {
             @Override
             public void onSuccess() {
-                adapter.notifyDataSetChanged();
-                progressUtils.hideProgress();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress_loader.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                    }
+                }, 1000);
             }
 
             @Override
             public void onSuccessPatientsCommunity(PatientsCommunityImageModel patientsCommunityImageModel) {
+                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                firebaseFirestore.collection("Doctors").document(patientsCommunityImageModel.getDoctor_id()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult() != null) {
+                                        if (task.getResult().exists()) {
+                                            patientsCommunityImageModel.setDoctorName(task.getResult().getString("name"));
+                                        }
+                                    }
+                                } else {
+                                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                                }
+                            }
+                        });
+
+
+
+                firebaseFirestore.collection("Doctors").document(patientsCommunityImageModel.getDoctor_id()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult() != null) {
+                                        DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                        if (doctorModel!= null) {
+                                            if (doctorModel.getPhone_no() != null) {
+                                                if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile") ) {
+                                                    patientsCommunityImageModel.setDoctorImage(doctorModel.getProfile_url());
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+
+
                 iList.add(0, patientsCommunityImageModel);
-                adapter.notifyDataSetChanged();
-                progressUtils.hideProgress();
+
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress_loader.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();
+                    }
+                }, 1000);
+
             }
 
             @Override
