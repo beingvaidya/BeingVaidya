@@ -64,9 +64,15 @@ public class PatientsCommunityAdapter extends RecyclerView.Adapter<PatientsCommu
         }
 
 
-        getDoctorName(iList.get(position).getDoctor_id(),holder);
+//        getDoctorName(iList.get(position).getDoctor_id(),holder);
+        holder.tv_doctor_name.setText(iList.get(position).getDoctorName());
 
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+        Glide.with(context).load(iList.get(position).getDoctorImage()).into(holder.civ_profile);
+
+
+
+       /* FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Doctors").document(iList.get(position).getDoctor_id()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -84,7 +90,7 @@ public class PatientsCommunityAdapter extends RecyclerView.Adapter<PatientsCommu
                             }
                         }
                     }
-                });
+                });*/
 
 
 

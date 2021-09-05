@@ -45,6 +45,12 @@ public class SliderAdapterFeed extends
         notifyDataSetChanged();
     }
 
+    public void addItemAll(List<SliderItem> local) {
+        this.mSliderItems.clear();
+        this.mSliderItems = local;
+        notifyDataSetChanged();
+    }
+
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_layout_item, null);

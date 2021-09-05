@@ -36,6 +36,9 @@ public class ProgressUtils {
 
     public void hideProgress() {
         Log.d(TAG, "hideProgress: ");
-        progressDialog.dismiss();
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+
     }
 }

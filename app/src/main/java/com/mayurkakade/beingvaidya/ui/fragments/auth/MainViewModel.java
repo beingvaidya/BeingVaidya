@@ -243,6 +243,7 @@ public class MainViewModel extends ViewModel {
 
             @Override
             public void onFailure(String s) {
+                Toast.makeText(context, ""+s, Toast.LENGTH_SHORT).show();
                 Log.d(TAG," exception :" +  s);
             }
         };

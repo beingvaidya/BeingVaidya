@@ -1,6 +1,21 @@
 package com.mayurkakade.beingvaidya.ui.fragments.doctor;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,17 +25,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,7 +33,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.adapters.FeedAdapter;
 import com.mayurkakade.beingvaidya.data.models.FeedModel;
-import com.mayurkakade.beingvaidya.data.models.StoreModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,11 +42,13 @@ import java.util.Objects;
 
 public class FeedFragment extends Fragment {
 
+    public static final String TAG = "FeedFragment";
     FloatingActionButton fab_upload;
     List<FeedModel> fList;
     RecyclerView recyclerView;
     FeedAdapter adapter;
     EditText search;
+    ProgressBar progress_loader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,10 +56,12 @@ public class FeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         fab_upload = view.findViewById(R.id.fab_upload);
+        progress_loader = view.findViewById(R.id.progress_loader);
+        progress_loader.setVisibility(View.VISIBLE);
         fList = new ArrayList<>();
-        fList.add(new FeedModel("https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",true));
+//        fList.add(new FeedModel("https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",true));
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new FeedAdapter(container.getContext(),fList);
+        adapter = new FeedAdapter(container.getContext(), fList);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         recyclerView.setAdapter(adapter);
         adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
@@ -69,6 +76,21 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String query = search.getText().toString();
+                    filterResults(query);
+                    InputMethodManager in = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(search.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
         return view;
     }
 
@@ -81,7 +103,6 @@ public class FeedFragment extends Fragment {
         }
         adapter.filterByQuery(filteredList);
     }
-
 
     private void filterItemById(String itemId) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -102,28 +123,23 @@ public class FeedFragment extends Fragment {
                 });
     }
 
-    public static final String TAG = "FeedFragment";
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         MyViewModel mViewModel = new MyViewModel();
 
-
-
-        if (getArguments()!=null) {
+        if (getArguments() != null) {
             String itemId = getArguments().getString("itemId");
             Log.d(TAG, "onCreateView: " + itemId);
             if (itemId != null) {
+                progress_loader.setVisibility(View.GONE);
                 filterItemById(itemId);
             } else {
-                mViewModel.getAllPostsFeed(adapter,fList);
+                mViewModel.getAllPostsFeed(adapter, fList, progress_loader);
             }
         } else {
-            mViewModel.getAllPostsFeed(adapter,fList);
+            mViewModel.getAllPostsFeed(adapter, fList, progress_loader);
         }
-
-
 
         search.addTextChangedListener(new TextWatcher() {
             @Override

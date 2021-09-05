@@ -49,4 +49,23 @@ public class PatientsCommunityImageModel extends DocId {
     public void setCurrentTime(Timestamp currentTime) {
         this.currentTime = currentTime;
     }
+
+    String doctorName;
+    String doctorImage;
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDoctorImage() {
+        return doctorImage;
+    }
+
+    public void setDoctorImage(String doctorImage) {
+        this.doctorImage = doctorImage;
+    }
 }

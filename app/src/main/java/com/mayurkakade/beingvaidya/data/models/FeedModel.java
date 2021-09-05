@@ -2,6 +2,9 @@ package com.mayurkakade.beingvaidya.data.models;
 
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeedModel extends DocId{
     String doctor_id;
     String title;
@@ -9,6 +12,7 @@ public class FeedModel extends DocId{
     String img_url;
     Timestamp currentTime;
     boolean isBanner = false;
+    List<SliderItem> mSliderItems = new ArrayList<>() ;
 
     public FeedModel() {
     }
@@ -73,5 +77,63 @@ public class FeedModel extends DocId{
 
     public void setImg_url(String img_url) {
         this.img_url = img_url;
+    }
+
+
+    public List<SliderItem> getmSliderItems() {
+        return mSliderItems;
+    }
+
+    public void setmSliderItems(List<SliderItem> mSliderItems) {
+        this.mSliderItems = mSliderItems;
+    }
+
+
+    ///Doctor Details
+
+    String doctorName;
+    String comment_show;
+    String view_show;
+    String doctor_profile_photo;
+
+    public List<SliderItem> getmSliderItemsDoctor() {
+        return mSliderItemsDoctor;
+    }
+
+    public void setmSliderItemsDoctor(List<SliderItem> mSliderItemsDoctor) {
+        this.mSliderItemsDoctor = mSliderItemsDoctor;
+    }
+
+    List<SliderItem> mSliderItemsDoctor  = new ArrayList<>();
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getComment_show() {
+        return comment_show;
+    }
+
+    public void setComment_show(String comment_show) {
+        this.comment_show = comment_show;
+    }
+
+    public String getView_show() {
+        return view_show;
+    }
+
+    public void setView_show(String view_show) {
+        this.view_show = view_show;
+    }
+
+    public String getDoctor_profile_photo() {
+        return doctor_profile_photo;
+    }
+
+    public void setDoctor_profile_photo(String doctor_profile_photo) {
+        this.doctor_profile_photo = doctor_profile_photo;
     }
 }

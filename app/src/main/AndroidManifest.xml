@@ -30,6 +30,7 @@
         <activity android:name=".ui.activities.WelcomeActivity"/>
         <activity android:name=".ui.activities.SubscriptionsActivity" />
         <activity android:name=".ui.activities.ActivityNotifications" />
+        <activity android:name=".ui.activities.ActivityMyDoctor" />
         <activity android:name=".ui.activities.ActivityDoctor" />
         <activity android:name=".ui.activities.ActivityPatient" />
         <activity

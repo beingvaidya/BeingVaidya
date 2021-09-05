@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:hint="Tags"
-        android:background="@drawable/round_corner_white_background"
+        android:background="@drawable/round_corner_grey_background"
         android:padding="12dp"/>
 
     <EditText
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:hint="Details"
-        android:background="@drawable/round_corner_white_background"
+        android:background="@drawable/round_corner_grey_background"
         android:padding="12dp"/>
 
 

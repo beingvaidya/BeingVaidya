@@ -1,36 +1,28 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,19 +45,17 @@ import java.net.URLEncoder;
 
 public class ActivityPatient extends AppCompatActivity {
 
+    public static final int MY_CAMERA_PERMISSION_CODE = 102;
+    public static final int EXTERNAL_STORAGE_PERMISSION_CODE = 107;
+    public static final String TAG = "PATIENTS";
     BottomNavigationView bottomNavigationView;
     TextView toolbar_title;
     ImageView toolbar_options;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    public static final int MY_CAMERA_PERMISSION_CODE = 102;
-    public static final int EXTERNAL_STORAGE_PERMISSION_CODE = 107;
-
     MessagingUtils messagingUtils;
     String token;
     OnUpdateToken onUpdateToken;
-
-    public static final String TAG = "PATIENTS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +91,7 @@ public class ActivityPatient extends AppCompatActivity {
 
             @Override
             public void onFailure(String message) {
-                Log.e(TAG, "onFailure: " + "Token Update Failed : " + message );
+                Log.e(TAG, "onFailure: " + "Token Update Failed : " + message);
             }
         };
 
@@ -110,10 +100,10 @@ public class ActivityPatient extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<String> task) {
                 if (task.isSuccessful()) {
-                    messagingUtils.updateToken(task.getResult(),false,onUpdateToken);
+                    messagingUtils.updateToken(task.getResult(), false, onUpdateToken);
                     token = task.getResult();
                 } else {
-                    Log.e(TAG, "onComplete: " + task.getException().getMessage() );
+                    Log.e(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }
         });
@@ -125,17 +115,15 @@ public class ActivityPatient extends AppCompatActivity {
         toolbar_options = findViewById(R.id.iv_toolbar_options);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-            {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
             }
         }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},EXTERNAL_STORAGE_PERMISSION_CODE);
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
             }
         }
 
@@ -159,7 +147,7 @@ public class ActivityPatient extends AppCompatActivity {
                             Toast.makeText(ActivityPatient.this, "Logging out", Toast.LENGTH_SHORT).show();
                             FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(ActivityPatient.this, ActivityAuthentication.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
                             Toast.makeText(ActivityPatient.this, "user not exist", Toast.LENGTH_SHORT).show();
@@ -167,11 +155,14 @@ public class ActivityPatient extends AppCompatActivity {
                         break;
 
                     case R.id.myDoctorFragment:
-                        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.patients_nav_host);
+                       /* NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.patients_nav_host);
                         if (navHostFragment != null) {
                             NavController navController = navHostFragment.getNavController();
                             navController.navigate(R.id.myDoctorFragment);
                         }
+*/
+                        Intent intentMyDoctor = new Intent(ActivityPatient.this, ActivityMyDoctor.class);
+                        startActivity(intentMyDoctor);
                         break;
 
                     case R.id.rate_us:
@@ -188,7 +179,7 @@ public class ActivityPatient extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     if (task.getResult().exists()) {
                                         String doctorPhoneNo = task.getResult().getString("doctor_unique_id");
-                                        onClickWhatsApp("Hi " + task.getResult().getString("name") +"\n I am your patient from being Vaidya App", doctorPhoneNo);
+                                        onClickWhatsApp("Hi " + task.getResult().getString("name") + "\n I am your patient from being Vaidya App", doctorPhoneNo);
                                     }
                                 } else {
                                     Log.d("ActivityPatient", "onComplete: " + task.getException().getMessage());
@@ -216,7 +207,7 @@ public class ActivityPatient extends AppCompatActivity {
                 public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                     toolbar_title.setText(destination.getLabel());
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar);
-                    if(destination.getId() == R.id.fullScreenImageFragment2) {
+                    if (destination.getId() == R.id.fullScreenImageFragment2) {
                         appBarLayout.setVisibility(View.GONE);
                         bottomNavigationView.setVisibility(View.GONE);
                     } else {
@@ -230,21 +221,21 @@ public class ActivityPatient extends AppCompatActivity {
     }
 
 
-    private void onClickWhatsApp(String mensaje,String numero){
-        try{
+    private void onClickWhatsApp(String mensaje, String numero) {
+        try {
             PackageManager packageManager = ActivityPatient.this.getPackageManager();
             Intent i = new Intent(Intent.ACTION_VIEW);
-            String url = "https://api.whatsapp.com/send?phone="+ numero +"&text=" + URLEncoder.encode(mensaje, "UTF-8");
+            String url = "https://api.whatsapp.com/send?phone=" + numero + "&text=" + URLEncoder.encode(mensaje, "UTF-8");
             i.setPackage("com.whatsapp");
             i.setData(Uri.parse(url));
             if (i.resolveActivity(packageManager) != null) {
                 startActivity(i);
-            }else {
+            } else {
                 Toast.makeText(this, "WhatsApp not Installed : ", Toast.LENGTH_SHORT)
                         .show();
             }
-        } catch(Exception e) {
-            Log.e("ERRORWHAT",e.toString());
+        } catch (Exception e) {
+            Log.e("ERRORWHAT", e.toString());
             Toast.makeText(this, "WhatsApp not Installed : " + e.getMessage(), Toast.LENGTH_SHORT)
                     .show();
         }

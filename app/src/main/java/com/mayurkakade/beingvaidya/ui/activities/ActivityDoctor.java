@@ -183,6 +183,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                             args.putString("doc_id",FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
                             args.putString("from","self");
                             navController.navigate(R.id.doctorsProfileShowFragment,args);
+                            bottomNavigationView.setVisibility(View.GONE);
                         }
 
                         break;
@@ -191,6 +192,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                             if (navHostFragment != null) {
                                 NavController navController = navHostFragment.getNavController();
                                 navController.navigate(R.id.patientsCommunityFragment);
+                                bottomNavigationView.setVisibility(View.GONE);
                             }
                         break;
 
@@ -212,6 +214,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         if (navHostFragment != null) {
                             NavController navController = navHostFragment.getNavController();
                             navController.navigate(R.id.myPostsFragment);
+                            bottomNavigationView.setVisibility(View.GONE);
                         }
                         break;
 
@@ -219,6 +222,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         if (navHostFragment != null) {
                             NavController navController = navHostFragment.getNavController();
                             navController.navigate(R.id.savedPostsFragment);
+                            bottomNavigationView.setVisibility(View.GONE);
                         }
                         break;
 

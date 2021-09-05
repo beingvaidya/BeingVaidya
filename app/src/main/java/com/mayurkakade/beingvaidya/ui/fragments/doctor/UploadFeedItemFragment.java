@@ -90,12 +90,13 @@ public class UploadFeedItemFragment extends Fragment {
             public void addUrl(String url, int size) {
                 Log.d("uploadTimer", "addUrl: " + url);
                 urlList.add(url);
-                //if (numOfImages == urlList.size()) {
+                if (images_uri.size() == urlList.size()) {
                     Log.d("uploadTimer", "finalUpdate: ");
                     mViewModel.addMultipleFeedImages(et_name.getText().toString(), et_details.getText().toString(), urlList);
                     progressUtils.hideProgress();
+                    requireActivity().onBackPressed();
                   //  Navigation.findNavController(requireActivity(),R.id.doctors_nav_host).navigateUp();
-                //}
+                }
             }
 
 

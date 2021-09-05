@@ -76,7 +76,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         if (fList.get(position).isBanner()) {
             holder.bannerSliderView.setVisibility(View.VISIBLE);
             holder.ll_feed.setVisibility(View.GONE);
-            firebaseFirestore.collection("BannerImages").get()
+           /* firebaseFirestore.collection("BannerImages").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -90,14 +90,40 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                                 holder.bannerSliderView.setInfiniteAdapterEnabled(true);
                             }
                         }
-                    });
+                    });*/
+
+
+
+
+            if(fList.get(position).getmSliderItems().size() == 0){
+                holder.bannerSliderView.setVisibility(View.GONE);
+            }else {
+                holder.bannerSliderView.setVisibility(View.VISIBLE);
+                SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(context);
+                sliderAdapterFeed.renewItems(holder.images_uri);
+            /*for (DocumentChange doc : task.getResult().getDocumentChanges()) {
+                sliderAdapterFeed.addItem(new SliderItem(doc.getDocument().getString("img_url")));
+            }*/
+                sliderAdapterFeed.addItemAll(fList.get(position).getmSliderItems());
+                holder.bannerSliderView.setSliderAdapter(sliderAdapterFeed);
+                holder.bannerSliderView.setInfiniteAdapterEnabled(true);
+            }
+
+
+
+
         } else {
             holder.bannerSliderView.setVisibility(View.GONE);
             holder.ll_feed.setVisibility(View.VISIBLE);
-            getDoctorName(fList.get(position).getDoctor_id(), holder);
+//            getDoctorName(fList.get(position).getDoctor_id(), holder);
+            holder.tv_doctor_name.setText(fList.get(position).getDoctorName());
             holder.tv_title.setText(fList.get(position).getTitle());
-            getNumberOfComments(fList.get(position).DocId, holder);
-            getNumberOfViews(fList.get(position).DocId, holder);
+//            getNumberOfComments(fList.get(position).DocId, holder);
+            holder.tv_comments_show.setText(fList.get(position).getComment_show());
+//            getNumberOfViews(fList.get(position).DocId, holder);
+            holder.tv_views.setText(fList.get(position).getView_show());
+
+
             holder.tv_caption.setText(fList.get(position).getCaption());
             holder.civ_profile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,7 +135,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     navController.navigate(R.id.action_feedFragment_to_doctorsProfileShowFragment, args);
                 }
             });
-
+/*
             firebaseFirestore.collection("Doctors").document(fList.get(position).getDoctor_id()).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -128,9 +154,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                                 }
                             }
                         }
-                    });
+                    });*/
+
+            Glide.with(context).load(fList.get(position).getDoctor_profile_photo()).into(holder.civ_profile);
 
 
+
+
+
+/*
             firebaseFirestore.collection("DoctorsFeed/" + fList.get(position).DocId + "/images").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -145,7 +177,21 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                                 holder.sliderView.setInfiniteAdapterEnabled(true);
                             }
                         }
-                    });
+                    });*/
+
+
+            if(fList.get(position).getmSliderItemsDoctor().size() == 0){
+                holder.sliderView.setVisibility(View.GONE);
+            }else {
+                holder.sliderView.setVisibility(View.VISIBLE);
+                SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(context);
+                sliderAdapterFeed.renewItems(holder.images_uri);
+                sliderAdapterFeed.addItemAll(fList.get(position).getmSliderItemsDoctor());
+                holder.sliderView.setSliderAdapter(sliderAdapterFeed);
+                holder.sliderView.setInfiniteAdapterEnabled(true);
+            }
+
+
 
             holder.photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
