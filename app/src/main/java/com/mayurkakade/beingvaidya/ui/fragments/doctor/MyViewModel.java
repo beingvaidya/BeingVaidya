@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.canhub.cropper.CropImage;
@@ -441,7 +442,7 @@ public class MyViewModel {
     }
 
 
-    public void getAllPostsFeed(FeedAdapter adapter, List<FeedModel> fList , ProgressBar  progress_loader) {
+    public void getAllPostsFeed(FeedAdapter adapter, List<FeedModel> fList , ProgressBar  progress_loader, RecyclerView recyclerView) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("DoctorsFeed").orderBy("currentTime", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -513,6 +514,7 @@ public class MyViewModel {
                                 @Override
                                 public void run() {
                                     progress_loader.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
                                     adapter.notifyDataSetChanged();
                                 }
                             }, 1000);
@@ -522,6 +524,7 @@ public class MyViewModel {
                     }
                 } else {
                     progress_loader.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }
@@ -585,7 +588,7 @@ public class MyViewModel {
 
     }
 
-    public void getCommentsFromServer(CommentsAdapter adapter, List<CommentModel> cList, String feedId) {
+    public void getCommentsFromServer(CommentsAdapter mAdapter, List<CommentModel> cList, String feedId, ProgressBar progressBar) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("DoctorsFeed/"+feedId+"/comments").orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -596,10 +599,24 @@ public class MyViewModel {
                             for (DocumentChange doc : task.getResult().getDocumentChanges()) {
                                 cList.add(doc.getDocument().toObject(CommentModel.class));
                             }
-                            adapter.notifyDataSetChanged();
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.GONE);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }, 1000);
+
+
+                        }else {
+                            progressBar.setVisibility(View.GONE);
                         }
+                    }else {
+                        progressBar.setVisibility(View.GONE);
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }

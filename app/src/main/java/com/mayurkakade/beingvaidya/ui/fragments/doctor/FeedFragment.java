@@ -56,11 +56,12 @@ public class FeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         fab_upload = view.findViewById(R.id.fab_upload);
+        recyclerView = view.findViewById(R.id.recyclerView);
         progress_loader = view.findViewById(R.id.progress_loader);
         progress_loader.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         fList = new ArrayList<>();
-//        fList.add(new FeedModel("https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",true));
-        recyclerView = view.findViewById(R.id.recyclerView);
+        fList.add(new FeedModel("https://homepages.cae.wisc.edu/~ece533/images/arctichare.png",true));
         adapter = new FeedAdapter(container.getContext(), fList);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         recyclerView.setAdapter(adapter);
@@ -115,6 +116,7 @@ public class FeedFragment extends Fragment {
                                 if (task.getResult().exists()) {
                                     FeedModel feedModel = Objects.requireNonNull(task.getResult().toObject(FeedModel.class)).withId(task.getResult().getId());
                                     fList.add(feedModel);
+                                    recyclerView.setVisibility(View.VISIBLE);
                                     adapter.notifyDataSetChanged();
                                 }
                             }
@@ -135,10 +137,10 @@ public class FeedFragment extends Fragment {
                 progress_loader.setVisibility(View.GONE);
                 filterItemById(itemId);
             } else {
-                mViewModel.getAllPostsFeed(adapter, fList, progress_loader);
+                mViewModel.getAllPostsFeed(adapter, fList, progress_loader,recyclerView);
             }
         } else {
-            mViewModel.getAllPostsFeed(adapter, fList, progress_loader);
+            mViewModel.getAllPostsFeed(adapter, fList, progress_loader,recyclerView);
         }
 
         search.addTextChangedListener(new TextWatcher() {
@@ -163,6 +165,7 @@ public class FeedFragment extends Fragment {
                         }
                     }, 100);
                 } else {
+                    recyclerView.setVisibility(View.VISIBLE);
                     adapter.filterByQuery(fList);
                 }
 

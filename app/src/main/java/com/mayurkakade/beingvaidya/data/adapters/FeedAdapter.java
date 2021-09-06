@@ -77,7 +77,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         if (fList.get(position).isBanner()) {
             holder.bannerSliderView.setVisibility(View.VISIBLE);
             holder.ll_feed.setVisibility(View.GONE);
-           /* firebaseFirestore.collection("BannerImages").get()
+            firebaseFirestore.collection("BannerImages").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -91,24 +91,24 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                                 holder.bannerSliderView.setInfiniteAdapterEnabled(true);
                             }
                         }
-                    });*/
+                    });
 
 
 
 
-            if(fList.get(position).getmSliderItems().size() == 0){
+            /*if(fList.get(position).getmSliderItems().size() == 0){
                 holder.bannerSliderView.setVisibility(View.GONE);
-            }else {
-                holder.bannerSliderView.setVisibility(View.VISIBLE);
-                SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(context);
-                sliderAdapterFeed.renewItems(holder.images_uri);
+            }else {*/
+//                holder.bannerSliderView.setVisibility(View.VISIBLE);
+//                SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(context);
+//                sliderAdapterFeed.renewItems(holder.images_uri);
             /*for (DocumentChange doc : task.getResult().getDocumentChanges()) {
                 sliderAdapterFeed.addItem(new SliderItem(doc.getDocument().getString("img_url")));
             }*/
-                sliderAdapterFeed.addItemAll(fList.get(position).getmSliderItems());
-                holder.bannerSliderView.setSliderAdapter(sliderAdapterFeed);
-                holder.bannerSliderView.setInfiniteAdapterEnabled(true);
-            }
+//                sliderAdapterFeed.addItemAll(fList.get(position).getmSliderItems());
+//                holder.bannerSliderView.setSliderAdapter(sliderAdapterFeed);
+//                holder.bannerSliderView.setInfiniteAdapterEnabled(true);
+//            }
 
 
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,7 @@ public class CommentsFragment extends BottomSheetDialogFragment {
     ImageView iv_send;
     ProgressUtils progressUtils;
     private MyViewModel mViewModel;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +55,8 @@ public class CommentsFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         et_comment = view.findViewById(R.id.et_comment);
         iv_send = view.findViewById(R.id.iv_send);
         cList = new ArrayList<>();
@@ -111,7 +115,7 @@ public class CommentsFragment extends BottomSheetDialogFragment {
         };
 
         if (getArguments() != null) {
-            mViewModel.getCommentsFromServer(adapter, cList, getArguments().getString("feedId"));
+            mViewModel.getCommentsFromServer(adapter, cList, getArguments().getString("feedId"),progressBar);
         }
 
         iv_send.setOnClickListener(new View.OnClickListener() {

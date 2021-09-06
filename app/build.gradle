@@ -3,6 +3,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs'
 }
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     signingConfigs {
@@ -85,5 +86,14 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'com.github.AppIntro:AppIntro:6.1.0'
+
+
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
+
 
 }

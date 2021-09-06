@@ -22,6 +22,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/tv_doctor_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
             android:fontFamily="sans-serif"/>
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/tv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +52,7 @@
         app:el_parallax="0.5">
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/tv_timestamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
