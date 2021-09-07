@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -62,7 +63,7 @@ public class PatientsCommunityFragment extends Fragment {
     UploadToStorageInterface uploadToStorageInterface;
     OnQueryDataListener onQueryDataListener;
     private MyViewModel mViewModel;
-
+    String doc_id = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,6 +110,14 @@ public class PatientsCommunityFragment extends Fragment {
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     if (task.getResult() != null) {
+                                        DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                        if (doctorModel!= null) {
+                                            if (doctorModel.getPhone_no() != null) {
+                                                if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile") ) {
+                                                    patientsCommunityImageModel.setDoctorImage(doctorModel.getProfile_url());
+                                                }
+                                            }
+                                        }
                                         if (task.getResult().exists()) {
                                             patientsCommunityImageModel.setDoctorName(task.getResult().getString("name"));
                                         }
@@ -121,7 +130,7 @@ public class PatientsCommunityFragment extends Fragment {
 
 
 
-                firebaseFirestore.collection("Doctors").document(patientsCommunityImageModel.getDoctor_id()).get()
+               /* firebaseFirestore.collection("Doctors").document(patientsCommunityImageModel.getDoctor_id()).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -138,7 +147,7 @@ public class PatientsCommunityFragment extends Fragment {
                                     }
                                 }
                             }
-                        });
+                        });*/
 
 
 
@@ -313,48 +322,38 @@ public class PatientsCommunityFragment extends Fragment {
                             PatientsCommunityImageModel model = doc.getDocument().toObject(PatientsCommunityImageModel.class).withId(doc.getDocument().getId());
 
 
-                            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-                            firebaseFirestore.collection("Doctors").document(model.getDoctor_id()).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                if (task.getResult() != null) {
-                                                    if (task.getResult().exists()) {
-                                                        model.setDoctorName(task.getResult().getString("name"));
-                                                    }
-                                                }
-                                            } else {
-                                                Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                                            }
-                                        }
-                                    });
-
-
-
-                            firebaseFirestore.collection("Doctors").document(model.getDoctor_id()).get()
-                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                if (task.getResult() != null) {
-                                                    DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
-                                                    if (doctorModel!= null) {
-                                                        if (doctorModel.getPhone_no() != null) {
-                                                            if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile") ) {
-                                                                model.setDoctorImage(doctorModel.getProfile_url());
+                            if(model.getDoctor_id().equalsIgnoreCase(doc_id)){
+                                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                                firebaseFirestore.collection("Doctors").document(model.getDoctor_id()).get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    if (task.getResult() != null) {
+                                                        if (task.getResult().exists()) {
+                                                            model.setDoctorName(task.getResult().getString("name"));
+                                                            DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                                            if (doctorModel!= null) {
+                                                                if (doctorModel.getPhone_no() != null) {
+                                                                    if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile") ) {
+                                                                        model.setDoctorImage(doctorModel.getProfile_url());
+                                                                    }
+                                                                }
                                                             }
                                                         }
+
                                                     }
+                                                } else {
+                                                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
                                                 }
                                             }
-                                        }
-                                    });
+                                        });
+                                iList.add(model);
+                            }
 
 
 
 
-                            iList.add(model);
 
                             handler =   new Handler().postDelayed(new Runnable() {
                                 @Override

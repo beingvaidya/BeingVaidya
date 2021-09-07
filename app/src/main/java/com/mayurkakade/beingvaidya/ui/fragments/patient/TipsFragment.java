@@ -1,5 +1,7 @@
 package com.mayurkakade.beingvaidya.ui.fragments.patient;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -65,6 +68,17 @@ public class TipsFragment extends Fragment {
                             if (task.getResult() != null) {
                                 if (task.getResult().exists()) {
                                     feedModel.setDoctorName(task.getResult().getString("name"));
+
+                                    DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                    if (doctorModel != null) {
+
+                                        if (doctorModel.getPhone_no() != null) {
+                                            if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile")) {
+                                                feedModel.setDoctor_profile_photo(doctorModel.getProfile_url());
+//                                                                        Glide.with(context).load(doctorModel.getProfile_url()).into(holder.civ_profile);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         } else {
@@ -74,7 +88,7 @@ public class TipsFragment extends Fragment {
                 });
 
 
-        firebaseFirestore.collection("Doctors").document(feedModel.getDoctor_id()).get()
+       /* firebaseFirestore.collection("Doctors").document(feedModel.getDoctor_id()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -93,13 +107,14 @@ public class TipsFragment extends Fragment {
                             }
                         }
                     }
-                });
+                });*/
 
     }
 
     boolean handler;
     private void getPatientsTipsImagesFromServer(List<PatientsCommunityImageModel> iList, TipsAdapter adapter) {
-
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("LOCAL_AUTH", Context.MODE_PRIVATE);
+        String doc_id = sharedPreferences.getString("doctor_unique_id","no id");
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("PatientsCommunity").orderBy("currentTime", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -108,8 +123,10 @@ public class TipsFragment extends Fragment {
                     for (DocumentChange doc : task.getResult().getDocumentChanges()) {
                         if (task.isSuccessful()) {
                             PatientsCommunityImageModel model = doc.getDocument().toObject(PatientsCommunityImageModel.class);
-                            getDoctorName(model.getDoctor_id(), model);
-                            iList.add(model);
+                            if(model.getDoctor_id().equalsIgnoreCase(doc_id)){
+                                getDoctorName(model.getDoctor_id(), model);
+                                iList.add(model);
+                            }
 
                             handler =  new Handler().postDelayed(new Runnable() {
                                 @Override

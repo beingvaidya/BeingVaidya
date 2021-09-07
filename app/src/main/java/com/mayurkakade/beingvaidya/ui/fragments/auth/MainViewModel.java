@@ -163,9 +163,9 @@ public class MainViewModel extends ViewModel {
             }
             @Override
             public void onOTPComplete(String otp) {
-               /* PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otp);
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otp);
                 signUpWithPhoneAuthCredential(credential,activity, isDoctor);
-                alertDialog.dismiss();*/
+                alertDialog.dismiss();
             }
         });
 
@@ -402,9 +402,9 @@ public class MainViewModel extends ViewModel {
             }
             @Override
             public void onOTPComplete(String otp) {
-              /*  PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otp);
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, otp);
                 signInWithPhoneAuthCredential(credential,activity);
-                alertDialog.dismiss();*/
+                alertDialog.dismiss();
             }
         });
 
