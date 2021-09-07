@@ -97,7 +97,7 @@ public class TipsFragment extends Fragment {
 
     }
 
-
+    boolean handler;
     private void getPatientsTipsImagesFromServer(List<PatientsCommunityImageModel> iList, TipsAdapter adapter) {
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -111,11 +111,13 @@ public class TipsFragment extends Fragment {
                             getDoctorName(model.getDoctor_id(), model);
                             iList.add(model);
 
-                            new Handler().postDelayed(new Runnable() {
+                            handler =  new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progress_loader.setVisibility(View.GONE);
-                                    adapter.notifyDataSetChanged();
+                                    if(adapter != null && progress_loader != null) {
+                                        progress_loader.setVisibility(View.GONE);
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
                             }, 1000);
 
@@ -131,4 +133,6 @@ public class TipsFragment extends Fragment {
         });
 
     }
+
+
 }

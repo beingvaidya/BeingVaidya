@@ -510,12 +510,14 @@ public class MyViewModel {
                                 fList.add(feedModel);
                             }
 
-                            new Handler().postDelayed(new Runnable() {
+                            handler =  new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progress_loader.setVisibility(View.GONE);
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                    adapter.notifyDataSetChanged();
+                                    if(adapter != null && progress_loader != null && recyclerView != null) {
+                                        progress_loader.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
                             }, 1000);
 
@@ -531,7 +533,7 @@ public class MyViewModel {
         });
     }
 
-
+    boolean handler;
     private void getNumberOfCommentsViews(String feedId, FeedModel feedModel ) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("DoctorsFeed/"+feedId+"/comments").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -600,11 +602,13 @@ public class MyViewModel {
                                 cList.add(doc.getDocument().toObject(CommentModel.class));
                             }
 
-                            new Handler().postDelayed(new Runnable() {
+                            handler =   new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progressBar.setVisibility(View.GONE);
-                                    mAdapter.notifyDataSetChanged();
+                                    if(mAdapter != null && progressBar != null) {
+                                        progressBar.setVisibility(View.GONE);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             }, 1000);
 

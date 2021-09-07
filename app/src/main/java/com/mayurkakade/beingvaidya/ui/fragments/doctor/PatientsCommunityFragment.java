@@ -78,7 +78,7 @@ public class PatientsCommunityFragment extends Fragment {
         getPatientsCommunityImagesFromServer(iList, adapter);
         return view;
     }
-
+    boolean handler;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -89,11 +89,13 @@ public class PatientsCommunityFragment extends Fragment {
         onQueryDataListener = new OnQueryDataListener() {
             @Override
             public void onSuccess() {
-                new Handler().postDelayed(new Runnable() {
+               handler = new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        progress_loader.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
+                        if(adapter != null && progress_loader != null) {
+                            progress_loader.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 }, 1000);
             }
@@ -143,11 +145,13 @@ public class PatientsCommunityFragment extends Fragment {
                 iList.add(0, patientsCommunityImageModel);
 
 
-                new Handler().postDelayed(new Runnable() {
+                handler  =  new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        progress_loader.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();
+                        if(adapter != null && progress_loader != null) {
+                            progress_loader.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 }, 1000);
 
@@ -155,7 +159,7 @@ public class PatientsCommunityFragment extends Fragment {
 
             @Override
             public void onStart() {
-                progressUtils.showProgress("Please Wait", "Saving Post");
+                //progressUtils.showProgress("Please Wait", "Saving Post");
             }
 
             @Override
@@ -352,11 +356,13 @@ public class PatientsCommunityFragment extends Fragment {
 
                             iList.add(model);
 
-                            new Handler().postDelayed(new Runnable() {
+                            handler =   new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progress_loader.setVisibility(View.GONE);
-                                    adapter.notifyDataSetChanged();
+                                    if(adapter != null && progress_loader != null) {
+                                        progress_loader.setVisibility(View.GONE);
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
                             }, 1000);
 

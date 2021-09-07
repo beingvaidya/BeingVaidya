@@ -3,6 +3,7 @@ package com.mayurkakade.beingvaidya.data.models;
 public class LocalLearningModel {
     LearningModel learningModel;
     boolean isStarred;
+    boolean isPurchase;
 
     public LocalLearningModel(LearningModel learningModel, boolean isStarred) {
         this.learningModel = learningModel;
@@ -26,5 +27,13 @@ public class LocalLearningModel {
 
     public void setStarred(boolean starred) {
         isStarred = starred;
+    }
+
+    public boolean isPurchase() {
+        return isPurchase;
+    }
+
+    public void setPurchase(boolean purchase) {
+        isPurchase = purchase;
     }
 }

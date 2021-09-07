@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
@@ -51,6 +52,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
     private List<LocalLearningModel> localLearningList;
     private LearningAdapter adapter;
     private EditText search;
+    private ProgressBar progress_loader;
 
     BillingProcessor bp;
 
@@ -63,6 +65,8 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         bp.initialize();
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        progress_loader = view.findViewById(R.id.progress_loader);
+        progress_loader.setVisibility(View.VISIBLE);
         localLearningList = new ArrayList<>();
         adapter = new LearningAdapter(requireContext(), localLearningList, bp,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -104,6 +108,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
             String itemId = getArguments().getString("itemId");
             Log.d(TAG, "onCreateView: " + itemId);
             if (itemId != null) {
+                progress_loader.setVisibility(View.GONE);
                 filterItemById(itemId);
             } else {
                 getPdfData();
@@ -173,22 +178,62 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
                             for (DocumentChange doc : task.getResult().getDocumentChanges()) {
                                 SharedPreferences sharedPreferences = requireContext().getSharedPreferences("StarLearningItems", Context.MODE_PRIVATE);
                                 LearningModel learningModel = doc.getDocument().toObject(LearningModel.class).withId(doc.getDocument().getId());
+                                LocalLearningModel localLearningModel = new LocalLearningModel();
+
                                 if (sharedPreferences.getBoolean(doc.getDocument().getId(), false)) {
-                                    localLearningList.add(0, new LocalLearningModel(learningModel, true));
+
+                                    localLearningModel = new LocalLearningModel(learningModel, true);
+                                    localLearningList.add(0,localLearningModel );
                                 } else {
-                                    localLearningList.add(new LocalLearningModel(learningModel, false));
+                                    localLearningModel = new LocalLearningModel (learningModel, false);
+                                    localLearningList.add(localLearningModel);
                                 }
+
+                                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                                LocalLearningModel finalLocalLearningModel = localLearningModel;
+                                firebaseFirestore.collection("AdminPdfs/"+ localLearningModel.getLearningModel().DocId+"/buyers")
+                                        .document(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()))
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if (task.getResult() != null) {
+                                                if (task.getResult().exists()) {
+                                                    finalLocalLearningModel.setPurchase(false);
+                                                } else {
+                                                    finalLocalLearningModel.setPurchase(true);
+                                                }
+                                            }else {
+                                                finalLocalLearningModel.setPurchase(true);
+                                            }
+                                        }
+                                    }
+                                });
+
+
                             }
-                            adapter.notifyDataSetChanged();
+
+
+                            handler  =   new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(adapter != null && progress_loader != null) {
+                                        progress_loader.setVisibility(View.GONE);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }, 1000);
+
                         }
                     } else {
+                        progress_loader.setVisibility(View.GONE);
                         Log.d(TAG, "onComplete: " + Objects.requireNonNull(task.getException()).getMessage());
                     }
                 }
             }
         });
     }
-
+    boolean handler;
     private MyViewModel mViewModel;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

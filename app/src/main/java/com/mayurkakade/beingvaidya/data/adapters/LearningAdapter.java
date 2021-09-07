@@ -39,7 +39,7 @@ import java.util.Objects;
 public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHolder> {
 
     private final Context context;
-    private List<LocalLearningModel> localLearningList;
+    public List<LocalLearningModel> localLearningList;
     private List<LearningModel> learningList;
     private final BillingProcessor bp;
     private final LearningFragment learningFragment;
@@ -89,7 +89,31 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             }
         });
 
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        if(!localLearningList.get(position).isPurchase()){
+            holder.bt_preview.setVisibility(View.GONE);
+            holder.bt_purchase.setText("Open");
+           /* holder.bt_purchase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openPdfs(localLearningList.get(position).getLearningModel().DocId,true);
+                }
+            });*/
+        }else {
+           /* holder.bt_preview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openPdfs(localLearningList.get(position).getLearningModel().DocId,false);
+                }
+            });
+            holder.bt_purchase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    proceedToPayments(holder, localLearningList.get(position).getLearningModel(), localLearningList.get(position).getLearningModel().DocId);
+                }
+            });*/
+        }
+
+        /*FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("AdminPdfs/"+ localLearningList.get(position).getLearningModel().DocId+"/buyers")
                 .document(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()))
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -123,7 +147,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
                     }
                 }
             }
-        });
+        });*/
 
 
     }
@@ -136,7 +160,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         navController.navigate(R.id.action_learningFragment_to_pdfListFragment,args);
     }
 
-    private void proceedToPayments(ViewHolder holder, LearningModel learningModel, String docId) {
+    public void proceedToPayments( LearningModel learningModel, String docId) {
         learningFragment.addProductToUser(learningModel.getProduct_id(),docId);
     }
 
@@ -152,7 +176,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_title,tv_price,tv_description;
         Button bt_purchase,bt_preview;
@@ -167,6 +191,25 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             bt_purchase = itemView.findViewById(R.id.bt_purchase);
             bt_preview = itemView.findViewById(R.id.bt_preview);
             iv_star_pdf = itemView.findViewById(R.id.iv_star_pdf);
+
+
+            bt_purchase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!localLearningList.get(getLayoutPosition()).isPurchase()){
+                        openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId,true);
+                    }else {
+                        proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
+                    }
+                }
+            });
+
+            bt_preview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId,false);
+                }
+            });
 
         }
     }

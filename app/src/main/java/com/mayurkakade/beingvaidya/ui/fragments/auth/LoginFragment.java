@@ -110,6 +110,7 @@ public class LoginFragment extends Fragment {
         bt_send_otp = view.findViewById(R.id.bt_send_otp);
         et_phone_no = view.findViewById(R.id.et_phone_no);
 //        et_phone_no.setText("9898935606");
+//        et_phone_no.setText("9510165810");
         cb_terms = view.findViewById(R.id.cb_terms);
     }
 
