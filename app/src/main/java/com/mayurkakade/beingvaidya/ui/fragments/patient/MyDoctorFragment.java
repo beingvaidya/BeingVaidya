@@ -32,6 +32,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -153,7 +155,8 @@ public class MyDoctorFragment extends Fragment implements DatePickerDialog.OnDat
                                     if (doctorModel.getPhone_no() != null) {
                                         if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile") ) {
                                             Log.d(TAG + "profile", "onComplete: " + doctorModel.getProfile_url());
-                                            Glide.with(requireContext()).load(doctorModel.getProfile_url()).into(iv_profile);
+                                            Glide.with(requireContext()).load(doctorModel.getProfile_url()).diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(iv_profile);
+
                                         }
                                     }
                                 }

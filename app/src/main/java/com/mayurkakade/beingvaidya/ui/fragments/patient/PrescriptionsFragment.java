@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +35,7 @@ public class PrescriptionsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<FirebaseImageModel> pList;
     private PrescriptionsAdapter adapter;
+    private ProgressBar progressBar;
 
 
     public static final String TAG = "PrescriptionFrag";
@@ -43,16 +46,17 @@ public class PrescriptionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_prescription, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         pList = new ArrayList<>();
         adapter = new PrescriptionsAdapter(container.getContext(), pList);
         recyclerView.setAdapter(adapter);
-
+        progressBar.setVisibility(View.VISIBLE);
         getPrescriptionsFromServer(pList,adapter);
 
         return view;
     }
-
+    boolean handler;
     private void getPrescriptionsFromServer(List<FirebaseImageModel> pList, PrescriptionsAdapter adapter) {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("LOCAL_AUTH", Context.MODE_PRIVATE);
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -64,12 +68,23 @@ public class PrescriptionsFragment extends Fragment {
                         if (task.isSuccessful()) {
                           FirebaseImageModel model = doc.getDocument().toObject(FirebaseImageModel.class);
                           pList.add(model);
-                          adapter.notifyDataSetChanged();
+                            handler =   new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(adapter != null && progressBar != null) {
+                                        progressBar.setVisibility(View.GONE);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }, 1000);
+
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Log.d(TAG, "onComplete: " + task.getException().getMessage());
                         }
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }

@@ -599,7 +599,28 @@ public class MyViewModel {
                     if (!task.getResult().isEmpty()) {
                         if (task.getResult() != null) {
                             for (DocumentChange doc : task.getResult().getDocumentChanges()) {
-                                cList.add(doc.getDocument().toObject(CommentModel.class));
+                                CommentModel local =  doc.getDocument().toObject(CommentModel.class) ;
+                                FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                                firebaseFirestore.collection("Doctors").document(local.getDocId()).get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    if (task.getResult() != null) {
+                                                        if (task.getResult().exists()) {
+                                                            local.setDoctorName(task.getResult().getString("name"));
+                                                            cList.add(local);
+                                                        }else {
+                                                            cList.add(local);
+                                                        }
+                                                    }
+                                                } else {
+                                                    cList.add(local);
+                                                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                                                }
+                                            }
+                                        });
+
                             }
 
                             handler =   new Handler().postDelayed(new Runnable() {

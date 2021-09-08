@@ -42,7 +42,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        getDoctorName(cList.get(position).getDocId(),holder);
+//        getDoctorName(cList.get(position).getDocId(),holder);
+        holder.tv_doctor_name.setText(cList.get(position).getDoctorName());
         holder.tv_comment.setText(cList.get(position).getCommentText());
         holder.tv_timestamp.setText(getDateFromTimestamp(cList.get(position).getTimestamp()));
         Log.d(TAG, "onBindViewHolder: " + cList.get(position).getCommentText());

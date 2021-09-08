@@ -6,15 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.mayurkakade.beingvaidya.data.models.PatientModel;
-import com.mayurkakade.beingvaidya.ui.fragments.doctor.NonStarredPatientsFragment;
-import com.mayurkakade.beingvaidya.ui.fragments.doctor.StarredPatientsFragment;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class PatientsPagerAdapter extends FragmentStateAdapter{
+public class PatientsPagerAdapter extends FragmentStateAdapter {
 
     private final List<Fragment> fragmentList;
 

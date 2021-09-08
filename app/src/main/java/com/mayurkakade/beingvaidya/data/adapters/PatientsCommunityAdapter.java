@@ -22,6 +22,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,7 +62,8 @@ public class PatientsCommunityAdapter extends RecyclerView.Adapter<PatientsCommu
         if (iList.get(position).getDownloadUri().equals("no_image")) {
             holder.iv_prescription.setVisibility(View.GONE);
         } else {
-            Glide.with(context).load(iList.get(position).getDownloadUri()).into(holder.iv_prescription);
+            Glide.with(context).load(iList.get(position).getDownloadUri()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.iv_prescription);
+
         }
 
 

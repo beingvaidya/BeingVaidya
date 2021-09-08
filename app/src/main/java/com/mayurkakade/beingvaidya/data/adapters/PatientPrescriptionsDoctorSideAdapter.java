@@ -16,6 +16,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.FirebaseImageModel;
 
@@ -41,7 +43,9 @@ public class PatientPrescriptionsDoctorSideAdapter extends RecyclerView.Adapter<
     public static final String TAG = "prescriptionAdapter";
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(pList.get(position).getDownloadUri()).into(holder.iv_prescription);
+        Glide.with(context).load(pList.get(position).getDownloadUri()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.iv_prescription);
+
+
         Log.d(TAG, "onBindViewHolder: pList.get(position).getDownloadUri() :" + pList.get(position).getDownloadUri() );
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

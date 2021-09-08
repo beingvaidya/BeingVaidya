@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.mayurkakade.beingvaidya.R;
 
 public class BlogDetailsFragment extends Fragment {
@@ -36,7 +38,8 @@ public class BlogDetailsFragment extends Fragment {
             content = getArguments().getString("arg_content");
             tv_title.setText(title);
             tv_content.setText(content);
-            Glide.with(requireContext()).load(img_url).into(image);
+            Glide.with(requireContext()).load(img_url).diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(image);
+
         }
 
         return view;

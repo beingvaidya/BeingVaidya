@@ -26,6 +26,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -116,7 +118,8 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                                 if (doctorModel!= null) {
                                     if (doctorModel.getPhone_no() != null) {
                                         if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile") ) {
-                                            Glide.with(context).load(doctorModel.getProfile_url()).into(holder.civ_profile);
+                                            Glide.with(context).load(doctorModel.getProfile_url()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.civ_profile);
+
                                         }
                                     }
                                 }
@@ -144,7 +147,8 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
 
         if (fList.get(position).getImg_url() != null) {
             if (!fList.get(position).getImg_url().equals("no_image")) {
-                Glide.with(context).load(fList.get(position).getImg_url()).into(holder.photoView);
+                Glide.with(context).load(fList.get(position).getImg_url()).diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.photoView);
+
             } else {
                 holder.photoView.setVisibility(View.GONE);
                 holder.circularProgressIndicator.setVisibility(View.GONE);

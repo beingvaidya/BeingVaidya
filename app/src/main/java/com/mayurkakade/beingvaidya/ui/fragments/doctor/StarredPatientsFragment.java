@@ -33,10 +33,17 @@ public class StarredPatientsFragment extends Fragment {
     private EditText search;
     public static final String TAG = "PATIENTS";
 
+    boolean handler;
     public void refreshPatientsList() {
-        if (adapter!=null) {
-            adapter.notifyDataSetChanged();
-        }
+        handler =   new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (adapter!=null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }, 1000);
+
     }
 
     public StarredPatientsFragment(List<PatientModel> pList) {

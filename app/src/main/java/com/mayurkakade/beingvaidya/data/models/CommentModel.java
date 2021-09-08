@@ -6,6 +6,15 @@ public class CommentModel {
     String docId;
     String commentText;
     Timestamp timestamp;
+    String doctorName;
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
 
     public CommentModel() {
     }
