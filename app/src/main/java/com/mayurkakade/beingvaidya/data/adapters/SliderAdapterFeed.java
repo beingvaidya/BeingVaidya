@@ -77,10 +77,17 @@ public class SliderAdapterFeed extends
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavController navController = Navigation.findNavController((Activity)context, R.id.doctors_nav_host);
-                Bundle args = new Bundle();
-                args.putString("imgUrl",sliderItem.getUrl());
-                navController.navigate(R.id.action_feedFragment_to_fullScreenImageFragment,args);
+
+                NavController navController = null;
+                try {
+                    navController = Navigation.findNavController((Activity)context, R.id.doctors_nav_host);
+                    Bundle args = new Bundle();
+                    args.putString("imgUrl",sliderItem.getUrl());
+                    navController.navigate(R.id.action_feedFragment_to_fullScreenImageFragment,args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }

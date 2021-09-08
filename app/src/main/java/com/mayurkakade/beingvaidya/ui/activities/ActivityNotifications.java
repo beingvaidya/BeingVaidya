@@ -1,14 +1,15 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,10 +33,11 @@ import java.util.Objects;
 
 public class ActivityNotifications extends AppCompatActivity {
 
+    public static final String TAG = "NotificationsTAG";
     List<NotificationModel> notificationList;
     NotificationAdapter adapter;
     RecyclerView recyclerView;
-    public static final String TAG = "NotificationsTAG";
+    Button bt_clear_all;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +45,29 @@ public class ActivityNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         notificationList = new ArrayList<>();
-        adapter = new NotificationAdapter(this,notificationList);
+        adapter = new NotificationAdapter(this, notificationList);
         recyclerView = findViewById(R.id.recyclerView);
+        bt_clear_all = findViewById(R.id.bt_clear_all);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         getAllNotifications();
 
+        bt_clear_all.setOnClickListener(new View.OnClickListener() {
+            String collectionAddress = "Doctors/";
+
+            @Override
+            public void onClick(View view) {
+                deleteActionMain();
+
+            }
+        });
     }
 
-
-    String collectionAddress = "Doctors/";
-    private void getAllNotifications() {
+    private void deleteActionMain() {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH",MODE_PRIVATE);
-        String role = sharedPreferences.getString("role","doctor");
+        SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH", MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "doctor");
         if (role.equals("doctor")) {
             collectionAddress = "Doctors/";
         } else {
@@ -65,7 +75,74 @@ public class ActivityNotifications extends AppCompatActivity {
         }
 
 
-        firebaseFirestore.collection(collectionAddress+ FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/notifications").orderBy("currentTime", Query.Direction.DESCENDING)
+        firebaseFirestore.collection(collectionAddress + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").orderBy("currentTime", Query.Direction.DESCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        if (!task.getResult().isEmpty()) {
+                            for (DocumentChange doc : task.getResult().getDocumentChanges()) {
+
+                                String id  = doc.getDocument().getId() ;
+                                deleteAction(id);
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void deleteAction(String docId){
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH", MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "doctor");
+        if (role.equals("doctor")) {
+            collectionAddress = "Doctors/";
+        } else {
+            collectionAddress = "Patients/";
+        }
+
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            firebaseFirestore.collection(collectionAddress + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").document(docId)
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            firebaseFirestore.collection(collectionAddress + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").document(docId).delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                getAllNotifications();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                }
+            });
+        }
+    }
+    String collectionAddress = "";
+    private void getAllNotifications() {
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH", MODE_PRIVATE);
+        String role = sharedPreferences.getString("role", "doctor");
+        if (role.equals("doctor")) {
+            collectionAddress = "Doctors/";
+        } else {
+            collectionAddress = "Patients/";
+        }
+
+
+        firebaseFirestore.collection(collectionAddress + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").orderBy("currentTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
@@ -83,12 +160,25 @@ public class ActivityNotifications extends AppCompatActivity {
                                     ).withId(doc.getDocument().getId());
                                     notificationList.add(notificationModel);
                                 } catch (NullPointerException e) {
-                                    Log.e(TAG, "onComplete: " + e.getMessage() );
+                                    Log.e(TAG, "onComplete: " + e.getMessage());
                                 }
                             }
+                            if (notificationList.size() > 0) {
+                                bt_clear_all.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            } else {
+                                bt_clear_all.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.GONE);
+                            }
                             adapter.notifyDataSetChanged();
+                        } else {
+                            bt_clear_all.setVisibility(View.GONE);
                         }
+                    } else {
+                        bt_clear_all.setVisibility(View.GONE);
                     }
+                } else {
+                    bt_clear_all.setVisibility(View.GONE);
                 }
             }
         });
@@ -101,7 +191,7 @@ public class ActivityNotifications extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        Log.d(TAG, "onComplete: getdoctor doc" );
+                        Log.d(TAG, "onComplete: getdoctor doc");
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: " + "task successful");
                             if (Objects.requireNonNull(task.getResult()).exists()) {
@@ -128,7 +218,7 @@ public class ActivityNotifications extends AppCompatActivity {
                                         });
                             }
                         } else {
-                            Log.d(TAG, "exception: " + task.getException().getMessage() );
+                            Log.d(TAG, "exception: " + task.getException().getMessage());
                         }
                     }
                 });

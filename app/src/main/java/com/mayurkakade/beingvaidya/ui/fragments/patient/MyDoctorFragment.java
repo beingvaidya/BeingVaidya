@@ -117,10 +117,10 @@ public class MyDoctorFragment extends Fragment implements DatePickerDialog.OnDat
                             c.set(Integer.parseInt(year), Integer.parseInt(monthOfYear), Integer.parseInt(dayOfMonth));
 
 
-                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/dd/MM");
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
                             try {
-                                Date date1 = simpleDateFormat.parse(year + "/" + dayOfMonth + "/" + monthOfYear);
+                                Date date1 = simpleDateFormat.parse(dayOfMonth + "/" + monthOfYear+ "/"+ year);
                                 Date date2 = Calendar.getInstance().getTime();
 
                                 tv_remaining_time.setText(String.valueOf(printDifference(date2, date1)) + " Days");
@@ -230,11 +230,11 @@ public class MyDoctorFragment extends Fragment implements DatePickerDialog.OnDat
                         String year = String.valueOf(task.getResult().getLong("year"));
 
                         if(!dayOfMonth.equalsIgnoreCase("null")  && !monthOfYear.equalsIgnoreCase("null") &&  !year.equalsIgnoreCase("null")){
-                            tv_review_date.setText(year + " / " + dayOfMonth + " / " + monthOfYear);
-                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/dd/MM");
+                            tv_review_date.setText( dayOfMonth + " / " + monthOfYear + " / "+ year );
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
                             try {
-                                Date date1 = simpleDateFormat.parse(year + "/" + dayOfMonth + "/" + monthOfYear);
+                                Date date1 = simpleDateFormat.parse(  dayOfMonth + "/" + monthOfYear + "/" +year);
                                 Date date2 = Calendar.getInstance().getTime();
 
                                 tv_remaining_time.setText(String.valueOf(printDifference(date2,date1)) + " Days");

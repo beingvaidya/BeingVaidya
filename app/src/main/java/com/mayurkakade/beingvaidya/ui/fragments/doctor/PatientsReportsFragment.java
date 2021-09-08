@@ -1,10 +1,12 @@
 package com.mayurkakade.beingvaidya.ui.fragments.doctor;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -31,6 +33,8 @@ public class PatientsReportsFragment extends Fragment {
 
     public static final String TAG = "patientReports";
     String doctor_id, patient_id;
+    ProgressBar progressBar;
+    boolean handler;
     private RecyclerView recyclerView;
     private List<FirebaseImageModel> pList;
     private PatientReportsDoctorSideAdapter adapter;
@@ -39,9 +43,9 @@ public class PatientsReportsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_patients_reports, container, false);
-        ;
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         pList = new ArrayList<>();
         adapter = new PatientReportsDoctorSideAdapter(container.getContext(), pList);
@@ -73,6 +77,7 @@ public class PatientsReportsFragment extends Fragment {
     }
 
     private void getReportsFromServer(List<FirebaseImageModel> pList, PatientReportsDoctorSideAdapter adapter) {
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Doctors/" + doctor_id + "/Patients/" + patient_id + "/reports").orderBy("currentTime", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -82,17 +87,29 @@ public class PatientsReportsFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseImageModel model = doc.getDocument().toObject(FirebaseImageModel.class);
                             pList.add(model);
-                            adapter.notifyDataSetChanged();
+                            handler = new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (adapter != null && progressBar != null) {
+                                        progressBar.setVisibility(View.GONE);
+
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }, 1000);
+
+
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Log.d(TAG, "onComplete: " + task.getException().getMessage());
                         }
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }
         });
     }
-
 
 }

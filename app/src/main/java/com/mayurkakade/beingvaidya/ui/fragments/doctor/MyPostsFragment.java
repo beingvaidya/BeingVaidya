@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mayurkakade.beingvaidya.R;
@@ -25,6 +26,7 @@ public class MyPostsFragment extends Fragment {
     List<FeedModel> fList;
     RecyclerView recyclerView;
     MyPostsAdapter adapter;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +36,7 @@ public class MyPostsFragment extends Fragment {
         fab_upload = view.findViewById(R.id.fab_upload);
         fList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar);
         adapter = new MyPostsAdapter(container.getContext(),fList);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         recyclerView.setAdapter(adapter);
@@ -46,7 +49,7 @@ public class MyPostsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new MyViewModel();
-        mViewModel.getMyPostsData(adapter,fList);
+        mViewModel.getMyPostsData(adapter,fList ,progressBar);
 
     }
 }

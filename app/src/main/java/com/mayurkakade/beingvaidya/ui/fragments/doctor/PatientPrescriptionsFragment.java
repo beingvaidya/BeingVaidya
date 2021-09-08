@@ -10,10 +10,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,7 +38,7 @@ public class PatientPrescriptionsFragment extends Fragment {
     private List<FirebaseImageModel> pList;
     private PatientPrescriptionsDoctorSideAdapter adapter;
     String doctor_id,patient_id;
-
+ProgressBar progressBar;
     public static final String TAG = "patientPrescriptions";
 
 
@@ -46,6 +48,7 @@ public class PatientPrescriptionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_patient_prescriptions, container, false);
 
 
+        progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         pList = new ArrayList<>();
@@ -79,6 +82,7 @@ public class PatientPrescriptionsFragment extends Fragment {
     }
 
     private void getReportsFromServer(List<FirebaseImageModel> pList, PatientPrescriptionsDoctorSideAdapter adapter) {
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Doctors/"+ doctor_id +"/Patients/"+ patient_id+"/prescriptions").orderBy("currentTime", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -88,15 +92,29 @@ public class PatientPrescriptionsFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseImageModel model = doc.getDocument().toObject(FirebaseImageModel.class);
                             pList.add(model);
-                            adapter.notifyDataSetChanged();
+
+                            handler =   new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(adapter != null && progressBar != null) {
+                                        progressBar.setVisibility(View.GONE);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }, 1000);
+
                         } else {
+                            progressBar.setVisibility(View.GONE);
                             Log.d(TAG, "onComplete: " + task.getException().getMessage());
                         }
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }
         });
     }
+    boolean handler;
+
 }

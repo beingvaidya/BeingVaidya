@@ -81,8 +81,10 @@ public class PatientDetailsFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
-                navController.navigate(R.id.action_patientDetailsFragment_to_patientsFragment);
+                if(requireActivity() != null && !requireActivity().isFinishing()){
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
+                    navController.navigate(R.id.action_patientDetailsFragment_to_patientsFragment);
+                }
             }
         });
 
@@ -221,12 +223,18 @@ public class PatientDetailsFragment extends Fragment {
         switchStarPatient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ProgressUtils progressUtils = ProgressUtils.getInstance(requireContext());
-                progressUtils.showProgress("Please Wait", "Updating Starred Status");
-                mViewModel.setStarPatientOrNot(switchStarPatient,getArguments().getString("argPhoneNo"),isChecked, progressUtils);
+                if(isFirstTime){
+                    isFirstTime = false;
+                }else {
+                    ProgressUtils progressUtils = ProgressUtils.getInstance(requireContext());
+                    progressUtils.showProgress("Please Wait", "Updating Starred Status");
+                    mViewModel.setStarPatientOrNot(switchStarPatient, getArguments().getString("argPhoneNo"), isChecked, progressUtils);
+                }
             }
         });
     }
+
+    boolean isFirstTime = true;
 
 
     @Override

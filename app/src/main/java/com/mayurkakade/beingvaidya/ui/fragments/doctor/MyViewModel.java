@@ -792,9 +792,10 @@ public class MyViewModel {
             }
         });
     }
-    public void getMyPostsData(MyPostsAdapter adapter, List<FeedModel> fList) {
+    public void getMyPostsData(MyPostsAdapter adapter, List<FeedModel> fList , ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseFirestore.collection("Doctors/"+FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/MyFeeds").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Doctors/"+FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/MyFeeds")/*.orderBy("currentTime", Query.Direction.DESCENDING)*/.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -810,9 +811,18 @@ public class MyViewModel {
                                             if (task.getResult().exists()) {
                                                 FeedModel feedModel = task.getResult().toObject(FeedModel.class).withId(task.getResult().getId());
                                                 fList.add(feedModel);
-                                                adapter.notifyDataSetChanged();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        if(adapter != null && progressBar != null) {
+                                                            progressBar.setVisibility(View.GONE);
+                                                            adapter.notifyDataSetChanged();
+                                                        }
+                                                    }
+                                                }, 1000);
                                             }
                                         } else {
+                                            progressBar.setVisibility(View.GONE);
                                             Log.d(TAG, "onComplete: " + task.getException().getMessage());
                                         }
                                     }
@@ -821,6 +831,7 @@ public class MyViewModel {
                         }
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }
