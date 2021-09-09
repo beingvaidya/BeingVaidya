@@ -2,6 +2,7 @@ package com.mayurkakade.beingvaidya.data.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,15 +21,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.FirebaseImageModel;
+import com.mayurkakade.beingvaidya.ui.activities.ImageViewPagerActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PrescriptionsAdapter extends RecyclerView.Adapter<PrescriptionsAdapter.ViewHolder> {
 
-    Context context;
+    Activity context;
     List<FirebaseImageModel> pList;
 
-    public PrescriptionsAdapter(Context context, List<FirebaseImageModel> pList) {
+    public PrescriptionsAdapter(Activity context, List<FirebaseImageModel> pList) {
         this.context = context;
         this.pList = pList;
     }
@@ -44,15 +47,7 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<PrescriptionsAdap
     @Override
     public void onBindViewHolder(@NonNull PrescriptionsAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(pList.get(position).getDownloadUri()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.iv_prescription);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavController navController = Navigation.findNavController((Activity)context, R.id.patients_nav_host);
-                Bundle args = new Bundle();
-                args.putString("imgUrl",pList.get(position).getDownloadUri());
-                navController.navigate(R.id.action_prescription_to_fullScreenImageFragment2,args);
-            }
-        });
+
     }
 
     @Override
@@ -60,11 +55,32 @@ public class PrescriptionsAdapter extends RecyclerView.Adapter<PrescriptionsAdap
         return pList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public  class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_prescription;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_prescription = itemView.findViewById(R.id.iv_prescription);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> localPath = new ArrayList<>();
+                    for (int i = 0 ; i<pList.size() ; i++){
+                        localPath.add(pList.get(i).getDownloadUri());
+                    }
+                    Intent intent = new Intent(context , ImageViewPagerActivity.class);
+                    intent.putStringArrayListExtra("List" , localPath);
+                    intent.putExtra("Position" , getLayoutPosition());
+                    context.startActivity(intent);
+
+
+                    /*NavController navController = Navigation.findNavController((Activity)context, R.id.patients_nav_host);
+                    Bundle args = new Bundle();
+                    args.putString("imgUrl",pList.get(position).getDownloadUri());
+                    navController.navigate(R.id.action_prescription_to_fullScreenImageFragment2,args);*/
+                }
+            });
+
         }
     }
 }

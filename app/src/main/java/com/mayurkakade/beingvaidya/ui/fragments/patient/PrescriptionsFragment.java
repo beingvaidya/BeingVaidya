@@ -49,7 +49,7 @@ public class PrescriptionsFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         pList = new ArrayList<>();
-        adapter = new PrescriptionsAdapter(container.getContext(), pList);
+        adapter = new PrescriptionsAdapter(requireActivity(), pList);
         recyclerView.setAdapter(adapter);
         progressBar.setVisibility(View.VISIBLE);
         getPrescriptionsFromServer(pList,adapter);

@@ -2,6 +2,7 @@ package com.mayurkakade.beingvaidya.data.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,15 +21,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.FirebaseImageModel;
+import com.mayurkakade.beingvaidya.ui.activities.ImageViewPagerActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientPrescriptionsDoctorSideAdapter extends RecyclerView.Adapter<PatientPrescriptionsDoctorSideAdapter.ViewHolder> {
 
-    Context context;
+    Activity context;
     List<FirebaseImageModel> pList;
 
-    public PatientPrescriptionsDoctorSideAdapter(Context context, List<FirebaseImageModel> pList) {
+    public PatientPrescriptionsDoctorSideAdapter(Activity context, List<FirebaseImageModel> pList) {
         this.context = context;
         this.pList = pList;
     }
@@ -48,7 +51,7 @@ public class PatientPrescriptionsDoctorSideAdapter extends RecyclerView.Adapter<
 
         Log.d(TAG, "onBindViewHolder: pList.get(position).getDownloadUri() :" + pList.get(position).getDownloadUri() );
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NavController navController = Navigation.findNavController((Activity)context, R.id.doctors_nav_host);
@@ -56,7 +59,7 @@ public class PatientPrescriptionsDoctorSideAdapter extends RecyclerView.Adapter<
                 args.putString("imgUrl",pList.get(position).getDownloadUri());
                 navController.navigate(R.id.action_patientPrescriptionsFragment_to_fullScreenImageFragment,args);
             }
-        });
+        });*/
 
     }
 
@@ -65,11 +68,27 @@ public class PatientPrescriptionsDoctorSideAdapter extends RecyclerView.Adapter<
         return pList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public  class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_prescription;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_prescription = itemView.findViewById(R.id.iv_prescription);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> localPath = new ArrayList<>();
+                    for (int i = 0 ; i<pList.size() ; i++){
+                        localPath.add(pList.get(i).getDownloadUri());
+                    }
+                    Intent intent = new Intent(context , ImageViewPagerActivity.class);
+                    intent.putStringArrayListExtra("List" , localPath);
+                    intent.putExtra("Position" , getLayoutPosition());
+                    context.startActivity(intent);
+
+                    }
+            });
+
         }
     }
 }

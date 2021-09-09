@@ -47,7 +47,7 @@ public class ReportsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         pList = new ArrayList<>();
-        adapter = new ReportsAdapter(container.getContext(), pList);
+        adapter = new ReportsAdapter(requireActivity(), pList);
         recyclerView.setAdapter(adapter);
 
         getReportsFromServer(pList,adapter);

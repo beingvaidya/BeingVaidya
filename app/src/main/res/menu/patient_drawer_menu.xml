@@ -6,6 +6,12 @@
         android:id="@+id/myDoctorFragment"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="My Doctor" />
+
+    <item
+        android:id="@+id/my_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="My Profile" />
+
     <item
         android:id="@+id/rate_us"
         android:icon="@drawable/ic_baseline_star_rate_24"

@@ -48,7 +48,7 @@ public class PatientsReportsFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
         pList = new ArrayList<>();
-        adapter = new PatientReportsDoctorSideAdapter(container.getContext(), pList);
+        adapter = new PatientReportsDoctorSideAdapter(requireActivity(), pList);
         recyclerView.setAdapter(adapter);
 
         requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {

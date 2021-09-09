@@ -165,6 +165,11 @@ public class ActivityPatient extends AppCompatActivity {
                         startActivity(intentMyDoctor);
                         break;
 
+                    case R.id.my_profile:
+                        Intent intentMyProfile = new Intent(ActivityPatient.this, ActivityMyProfilePatients.class);
+                        startActivity(intentMyProfile);
+                        break;
+
                     case R.id.rate_us:
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName()));
                         startActivity(intent);
