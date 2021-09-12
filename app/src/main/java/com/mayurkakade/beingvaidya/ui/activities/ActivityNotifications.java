@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class ActivityNotifications extends AppCompatActivity {
     NotificationAdapter adapter;
     RecyclerView recyclerView;
     Button bt_clear_all;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class ActivityNotifications extends AppCompatActivity {
 
         notificationList = new ArrayList<>();
         adapter = new NotificationAdapter(this, notificationList);
+        progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
         bt_clear_all = findViewById(R.id.bt_clear_all);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -97,7 +100,7 @@ public class ActivityNotifications extends AppCompatActivity {
     }
 
     public void deleteAction(String docId){
-
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH", MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "doctor");
@@ -120,7 +123,10 @@ public class ActivityNotifications extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                progressBar.setVisibility(View.GONE);
                                                 getAllNotifications();
+                                            }else {
+                                                progressBar.setVisibility(View.GONE);
                                             }
                                         }
                                     });
@@ -132,6 +138,7 @@ public class ActivityNotifications extends AppCompatActivity {
     }
     String collectionAddress = "";
     private void getAllNotifications() {
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH", MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "doctor");
@@ -140,7 +147,6 @@ public class ActivityNotifications extends AppCompatActivity {
         } else {
             collectionAddress = "Patients/";
         }
-
 
         firebaseFirestore.collection(collectionAddress + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").orderBy("currentTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -164,20 +170,33 @@ public class ActivityNotifications extends AppCompatActivity {
                                 }
                             }
                             if (notificationList.size() > 0) {
+                                progressBar.setVisibility(View.GONE);
                                 bt_clear_all.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.VISIBLE);
                             } else {
+                                progressBar.setVisibility(View.GONE);
+                                notificationList.clear();
+                                adapter.notifyDataSetChanged();
                                 bt_clear_all.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.GONE);
                             }
                             adapter.notifyDataSetChanged();
                         } else {
+                            progressBar.setVisibility(View.GONE);
+                            notificationList.clear();
+                            adapter.notifyDataSetChanged();
                             bt_clear_all.setVisibility(View.GONE);
                         }
                     } else {
+                        progressBar.setVisibility(View.GONE);
+                        notificationList.clear();
+                        adapter.notifyDataSetChanged();
                         bt_clear_all.setVisibility(View.GONE);
                     }
                 } else {
+                    progressBar.setVisibility(View.GONE);
+                    notificationList.clear();
+                    adapter.notifyDataSetChanged();
                     bt_clear_all.setVisibility(View.GONE);
                 }
             }
