@@ -1,6 +1,5 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -19,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,13 +26,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mayurkakade.beingvaidya.R;
-import com.mayurkakade.beingvaidya.data.models.DoctorModel;
+import com.mayurkakade.beingvaidya.data.models.PatientModel;
 
 import java.util.Objects;
 
 public class ActivityMyProfilePatients extends AppCompatActivity {
     public static final String TAG = "MyDoctorDebug";
-    private TextView tv_name, tv_qualification, tv_phone_no, tv_mail, tv_availability, tv_review_date, tv_remaining_time, tv_awards_and_honors, tv_publication, tv_presentation, tv_course, tv_bio;
+    private TextView tv_name, tv_address, tv_phone_no, tv_phone_no_doctor, tv_mail, tv_availability, tv_age, tv_remaining_time, tv_awards_and_honors, tv_publication, tv_presentation, tv_course, tv_bio;
     private CardView bt_whatsapp_doctor;
     private ImageView iv_profile;
     private Button bt_edit;
@@ -47,33 +44,24 @@ public class ActivityMyProfilePatients extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_profile_show);
-
         tv_name = findViewById(R.id.tv_name);
-        tv_qualification = findViewById(R.id.tv_qualification);
+        tv_address = findViewById(R.id.tv_address);
         tv_phone_no = findViewById(R.id.tv_phone_no);
+        tv_phone_no_doctor = findViewById(R.id.tv_phone_no_doctor);
         tv_mail = findViewById(R.id.tv_mail);
         tv_availability = findViewById(R.id.tv_availability);
-        tv_review_date = findViewById(R.id.tv_review_date);
+        tv_age = findViewById(R.id.tv_age);
         tv_remaining_time = findViewById(R.id.tv_remaining_time);
         bt_whatsapp_doctor = findViewById(R.id.bt_whatsapp_doctor);
         iv_profile = findViewById(R.id.profile_image);
         bt_edit = findViewById(R.id.bt_edit_profile);
 
-        tv_awards_and_honors = findViewById(R.id.tv_awards_and_honors);
-        tv_publication = findViewById(R.id.tv_publication);
-        tv_presentation = findViewById(R.id.tv_presentation);
-        tv_course = findViewById(R.id.tv_course);
-        tv_bio = findViewById(R.id.tv_bio);
         rootLayout = findViewById(R.id.rootLayout);
         progressLoader = findViewById(R.id.progress_loader);
 
 
         String doc_id = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-
-        bt_edit.setVisibility(View.GONE);
         getDoctorData(this, doc_id);
-
-
         bt_whatsapp_doctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +72,10 @@ public class ActivityMyProfilePatients extends AppCompatActivity {
         bt_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               }
+                Intent intentMyProfile = new Intent(ActivityMyProfilePatients.this, EditProfilePatients.class);
+                startActivity(intentMyProfile);
+
+            }
         });
 
 
@@ -136,7 +127,7 @@ public class ActivityMyProfilePatients extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult() != null) {
-                                DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                PatientModel doctorModel = task.getResult().toObject(PatientModel.class);
                                 if (doctorModel != null) {
                                     if (doctorModel.getPhone_no() != null) {
                                         if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile")) {
@@ -181,23 +172,16 @@ public class ActivityMyProfilePatients extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 if (task.getResult() != null) {
-                                    DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                    PatientModel doctorModel = task.getResult().toObject(PatientModel.class);
                                     if (doctorModel != null) {
                                         tv_name.setText(doctorModel.getName());
-                                        tv_qualification.setText(doctorModel.getQualification());
                                         tv_phone_no.setText(doctorModel.getPhone_no());
+                                        getDoctorName(doctorModel.getDoctor_unique_id());
                                         tv_mail.setText(doctorModel.getEmail());
-
-                                        setFieldWithNullCheck(tv_bio, doctorModel.getBio(), null);
-                                        setFieldWithNullCheck(tv_presentation, doctorModel.getPresentation(), doctorModel.getPresentation_link());
-                                        setFieldWithNullCheck(tv_awards_and_honors, doctorModel.getAwards_and_honors(), doctorModel.getAwards_and_honors_link());
-                                        setFieldWithNullCheck(tv_publication, doctorModel.getPublication(), doctorModel.getPublication_link());
-                                        setFieldWithNullCheck(tv_course, doctorModel.getCourse(), doctorModel.getCourse_link());
-
+                                        tv_age.setText(""+doctorModel.getAge());
+                                        tv_address.setText(doctorModel.getAddress());
                                         rootLayout.setVisibility(View.VISIBLE);
                                         progressLoader.setVisibility(View.GONE);
-
-
                                     } else {
                                         Toast.makeText(context, "Something went wrong : " + doc_id, Toast.LENGTH_SHORT).show();
                                     }
@@ -214,29 +198,22 @@ public class ActivityMyProfilePatients extends AppCompatActivity {
 
     }
 
-    private void setFieldWithNullCheck(TextView textView, String text, String link) {
-        if (text != null) {
-            textView.setText(text);
-        } else {
-            textView.setVisibility(View.GONE);
-        }
-        if (link != null) {
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setPackage("com.android.chrome");
-                    try {
-                        startActivity(intent);
-                    } catch (ActivityNotFoundException ex) {
-                        // Chrome browser presumably not installed so allow user to choose instead
-                        Toast.makeText(ActivityMyProfilePatients.this, "Browser not found", Toast.LENGTH_SHORT).show();
+    private void getDoctorName(String doctor_id) {
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("Doctors").document(doctor_id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null) {
+                                if (task.getResult().exists()) {
+                                    tv_phone_no_doctor.setText(task.getResult().getString("name"));
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                        }
                     }
-                }
-            });
-        }
+                });
     }
-
-
 }

@@ -33,6 +33,7 @@
         <activity android:name=".ui.activities.ActivityNotifications" />
         <activity android:name=".ui.activities.ActivityMyDoctor" />
         <activity android:name=".ui.activities.ActivityMyProfilePatients" />
+        <activity android:name=".ui.activities.EditProfilePatients" />
         <activity android:name=".ui.activities.ActivityDoctor" />
         <activity android:name=".ui.activities.ImageViewPagerActivity" />
         <activity android:name=".ui.activities.ActivityPatient" />

@@ -56,6 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.mayurkakade.beingvaidya.ui.activities.ActivityDoctor.MY_CAMERA_PERMISSION_CODE;
 
+
 public class EditDoctorsProfileFragment extends Fragment {
 
     public static final String TAG = "DocProfileFrag";
