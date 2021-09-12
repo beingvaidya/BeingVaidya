@@ -4,21 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.FirebaseImageModel;
 import com.mayurkakade.beingvaidya.ui.activities.ImageViewPagerActivity;
@@ -39,15 +46,38 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
     @NonNull
     @Override
     public ReportsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.single_f_image_layout,parent,false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_image_layout,parent,false));
     }
 
 
     public static final String TAG = "prescriptionAdapter";
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(pList.get(position).getDownloadUri()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.iv_prescription);
+//        Glide.with(context).load(pList.get(position).getDownloadUri()).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.iv_prescription);
         Log.d(TAG, "onBindViewHolder: pList.get(position).getDownloadUri() :" + pList.get(position).getDownloadUri() );
+
+
+        holder.iv_prescription.setImageResource(0);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        Glide.with(context)
+                .load(pList.get(position).getDownloadUri())
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        holder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.progressBar.setVisibility(View.GONE);
+                        holder.iv_prescription.setImageDrawable(resource);
+                        return false;
+                    }
+                })
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.iv_prescription);
 
 
     }
@@ -59,9 +89,13 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.ViewHold
 
     public  class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_prescription;
+        ProgressBar progressBar;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             iv_prescription = itemView.findViewById(R.id.iv_prescription);
+            progressBar = itemView.findViewById(R.id.progressBar);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

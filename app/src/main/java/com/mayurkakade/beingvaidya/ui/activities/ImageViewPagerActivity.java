@@ -11,7 +11,6 @@ import com.mayurkakade.beingvaidya.data.adapters.MyViewPagerAdapter;
 import java.util.ArrayList;
 
 public class ImageViewPagerActivity extends AppCompatActivity {
-
     public ViewPager2 viewpager;
 
     @Override

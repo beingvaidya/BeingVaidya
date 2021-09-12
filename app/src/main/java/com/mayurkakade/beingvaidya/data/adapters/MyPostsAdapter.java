@@ -74,9 +74,12 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_title.setText(fList.get(position).getTitle());
 
-        getDoctorName(fList.get(position).getDoctor_id(),holder);
-        getNumberOfComments(fList.get(position).DocId,holder);
-        getNumberOfViews(fList.get(position).DocId,holder);
+//        getDoctorName(fList.get(position).getDoctor_id(),holder);
+        holder.tv_doctor_name.setText(fList.get(position).getDoctorName());
+//        getNumberOfComments(fList.get(position).DocId,holder);
+//        getNumberOfViews(fList.get(position).DocId,holder);
+        holder.tv_comments_show.setText(fList.get(position).getComment_show());
+        holder.tv_views.setText(fList.get(position).getView_show());
 
         holder.tv_caption.setText(fList.get(position).getCaption());
 
@@ -107,7 +110,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
         } else {
             holder.iv_options.setVisibility(View.GONE);
         }
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+      /*  FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Doctors").document(fList.get(position).getDoctor_id()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -127,9 +130,11 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                         }
                     }
                 });
+*/
+        Glide.with(context).load(fList.get(position).getDoctor_profile_photo()).diskCacheStrategy(DiskCacheStrategy.ALL).transition(DrawableTransitionOptions.withCrossFade()).into(holder.civ_profile);
 
 
-        firebaseFirestore.collection("DoctorsFeed/"+fList.get(position).DocId+"/images").get()
+       /* firebaseFirestore.collection("DoctorsFeed/"+fList.get(position).DocId+"/images").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -142,7 +147,18 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                             sliderAdapterFeed.renewItems(holder.images_uri);
                         }
                     }
-                });
+                });*/
+
+        if(fList.get(position).getmSliderItemsDoctor().size() == 0){
+            holder.sliderView.setVisibility(View.GONE);
+        }else {
+            holder.sliderView.setVisibility(View.VISIBLE);
+            SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(context);
+            sliderAdapterFeed.renewItems(holder.images_uri);
+            sliderAdapterFeed.addItemAll(fList.get(position).getmSliderItemsDoctor());
+            holder.sliderView.setSliderAdapter(sliderAdapterFeed);
+            holder.sliderView.setInfiniteAdapterEnabled(true);
+        }
 
 
         if (fList.get(position).getImg_url() != null) {
@@ -157,9 +173,6 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
             holder.photoView.setVisibility(View.GONE);
             holder.circularProgressIndicator.setVisibility(View.GONE);
         }
-
-
-
 
         holder.photoView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,7 +313,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
 
     public static final String TAG = "FEEDADAPTER";
 
-    private void getDoctorName(String doctor_id, ViewHolder holder) {
+   /* private void getDoctorName(String doctor_id, ViewHolder holder) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("Doctors").document(doctor_id).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -350,7 +363,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
             }
         });
     }
-
+*/
     private void showDeleteDialog(FeedModel feedModel, int position) {
         ProgressUtils progressUtils = ProgressUtils.getInstance(context);
 
