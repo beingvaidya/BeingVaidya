@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import com.canhub.cropper.CropImage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.UploadToStorageInterface;
 import com.mayurkakade.beingvaidya.ui.ProgressUtils;
@@ -81,9 +83,23 @@ public class PatientDetailsFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if(requireActivity() != null && !requireActivity().isFinishing()){
-                    NavController navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
-                    navController.navigate(R.id.action_patientDetailsFragment_to_patientsFragment);
+                try {
+                    if(requireActivity() != null && !requireActivity().isFinishing()){
+
+                        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("LOCAL_AUTH", Context.MODE_PRIVATE);
+                        String role = sharedPreferences.getString("role", "doctor");
+                        if (role.equals("doctor")) {
+                            NavController navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
+                            navController.navigate(R.id.action_patientDetailsFragment_to_patientsFragment);
+                        } else {
+                            /*NavController navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
+                            navController.navigate(R.id.action_patientDetailsFragment_to_patientsFragment);*/
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

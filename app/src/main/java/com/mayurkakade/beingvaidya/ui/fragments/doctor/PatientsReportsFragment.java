@@ -54,15 +54,23 @@ public class PatientsReportsFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
-                Bundle args = new Bundle();
-                args.putString("argName", getArguments().getString("argName"));
-                args.putInt("argAge", getArguments().getInt("argAge"));
-                args.putString("argPhoneNo", getArguments().getString("argPhoneNo"));
-                args.putString("argEmail", getArguments().getString("argEmail"));
-                args.putString("argAddress", getArguments().getString("argAddress"));
-                args.putString("argDoctorId", getArguments().getString("argDoctorId"));
-                navController.navigate(R.id.action_patientsReportsFragment_to_patientDetailsFragment, args);
+                NavController navController = null;
+                try {
+                    navController = Navigation.findNavController(requireActivity(), R.id.doctors_nav_host);
+                    Bundle args = new Bundle();
+                    args.putString("argName", getArguments().getString("argName"));
+                    args.putInt("argAge", getArguments().getInt("argAge"));
+                    args.putString("argPhoneNo", getArguments().getString("argPhoneNo"));
+                    args.putString("argEmail", getArguments().getString("argEmail"));
+                    args.putString("argAddress", getArguments().getString("argAddress"));
+                    args.putString("argDoctorId", getArguments().getString("argDoctorId"));
+                    navController.navigate(R.id.action_patientsReportsFragment_to_patientDetailsFragment, args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
             }
         });
 

@@ -13,7 +13,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.SliderItem;
 import com.smarteist.autoimageslider.SliderViewAdapter;
@@ -80,10 +79,10 @@ public class SliderAdapterFeed extends
 
                 NavController navController = null;
                 try {
-                    navController = Navigation.findNavController((Activity)context, R.id.doctors_nav_host);
+                    navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
                     Bundle args = new Bundle();
-                    args.putString("imgUrl",sliderItem.getUrl());
-                    navController.navigate(R.id.action_feedFragment_to_fullScreenImageFragment,args);
+                    args.putString("imgUrl", sliderItem.getUrl());
+                    navController.navigate(R.id.action_feedFragment_to_fullScreenImageFragment, args);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
