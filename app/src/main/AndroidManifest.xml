@@ -37,6 +37,7 @@
         <activity android:name=".ui.activities.ActivityDoctor" />
         <activity android:name=".ui.activities.ImageViewPagerActivity" />
         <activity android:name=".ui.activities.ActivityPatient" />
+        <activity android:name=".ui.activities.HowToAddPatientsActivity" />
         <activity
             android:name=".ui.activities.ActivityAuthentication"
             android:windowSoftInputMode="adjustResize" />

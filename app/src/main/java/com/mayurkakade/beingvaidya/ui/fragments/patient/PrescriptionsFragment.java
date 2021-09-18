@@ -64,6 +64,11 @@ public class PrescriptionsFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    if (task.getResult().isEmpty()){
+                        progressBar.setVisibility(View.GONE);
+                        return;
+                    }
+
                     for (DocumentChange doc: task.getResult().getDocumentChanges()) {
                         if (task.isSuccessful()) {
                           FirebaseImageModel model = doc.getDocument().toObject(FirebaseImageModel.class);

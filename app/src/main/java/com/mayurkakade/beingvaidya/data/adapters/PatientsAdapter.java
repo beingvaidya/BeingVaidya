@@ -25,13 +25,14 @@ import com.bumptech.glide.Glide;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.PatientModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PatientsAdapter extends RecyclerView.Adapter<PatientsAdapter.ViewHolder> {
     private final Context context;
-    private List<PatientModel> pList;
+    private List<PatientModel> pList = new ArrayList<>();
     public static final String TAG = "PatientsAdapter";
 
     public PatientsAdapter(Context context, List<PatientModel> pList) {
@@ -49,7 +50,7 @@ public class PatientsAdapter extends RecyclerView.Adapter<PatientsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_number.setText(""+(position+1));
-        holder.tv_patient_name.setText(pList.get(position).getName());
+        holder.tv_patient_name.setText(""+pList.get(position).getName());
         holder.tv_patient_age.setText(pList.get(position).getAge() + " Years");
 
         Log.d(TAG, "onBindViewHolder "+position+" :" + "Profile url " + pList.get(position).getProfile_url());

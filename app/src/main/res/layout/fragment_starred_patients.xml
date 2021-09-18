@@ -24,4 +24,12 @@
         android:layout_height="match_parent"/>
 
 
+    <Button
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/btn_add_patients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_how_to_add_patients"/>
+
 </RelativeLayout>

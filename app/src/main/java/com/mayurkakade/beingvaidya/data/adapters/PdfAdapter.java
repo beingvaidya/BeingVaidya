@@ -3,6 +3,7 @@ package com.mayurkakade.beingvaidya.data.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.PdfModel;
 import com.rajat.pdfviewer.PdfViewerActivity;
+import com.skyhope.showmoretextview.ShowMoreTextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +52,8 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
         } catch (NullPointerException e) {
             Log.d("pdfViewer", "onBindViewHolder: " + e.getMessage());
         }
-        holder.tv_description.setText(pdfUrlList.get(position).getTitle());
+//        holder.tv_description.setText(pdfUrlList.get(position).getTitle());
+        holder.text_view_show_more.setText(pdfUrlList.get(position).getTitle());
         if (pdfUrlList.get(position).isPurchased())
         {
             Log.d(TAG, "onBindViewHolder: " + "isPurchased");
@@ -84,11 +87,18 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         PDFView pdfView;
-        TextView tv_description;
+//        TextView tv_description;
+        ShowMoreTextView text_view_show_more;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             pdfView = itemView.findViewById(R.id.pdfView);
-            tv_description = itemView.findViewById(R.id.tv_description);
+//            tv_description = itemView.findViewById(R.id.tv_description);
+            text_view_show_more = itemView.findViewById(R.id.text_view_show_more);
+            text_view_show_more.setShowingLine(3);
+            text_view_show_more.addShowMoreText("Show More");
+            text_view_show_more.addShowLessText("Less");
+            text_view_show_more.setShowMoreColor(Color.RED); // or other color
+            text_view_show_more.setShowLessTextColor(Color.RED); // or other color
         }
     }
 

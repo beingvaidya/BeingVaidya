@@ -11,14 +11,14 @@
         android:id="@+id/tv_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
-        android:textStyle="bold"
-        android:textSize="24sp"
+        android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="Premium Subscription"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <FrameLayout
         android:layout_width="match_parent"

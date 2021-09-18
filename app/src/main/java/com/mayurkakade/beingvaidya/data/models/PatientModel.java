@@ -1,7 +1,7 @@
 package com.mayurkakade.beingvaidya.data.models;
 
 public class PatientModel {
-    String name,phone_no,email,address,doctor_unique_id,profile_url;
+    String name = "",phone_no,email,address,doctor_unique_id,profile_url;
     int age;
 
     public PatientModel() {
