@@ -5,6 +5,15 @@ public class SubscriptionModel {
     String numberOfPatients;
     String subscriptionId;
     String subscriptionPeriod;
+    boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public SubscriptionModel(long price, String numberOfPatients, String subscriptionId, String subscriptionPeriod) {
         this.price = price;
@@ -44,4 +53,6 @@ public class SubscriptionModel {
     public void setSubscriptionPeriod(String subscriptionPeriod) {
         this.subscriptionPeriod = subscriptionPeriod;
     }
+
+
 }

@@ -86,41 +86,45 @@ public class MyViewModel {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (DocumentChange doc: task.getResult().getDocumentChanges()) {
-                        boolean starPatient = false;
-                        if (doc.getDocument().getBoolean("starPatient")!=null) {
-                            starPatient = doc.getDocument().getBoolean("starPatient");
-                        }
-                        if (starPatient) {
-                            firebaseFirestore.collection("Patients").document(doc.getDocument().getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        PatientModel patientModel = task.getResult().toObject(PatientModel.class);
-                                        pListStarred.add(patientModel);
-                                        onQueryDataListener.onSuccess();
-                                    } else {
-                                        Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                                        onQueryDataListener.onFailure(task.getException().getMessage());
+                    if(task.getResult() != null){
+                        for (DocumentChange doc: task.getResult().getDocumentChanges()) {
+                            boolean starPatient = false;
+                            if (doc.getDocument().getBoolean("starPatient")!=null) {
+                                starPatient = doc.getDocument().getBoolean("starPatient");
+                            }
+                            if (starPatient) {
+                                firebaseFirestore.collection("Patients").document(doc.getDocument().getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            PatientModel patientModel = task.getResult().toObject(PatientModel.class);
+                                            pListStarred.add(patientModel);
+                                            onQueryDataListener.onSuccess();
+                                        } else {
+                                            Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                                            onQueryDataListener.onFailure(task.getException().getMessage());
+                                        }
                                     }
-                                }
-                            });
-                        } else {
-                            firebaseFirestore.collection("Patients").document(doc.getDocument().getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        PatientModel patientModel = task.getResult().toObject(PatientModel.class);
-                                        pListNonStarred.add(patientModel);
-                                        onQueryDataListener.onSuccess();
-                                    } else {
-                                        Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                                        onQueryDataListener.onFailure(task.getException().getMessage());
+                                });
+                            } else {
+                                firebaseFirestore.collection("Patients").document(doc.getDocument().getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            PatientModel patientModel = task.getResult().toObject(PatientModel.class);
+                                            pListNonStarred.add(patientModel);
+                                            onQueryDataListener.onSuccess();
+                                        } else {
+                                            Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                                            onQueryDataListener.onFailure(task.getException().getMessage());
+                                        }
                                     }
-                                }
-                            });
-                        }
+                                });
+                            }
 
+                        }
+                    }else {
+                        onQueryDataListener.onSuccess();
                     }
 
                 } else {

@@ -2,12 +2,14 @@ package com.mayurkakade.beingvaidya.data.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,17 +58,18 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         String numberOfPatients = subscriptionModelList.get(position).getNumberOfPatients();
         holder.tv_number_of_patients.setText(numberOfPatients);
 
-        holder.bt_subscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                subscribe(position, subscriptionModelList.get(position));
-            }
-        });
+       if(subscriptionModelList.get(position).isSelected()){
+           holder.bt_subscribe.setText("Subscribed");
+           holder.bt_subscribe.setBackgroundColor(Color.RED);
+       }else {
+           holder.bt_subscribe.setText("Subscribe");
+           holder.bt_subscribe.setBackgroundColor(context.getResources().getColor(R.color.green_700));
+       }
 
     }
 
     private void subscribe(int position, SubscriptionModel subscriptionModel) {
-        Map<String,Object> params = new HashMap<>();
+        /*Map<String,Object> params = new HashMap<>();
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int currentYear = calendar.get(Calendar.YEAR);
@@ -90,7 +93,9 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
                     Log.d("subsTime", "onComplete: success : " );
                 }
             }
-        });
+        });*/
+
+
         if (bp.isSubscriptionUpdateSupported()) {
             bp.purchase((Activity) context, subscriptionModel.getSubscriptionId());
         }
@@ -101,7 +106,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         return subscriptionModelList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public  class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_price;
         TextView tv_number_of_patients;
         Button bt_subscribe;
@@ -110,6 +115,17 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
             tv_price = itemView.findViewById(R.id.tv_price);
             tv_number_of_patients = itemView.findViewById(R.id.tv_number_of_patients);
             bt_subscribe = itemView.findViewById(R.id.bt_subscribe);
+
+            bt_subscribe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!subscriptionModelList.get(getLayoutPosition()).isSelected()){
+                        subscribe(getLayoutPosition(), subscriptionModelList.get(getLayoutPosition()));
+                    }else {
+                        Toast.makeText(context, "You have already have this subscription", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 }
