@@ -34,6 +34,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mayurkakade.beingvaidya.Config;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.notification.MessagingUtils;
 import com.mayurkakade.beingvaidya.notification.OnUpdateToken;
@@ -222,6 +223,40 @@ public class ActivityPatient extends AppCompatActivity {
                 }
             });
         }
+
+
+        Intent intent = getIntent();
+        long notificationType = intent.getLongExtra("notificationType", -1);
+        String docId;
+        NavController navController = null;
+        if (navHostFragment != null) {
+            navController = navHostFragment.getNavController();
+            Bundle args = new Bundle();
+            switch (Integer.parseInt(String.valueOf(notificationType))) {
+                case -1:
+                    // Toast.makeText(this, "negative case ran", Toast.LENGTH_SHORT).show();
+                    break;
+                case Config.NOTIFICATION_TYPE_TIPS:
+                    docId = intent.getStringExtra("docId");
+                    args.putString("doc_id", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                    args.putString("itemId", docId);
+                    args.putString("from", "self");
+                    navController.navigate(R.id.tipsFragment, args);
+                    break;
+                case Config.NOTIFICATION_TYPE_BLOGS:
+                    docId = intent.getStringExtra("docId");
+                    args.putString("doc_id", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                    args.putString("itemId", docId);
+                    args.putString("from", "self");
+                    navController.navigate(R.id.blogsFragment, args);
+                    break;
+
+                default:
+                    Toast.makeText(this, "default ran", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+
 
     }
 
