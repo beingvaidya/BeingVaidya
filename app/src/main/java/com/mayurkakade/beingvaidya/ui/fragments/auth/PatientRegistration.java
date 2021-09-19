@@ -264,7 +264,8 @@ public class PatientRegistration extends Fragment {
                                                                                                     Log.d(TAG, "8. onComplete: " + "quota : " + finalQuota);
                                                                                                     Log.d(TAG, "9. onComplete: " + "validityInMonths : " + finalValidityInMonths);
                                                                                                     Log.d(TAG, "10. onComplete: " + "subscriptionPlan : " + subscriptionId);
-                                                                                                    Toast.makeText(requireContext(), "Doctor's this months patients quota is full", Toast.LENGTH_LONG).show();
+                                                                                                    LimitExist();
+                                                                                                    //Toast.makeText(requireContext(), "Doctor's this months patients quota is full", Toast.LENGTH_LONG).show();
                                                                                                 }
 
                                                                                         } else {
@@ -343,7 +344,7 @@ public class PatientRegistration extends Fragment {
         et_address = view.findViewById(R.id.et_address);
 //        et_address.setText("Surat Gujarat");
         et_doctors_unique_id = view.findViewById(R.id.doctors_unique_id);
-//        et_doctors_unique_id.setText("7405378987");
+//        et_doctors_unique_id.setText("9510165810");
         bt_submit = view.findViewById(R.id.bt_submit);
         ImageView iv_background = view.findViewById(R.id.iv_background);
         Bitmap bitmapLocal = Config.decodeSampledBitmapFromResource(getResources(), R.drawable.register_bg, 500, 500);
@@ -379,6 +380,25 @@ public class PatientRegistration extends Fragment {
             }
         };
     }
+
+    public void LimitExist(){
+        androidx.appcompat.app.AlertDialog deleteDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                // set message, title, and icon
+                .setTitle("Alert")
+                .setMessage("Limit exceeded, please contact doctor.")
+
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+
+                })
+                .create();
+
+        deleteDialog.show();
+    }
+
 
 
     @Override

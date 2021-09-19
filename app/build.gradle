@@ -55,8 +55,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
 
-
-
     implementation 'com.github.aabhasr1:OtpView:v1.1.2'
     implementation 'com.android.support:multidex:1.0.3'
 
@@ -64,7 +62,7 @@ dependencies {
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'  //removing asap
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
     implementation 'com.github.cachapa:ExpandableLayout:2.9.2'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.CanHub:Android-Image-Cropper:3.0.1'
@@ -82,7 +80,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'com.github.AppIntro:AppIntro:6.1.0'
 
-    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha01'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
 
