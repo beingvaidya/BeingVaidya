@@ -135,6 +135,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     Bundle args = new Bundle();
                     args.putString("from", "others");
                     args.putString("doc_id", fList.get(position).getDoctor_id());
+                    args.putBoolean("hide_number", true);
                     navController.navigate(R.id.action_feedFragment_to_doctorsProfileShowFragment, args);
                 }
             });

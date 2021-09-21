@@ -226,6 +226,11 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         }
                         break;
 
+                    case R.id.contact_us:
+                        composeEmail(new String[]{"beingvaidya@gmail.com"} , "Contact Being Vaidya - Patient management app for Doctors");
+                        break;
+
+
                     case R.id.share_the_app:
                         try {
                             Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -241,7 +246,19 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         break;
 
                     case R.id.share_my_doc_id:
-
+                        try {
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Being Vaidya");
+                            String shareMessage= "\nLet me recommend you this application\n\n";
+                            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n"+ "My Doctor id is: "+
+                                    FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().replace(COUNTRY_CODE , "")
+                            ;
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                            startActivity(Intent.createChooser(shareIntent, "choose one"));
+                        } catch(Exception e) {
+                            //e.toString();
+                        }
 
                         break;
 
@@ -317,6 +334,16 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
         }
 
 
+    }
+    public static final String COUNTRY_CODE = "+91";
+    public void composeEmail(String[] addresses, String subject) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
 

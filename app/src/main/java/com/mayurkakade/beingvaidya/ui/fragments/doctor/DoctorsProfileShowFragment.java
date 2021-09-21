@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class DoctorsProfileShowFragment extends Fragment {
     private Button bt_edit;
     private ConstraintLayout rootLayout;
     private ProgressBar progressLoader;
+    private LinearLayout lin_contact;
 
 
     @Override
@@ -63,7 +65,13 @@ public class DoctorsProfileShowFragment extends Fragment {
                 if (getArguments().getString("from") != null) {
                     if (getArguments().getString("from").equals("self")) {
                         bt_edit.setVisibility(View.VISIBLE);
+                    }else {
+                        if(getArguments().getBoolean("hide_number")){
+                            lin_contact.setVisibility(View.GONE);
+                        }
                     }
+
+
                 }
                 getDoctorData(container.getContext(),getArguments().getString("doc_id"));
             } else {
@@ -212,6 +220,7 @@ public class DoctorsProfileShowFragment extends Fragment {
         bt_whatsapp_doctor = view.findViewById(R.id.bt_whatsapp_doctor);
         iv_profile = view.findViewById(R.id.profile_image);
         bt_edit = view.findViewById(R.id.bt_edit_profile);
+        lin_contact = view.findViewById(R.id.lin_contact);
 
         tv_awards_and_honors = view.findViewById(R.id.tv_awards_and_honors);
         tv_publication = view.findViewById(R.id.tv_publication);

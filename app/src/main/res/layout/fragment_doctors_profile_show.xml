@@ -19,7 +19,7 @@ tools:context=".ui.fragments.doctor.DoctorsProfileShowFragment">
 
    <androidx.constraintlayout.widget.ConstraintLayout
        android:id="@+id/rootLayout"
-       android:visibility="gone"
+       android:visibility="visible"
        android:background="@color/green_700"
        android:layout_width="0dp"
        android:layout_height="0dp"
@@ -276,7 +276,7 @@ tools:context=".ui.fragments.doctor.DoctorsProfileShowFragment">
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Remailning Time"
+                        android:text="Remaining Time"
                         android:layout_margin="6dp"
                         android:textColor="@color/secondary_text_dark"
                         android:textSize="20sp"
@@ -359,6 +359,7 @@ tools:context=".ui.fragments.doctor.DoctorsProfileShowFragment">
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/lin_contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"

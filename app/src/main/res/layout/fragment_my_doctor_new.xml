@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="6dp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Remailning Time"
+                        android:text="Remaining Time"
                         android:textColor="@color/secondary_text_dark"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toTopOf="@+id/textView2"

@@ -333,12 +333,12 @@ public class PatientRegistration extends Fragment {
     private void initViews(View view) {
         civ_profile = view.findViewById(R.id.profile_image);
         et_name = view.findViewById(R.id.et_name);
-//        et_name.setText("Nihal98");
+//        et_name.setText("Nihal74");
         et_age = view.findViewById(R.id.et_age);
 //        et_age.setText("30");
         sp_gender = view.findViewById(R.id.sp_gender);
         et_phone_no = view.findViewById(R.id.et_phone_no);
-//        et_phone_no.setText("9898935606");
+//        et_phone_no.setText("745378987");
         et_email = view.findViewById(R.id.et_email);
 //        et_email.setText("nihalde22@gmail.com");
         et_address = view.findViewById(R.id.et_address);
