@@ -227,7 +227,10 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         break;
 
                     case R.id.contact_us:
-                        composeEmail(new String[]{"beingvaidya@gmail.com"} , "Contact Being Vaidya - Patient management app for Doctors");
+                       // composeEmail(new String[]{"beingvaidya@gmail.com"} , "Contact Being Vaidya - Patient management app for Doctors");
+                        Intent intentCall = new Intent(Intent.ACTION_DIAL);
+                        intentCall.setData(Uri.parse("tel:+917013246776"));
+                        startActivity(intentCall);
                         break;
 
 
