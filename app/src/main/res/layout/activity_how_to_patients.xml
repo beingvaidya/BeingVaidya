@@ -30,6 +30,7 @@
 
 
           <WebView
+              android:visibility="gone"
               android:minHeight="200dp"
               android:layout_gravity="center"
               android:id="@+id/videoView"
@@ -37,7 +38,7 @@
               android:layout_height="wrap_content"/>
 
             <Button
-                android:layout_marginTop="10dp"
+
                 android:backgroundTint="@color/red"
                 android:layout_gravity="center"
                 android:layout_centerInParent="true"
