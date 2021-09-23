@@ -193,7 +193,7 @@ public class MessagingUtils {
         bigText.setSummaryText(message);
 
         mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(message);
         mBuilder.setPriority(Notification.PRIORITY_MAX);

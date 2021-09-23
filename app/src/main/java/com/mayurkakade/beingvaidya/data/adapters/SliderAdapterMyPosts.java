@@ -59,8 +59,8 @@ public class SliderAdapterMyPosts extends
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.mipmap.ic_launcher_round)
-                .error(R.mipmap.ic_launcher_round);
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher);
 
         if (sliderItem.getImgUri() != null) {
             Glide.with(context)

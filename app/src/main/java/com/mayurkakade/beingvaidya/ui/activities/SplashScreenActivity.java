@@ -1,16 +1,18 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.mayurkakade.beingvaidya.Config;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.Repository;
 import com.mayurkakade.beingvaidya.data.models.DoctorModel;
@@ -34,7 +37,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("OnBoarding",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("OnBoarding", MODE_PRIVATE);
         boolean isIntroShown = sharedPreferences.getBoolean("isIntroShown", false);
 
         if (isIntroShown) {
@@ -83,6 +86,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        ImageView iv_splash = findViewById(R.id.iv_splash);
+        Bitmap bitmapLocal = Config.decodeSampledBitmapFromResource(getResources(), R.drawable.ic_splash, 500, 500);
+        if (bitmapLocal != null && iv_splash != null) {
+            iv_splash.setImageBitmap(bitmapLocal);
+        }
+
     }
 
 
@@ -93,7 +102,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        Log.d(TAG, "onComplete: getdoctor doc" );
+                        Log.d(TAG, "onComplete: getdoctor doc");
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: " + "task successful");
                             if (Objects.requireNonNull(task.getResult()).exists()) {
@@ -101,12 +110,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
                                 if (doctorModel != null) {
                                     Log.d(TAG, "onComplete: " + "doctor exist");
-                                    Repository.addDoctorToSharedPrefs(doctorModel,activity);
+                                    Repository.addDoctorToSharedPrefs(doctorModel, activity);
                                     Intent intent = new Intent(SplashScreenActivity.this, ActivityDoctor.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 } else {
-                                    Log.d(TAG, "onComplete: null doctor model"  );
+                                    Log.d(TAG, "onComplete: null doctor model");
                                 }
 
                             } else {
@@ -123,9 +132,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                                                         startActivity(new Intent(SplashScreenActivity.this, ActivityAuthentication.class));
                                                         finish();
                                                     } else {
-                                                        Repository.addPatientToSharedPrefs(patientModel,activity);
+                                                        Repository.addPatientToSharedPrefs(patientModel, activity);
                                                         Intent intent = new Intent(SplashScreenActivity.this, ActivityPatient.class);
-                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         startActivity(intent);
                                                     }
 
@@ -136,7 +145,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                         });
                             }
                         } else {
-                            Log.d(TAG, "exception: " + task.getException().getMessage() );
+                            Log.d(TAG, "exception: " + task.getException().getMessage());
                         }
                     }
                 });
