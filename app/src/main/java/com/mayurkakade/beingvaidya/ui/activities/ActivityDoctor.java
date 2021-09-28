@@ -1,15 +1,5 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,15 +14,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -44,32 +42,26 @@ import com.mayurkakade.beingvaidya.notification.OnUpdateToken;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
+public class ActivityDoctor extends AppCompatActivity implements BillingProcessor.IBillingHandler {
 
-public class ActivityDoctor extends AppCompatActivity  implements BillingProcessor.IBillingHandler{
-
-    BottomNavigationView bottomNavigationView;
-    TextView toolbar_title;
-    ImageView toolbar_options;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
     public static final int CAMERA_REQUEST_PRESCRIPTION = 101;
     public static final int CAMERA_REQUEST_REPORT = 102;
     public static final int MY_CAMERA_PERMISSION_CODE = 103;
     public static final int CAMERA_REQUEST_FEED = 104;
     public static final int CAMERA_REQUEST_PATIENTS_COMMUNITY = 105;
     public static final int EXTERNAL_STORAGE_PERMISSION_CODE = 107;
+    public static final String TAG = "DOCTORS";
+    public static final String COUNTRY_CODE = "+91";
+    BottomNavigationView bottomNavigationView;
+    TextView toolbar_title;
+    ImageView toolbar_options;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
     MessagingUtils messagingUtils;
     String token;
-
-    private BillingProcessor bp;
-
-    public static final String TAG = "DOCTORS";
-
     OnUpdateToken onUpdateToken;
+    private BillingProcessor bp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +98,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
 
             @Override
             public void onFailure(String message) {
-                Log.e(TAG, "onFailure: " + "Token Update Failed : " + message );
+                Log.e(TAG, "onFailure: " + "Token Update Failed : " + message);
             }
         };
 
@@ -115,14 +107,13 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
             @Override
             public void onComplete(@NonNull @NotNull Task<String> task) {
                 if (task.isSuccessful()) {
-                    messagingUtils.updateToken(task.getResult(),true,onUpdateToken);
+                    messagingUtils.updateToken(task.getResult(), true, onUpdateToken);
                     token = task.getResult();
                 } else {
-                    Log.e(TAG, "onComplete: " + task.getException().getMessage() );
+                    Log.e(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }
         });
-
 
 
         toolbar_title = findViewById(R.id.toolbar_title);
@@ -132,16 +123,22 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
         toolbar_options = findViewById(R.id.iv_toolbar_options);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-            {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
             }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},EXTERNAL_STORAGE_PERMISSION_CODE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    String permissions = Manifest.permission.READ_EXTERNAL_STORAGE;
+                    requestPermissions(new String[]{permissions}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                }
+            } else {
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    String permissions = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+                    requestPermissions(new String[]{permissions}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                }
             }
         }
 
@@ -164,7 +161,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                             Toast.makeText(ActivityDoctor.this, "Logging out", Toast.LENGTH_SHORT).show();
                             FirebaseAuth.getInstance().signOut();
                             Intent intent = new Intent(ActivityDoctor.this, ActivityAuthentication.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else {
                             Toast.makeText(ActivityDoctor.this, "user not exist", Toast.LENGTH_SHORT).show();
@@ -172,7 +169,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         break;
 
                     case R.id.my_subscription:
-                        Intent intentSubscription = new Intent(ActivityDoctor.this,SubscriptionsActivity.class);
+                        Intent intentSubscription = new Intent(ActivityDoctor.this, SubscriptionsActivity.class);
                         startActivity(intentSubscription);
                         break;
 
@@ -180,20 +177,20 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         if (navHostFragment != null) {
                             NavController navController = navHostFragment.getNavController();
                             Bundle args = new Bundle();
-                            args.putString("doc_id",FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
-                            args.putString("from","self");
-                            navController.navigate(R.id.doctorsProfileShowFragment,args);
+                            args.putString("doc_id", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                            args.putString("from", "self");
+                            navController.navigate(R.id.doctorsProfileShowFragment, args);
                             bottomNavigationView.setVisibility(View.GONE);
                         }
 
                         break;
 
                     case R.id.patients_community:
-                            if (navHostFragment != null) {
-                                NavController navController = navHostFragment.getNavController();
-                                navController.navigate(R.id.patientsCommunityFragment);
-                                bottomNavigationView.setVisibility(View.GONE);
-                            }
+                        if (navHostFragment != null) {
+                            NavController navController = navHostFragment.getNavController();
+                            navController.navigate(R.id.patientsCommunityFragment);
+                            bottomNavigationView.setVisibility(View.GONE);
+                        }
                         break;
 
                     case R.id.search_doctors:
@@ -227,7 +224,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                         break;
 
                     case R.id.contact_us:
-                       // composeEmail(new String[]{"beingvaidya@gmail.com"} , "Contact Being Vaidya - Patient management app for Doctors");
+                        // composeEmail(new String[]{"beingvaidya@gmail.com"} , "Contact Being Vaidya - Patient management app for Doctors");
                         Intent intentCall = new Intent(Intent.ACTION_DIAL);
                         intentCall.setData(Uri.parse("tel:+917013246776"));
                         startActivity(intentCall);
@@ -239,11 +236,11 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                             Intent shareIntent = new Intent(Intent.ACTION_SEND);
                             shareIntent.setType("text/plain");
                             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Being Vaidya");
-                            String shareMessage= "\nLet me recommend you this application\n\n";
-                            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+                            String shareMessage = "\nLet me recommend you this application\n\n";
+                            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
                             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                             startActivity(Intent.createChooser(shareIntent, "choose one"));
-                        } catch(Exception e) {
+                        } catch (Exception e) {
                             //e.toString();
                         }
                         break;
@@ -253,13 +250,13 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                             Intent shareIntent = new Intent(Intent.ACTION_SEND);
                             shareIntent.setType("text/plain");
                             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Being Vaidya");
-                            String shareMessage= "\nLet me recommend you this application\n\n";
-                            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n"+ "My Doctor id is: "+
-                                    FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().replace(COUNTRY_CODE , "")
+                            String shareMessage = "\nLet me recommend you this application\n\n";
+                            shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n" + "My Doctor id is: " +
+                                    FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().replace(COUNTRY_CODE, "")
                             ;
                             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                             startActivity(Intent.createChooser(shareIntent, "choose one"));
-                        } catch(Exception e) {
+                        } catch (Exception e) {
                             //e.toString();
                         }
 
@@ -282,7 +279,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
                 @Override
                 public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                     toolbar_title.setText(destination.getLabel());
-                    if(destination.getId() == R.id.fullScreenImageFragment) {
+                    if (destination.getId() == R.id.fullScreenImageFragment) {
                         bottomNavigationView.setVisibility(View.GONE);
                     } else {
                         bottomNavigationView.setVisibility(View.VISIBLE);
@@ -300,7 +297,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
             Bundle args = new Bundle();
             switch (Integer.parseInt(String.valueOf(notificationType))) {
                 case -1:
-                   // Toast.makeText(this, "negative case ran", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(this, "negative case ran", Toast.LENGTH_SHORT).show();
                     break;
                 case Config.NOTIFICATION_TYPE_PDF_ADDED:
                     docId = intent.getStringExtra("docId");
@@ -338,7 +335,7 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
 
 
     }
-    public static final String COUNTRY_CODE = "+91";
+
     public void composeEmail(String[] addresses, String subject) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this

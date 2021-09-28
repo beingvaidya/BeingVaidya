@@ -123,9 +123,23 @@ public class ActivityPatient extends AppCompatActivity {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
+//            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_PERMISSION_CODE);
+//            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    String permissions = Manifest.permission.READ_EXTERNAL_STORAGE;
+                    requestPermissions(new String[]{permissions}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                }
+            } else {
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    String permissions = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+                    requestPermissions(new String[]{permissions}, EXTERNAL_STORAGE_PERMISSION_CODE);
+                }
             }
+
+
         }
 
 
