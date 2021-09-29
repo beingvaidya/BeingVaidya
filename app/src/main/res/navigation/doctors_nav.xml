@@ -9,22 +9,22 @@
         android:id="@+id/patientsFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientsFragment"
         android:label="PATIENTS"
-        tools:layout="@layout/fragment_patients" >
+        tools:layout="@layout/fragment_patients">
         <action
             android:id="@+id/action_patientsFragment_to_patientDetailsFragment"
             app:destination="@id/patientDetailsFragment"
-            app:popUpToInclusive="false"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
+            app:popExitAnim="@anim/to_left"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.FeedFragment"
         android:label="FEED"
-        tools:layout="@layout/fragment_feed" >
+        tools:layout="@layout/fragment_feed">
         <action
             android:id="@+id/action_feedFragment_to_uploadFeedItemFragment"
             app:destination="@id/uploadFeedItemFragment" />
@@ -42,7 +42,7 @@
         android:id="@+id/learningFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.LearningFragment"
         android:label="LEARNING"
-        tools:layout="@layout/fragment_learning" >
+        tools:layout="@layout/fragment_learning">
         <action
             android:id="@+id/action_learningFragment_to_pdfListFragment"
             app:destination="@id/pdfListFragment" />
@@ -52,7 +52,7 @@
         android:id="@+id/storeFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.StoreFragment"
         android:label="STORE"
-        tools:layout="@layout/fragment_store" >
+        tools:layout="@layout/fragment_store">
         <action
             android:id="@+id/action_storeFragment_to_fullScreenImageFragment"
             app:destination="@id/fullScreenImageFragment" />
@@ -94,13 +94,13 @@
     <fragment
         android:id="@+id/uploadFeedItemFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.UploadFeedItemFragment"
-        android:label="Upload To Feed"
+        android:label="Upload To Discussion"
         tools:layout="@layout/fragment_upload_feed_item" />
     <dialog
         android:id="@+id/fullScreenImageFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.FullScreenImageFragment"
         android:label="Full Screen Image View"
-        tools:layout="@layout/fragment_full_screen_image" >
+        tools:layout="@layout/fragment_full_screen_image">
         <argument
             android:name="imgUrl"
             app:argType="string" />
@@ -110,7 +110,7 @@
         android:id="@+id/commentsFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.CommentsFragment"
         android:label="Comments"
-        tools:layout="@layout/fragment_comments" >
+        tools:layout="@layout/fragment_comments">
         <argument
             android:name="feedId"
             app:argType="string" />
@@ -120,7 +120,7 @@
         android:id="@+id/patientsCommunityFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PatientsCommunityFragment"
         android:label="Patients Community"
-        tools:layout="@layout/fragment_patients_community" >
+        tools:layout="@layout/fragment_patients_community">
         <action
             android:id="@+id/action_patientsCommunityFragment_to_fullScreenImageFragment"
             app:destination="@id/fullScreenImageFragment" />
@@ -134,7 +134,7 @@
         android:id="@+id/myPostsFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.MyPostsFragment"
         android:label="My Posts"
-        tools:layout="@layout/fragment_my_posts" >
+        tools:layout="@layout/fragment_my_posts">
         <action
             android:id="@+id/action_myPostsFragment_to_fullScreenImageFragment"
             app:destination="@id/fullScreenImageFragment" />
@@ -146,7 +146,7 @@
         android:id="@+id/savedPostsFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.SavedPostsFragment"
         android:label="Saved Posts"
-        tools:layout="@layout/fragment_saved_posts" >
+        tools:layout="@layout/fragment_saved_posts">
         <action
             android:id="@+id/action_savedPostsFragment_to_fullScreenImageFragment"
             app:destination="@id/fullScreenImageFragment" />
@@ -188,7 +188,7 @@
         android:id="@+id/pdfListFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PdfListFragment"
         android:label="Pdf List"
-        tools:layout="@layout/fragment_pdf_list" >
+        tools:layout="@layout/fragment_pdf_list">
         <argument
             android:name="docId"
             app:argType="string" />
@@ -203,7 +203,7 @@
         android:id="@+id/pdfViewerFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.PdfViewerFragment"
         android:label="Pdf Viewer"
-        tools:layout="@layout/fragment_pdf_viewer" >
+        tools:layout="@layout/fragment_pdf_viewer">
         <argument
             android:name="url"
             app:argType="string" />
@@ -221,7 +221,7 @@
         android:id="@+id/doctorsProfileShowFragment"
         android:name="com.mayurkakade.beingvaidya.ui.fragments.doctor.DoctorsProfileShowFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_doctors_profile_show" >
+        tools:layout="@layout/fragment_doctors_profile_show">
         <action
             android:id="@+id/action_doctorsProfileShowFragment_to_doctorsProfileFragment"
             app:destination="@id/doctorsProfileFragment" />

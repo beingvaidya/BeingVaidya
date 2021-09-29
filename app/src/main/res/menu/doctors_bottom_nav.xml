@@ -9,7 +9,7 @@
     <item
         android:id="@+id/feedFragment"
         android:icon="@drawable/ic_baseline_rss_feed_24"
-        android:title="Feed" />
+        android:title="Discussion" />
     <item
         android:id="@+id/learningFragment"
         android:icon="@drawable/ic_baseline_menu_book_24"

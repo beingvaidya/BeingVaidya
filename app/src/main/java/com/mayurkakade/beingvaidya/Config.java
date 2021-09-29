@@ -25,11 +25,11 @@ public class Config {
 
     public static class Subscriptions {
         public static final String freePlanSubscriptionId = "freePlanSubscriptionId";
-        public static final String yearlyUnlimitedPlanSubscriptionId = "yearlyUnlimitedPlanSubscriptionId";
-        public static final String halfYearlyUnlimitedPlanSubscriptionId = "halfYearlyUnlimitedPlanSubscriptionId";
-        public static final String monthlyUnlimitedPlanSubscriptionId = "monthlyUnlimitedPlanSubscriptionId";
-        public static final String monthlyThirtyPlanSubscriptionId = "monthlyThirtyPlanSubscriptionId";
-        public static final String monthlyFifteenPlanSubscriptionId = "monthlrFifteenPlanSubscriptionId";
+        public static final String yearlyUnlimitedPlanSubscriptionId = "yearlyunlimitedplanproductid";
+        public static final String halfYearlyUnlimitedPlanSubscriptionId = "halfyearlyunlimitedplanproductid";
+        public static final String monthlyUnlimitedPlanSubscriptionId = "monthlyunlimitedplanproductid";
+        public static final String monthlyThirtyPlanSubscriptionId = "monthlythirtyplansubscriptionid";
+        public static final String monthlyFifteenPlanSubscriptionId = "monthlyfifteenplansubscriptionid";
     }
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
