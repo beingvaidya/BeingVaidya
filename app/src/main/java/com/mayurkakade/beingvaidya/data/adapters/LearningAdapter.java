@@ -23,6 +23,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.LearningModel;
 import com.mayurkakade.beingvaidya.data.models.LocalLearningModel;
+import com.mayurkakade.beingvaidya.data.models.SubscriptionModel;
 import com.mayurkakade.beingvaidya.ui.activities.SubscriptionsActivity;
 import com.mayurkakade.beingvaidya.ui.fragments.doctor.LearningFragment;
 
@@ -143,8 +144,20 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         navController.navigate(R.id.action_learningFragment_to_pdfListFragment, args);
     }
 
+
+    private void subscribe(int position, SubscriptionModel subscriptionModel) {
+        if (bp.isSubscriptionUpdateSupported()) {
+            bp.purchase((Activity) context, subscriptionModel.getSubscriptionId());
+        }
+    }
+
     public void proceedToPayments(LearningModel learningModel, String docId) {
-        learningFragment.addProductToUser(learningModel.getProduct_id(), docId);
+
+//        if (bp.isSubscriptionUpdateSupported()) {
+//            bp.purchase((Activity) context, learningModel.getProduct_id());
+//        }
+        learningFragment.addToSub(learningModel.getProduct_id(), docId);
+//        learningFragment.addProductToUser(learningModel.getProduct_id(), docId);
     }
 
     @Override
@@ -194,9 +207,9 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
                     if (!localLearningList.get(getLayoutPosition()).isPurchase()) {
                         openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true);
                     } else {
-//                        proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
-                        Intent intentSubscription = new Intent(context, SubscriptionsActivity.class);
-                        context.startActivity(intentSubscription);
+                        proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
+//                        Intent intentSubscription = new Intent(context, SubscriptionsActivity.class);
+//                        context.startActivity(intentSubscription);
                     }
                 }
             });
