@@ -1,5 +1,6 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,7 +77,6 @@ public class ActivityNotifications extends AppCompatActivity {
         } else {
             collectionAddress = "Patients/";
         }
-
 
         firebaseFirestore.collection(collectionAddress + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").orderBy("currentTime", Query.Direction.DESCENDING)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -181,26 +181,41 @@ public class ActivityNotifications extends AppCompatActivity {
                                 recyclerView.setVisibility(View.GONE);
                             }
                             adapter.notifyDataSetChanged();
+                            storeNotificationSize();
                         } else {
                             progressBar.setVisibility(View.GONE);
                             notificationList.clear();
                             adapter.notifyDataSetChanged();
                             bt_clear_all.setVisibility(View.GONE);
+                            storeNotificationSize();
                         }
                     } else {
                         progressBar.setVisibility(View.GONE);
                         notificationList.clear();
                         adapter.notifyDataSetChanged();
                         bt_clear_all.setVisibility(View.GONE);
+                        storeNotificationSize();
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
                     notificationList.clear();
                     adapter.notifyDataSetChanged();
                     bt_clear_all.setVisibility(View.GONE);
+                    storeNotificationSize();
                 }
             }
         });
+    }
+
+    public void storeNotificationSize(){
+        if(adapter != null){
+            int count = adapter.getItemCount();
+            SharedPreferences sharedPreferences = getSharedPreferences("Notification", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("old", count);
+            editor.apply();
+
+        }
     }
 
     public void checkIfUserExists(CheckUserRole checkUserRole, String userPhoneNumber) {

@@ -306,6 +306,8 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         Intent intent = new Intent(requireContext(), PDFSubscriptionsActivity.class);
         intent.putExtra("code", mproductId);
         purchaseResultLauncher.launch(intent);
+//        addProductToUser(productId, developerPayload);
+
     }
 
     public void addProductToUser(String productId, String developerPayload) {

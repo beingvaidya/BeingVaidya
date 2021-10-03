@@ -76,25 +76,8 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         if (!localLearningList.get(position).isPurchase()) {
             holder.bt_preview.setVisibility(View.GONE);
             holder.bt_purchase.setText("Open");
-           /* holder.bt_purchase.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openPdfs(localLearningList.get(position).getLearningModel().DocId,true);
-                }
-            });*/
         } else {
-           /* holder.bt_preview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openPdfs(localLearningList.get(position).getLearningModel().DocId,false);
-                }
-            });
-            holder.bt_purchase.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    proceedToPayments(holder, localLearningList.get(position).getLearningModel(), localLearningList.get(position).getLearningModel().DocId);
-                }
-            });*/
+            holder.bt_preview.setVisibility(View.VISIBLE);
         }
 
         /*FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();

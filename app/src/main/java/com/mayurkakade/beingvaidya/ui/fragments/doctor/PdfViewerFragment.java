@@ -9,20 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-//import com.github.barteksc.pdfviewer.PDFView;
 import com.mayurkakade.beingvaidya.R;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
 
 public class PdfViewerFragment extends Fragment {
-
-//    PDFView pdfView;
     Thread t;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

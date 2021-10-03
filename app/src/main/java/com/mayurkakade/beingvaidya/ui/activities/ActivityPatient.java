@@ -2,7 +2,9 @@ package com.mayurkakade.beingvaidya.ui.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -30,18 +32,24 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mayurkakade.beingvaidya.Config;
 import com.mayurkakade.beingvaidya.R;
+import com.mayurkakade.beingvaidya.data.models.NotificationModel;
 import com.mayurkakade.beingvaidya.notification.MessagingUtils;
 import com.mayurkakade.beingvaidya.notification.OnUpdateToken;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ActivityPatient extends AppCompatActivity {
@@ -52,6 +60,7 @@ public class ActivityPatient extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView toolbar_title;
     ImageView toolbar_options;
+    ImageView ivRedNotification;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     MessagingUtils messagingUtils;
@@ -114,6 +123,7 @@ public class ActivityPatient extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         toolbar_options = findViewById(R.id.iv_toolbar_options);
+        ivRedNotification = findViewById(R.id.ivRedNotification);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -150,6 +160,9 @@ public class ActivityPatient extends AppCompatActivity {
             }
         });
 
+
+        ivRedNotification.setVisibility(View.GONE);
+        getAllNotifications();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -273,6 +286,47 @@ public class ActivityPatient extends AppCompatActivity {
 
 
     }
+    List<NotificationModel> notificationList = new ArrayList<>();
+    private void getAllNotifications() {
+        notificationList.clear();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        SharedPreferences sharedPreferences = getSharedPreferences("LOCAL_AUTH", MODE_PRIVATE);
+        firebaseFirestore.collection("Patients/" + FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber() + "/notifications").orderBy("currentTime", Query.Direction.DESCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        if (!task.getResult().isEmpty()) {
+                            for (DocumentChange doc : task.getResult().getDocumentChanges()) {
+                                Log.d(TAG, "onComplete: " + "Model Added");
+                                try {
+                                    NotificationModel notificationModel = new NotificationModel(
+                                            doc.getDocument().getString("docId"),
+                                            doc.getDocument().getString("msg"),
+                                            doc.getDocument().getString("sender"),
+                                            doc.getDocument().getLong("notificationType")
+                                    ).withId(doc.getDocument().getId());
+                                    notificationList.add(notificationModel);
+                                } catch (NullPointerException e) {
+                                    Log.e(TAG, "onComplete: " + e.getMessage());
+                                }
+                            }
+                            if (notificationList.size() > 0) {
+                                SharedPreferences sp = getSharedPreferences("Notification", Activity.MODE_PRIVATE);
+                                int myIntValue = sp.getInt("old", 0);
+                                if (notificationList.size() > myIntValue) {
+                                    ivRedNotification.setVisibility(View.VISIBLE);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
 
     private void onClickWhatsApp(String mensaje, String numero) {
