@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -337,6 +338,14 @@ public class PatientRegistration extends Fragment {
         et_age = view.findViewById(R.id.et_age);
 //        et_age.setText("30");
         sp_gender = view.findViewById(R.id.sp_gender);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.sp_gender, R.layout.spinner_item);
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        sp_gender.setAdapter(adapter);
+
+
         et_phone_no = view.findViewById(R.id.et_phone_no);
 //        et_phone_no.setText("745378987");
         et_email = view.findViewById(R.id.et_email);

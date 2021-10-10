@@ -50,7 +50,9 @@
         <activity android:name=".ui.activities.HowToAddPatientsActivity" />
         <activity
             android:name=".ui.activities.ActivityAuthentication"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+
+            />
         <activity android:name=".ui.activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

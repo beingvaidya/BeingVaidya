@@ -123,6 +123,8 @@ public class MyViewModel {
                             }
 
                         }
+
+                        onQueryDataListener.onSuccess();
                     }else {
                         onQueryDataListener.onSuccess();
                     }

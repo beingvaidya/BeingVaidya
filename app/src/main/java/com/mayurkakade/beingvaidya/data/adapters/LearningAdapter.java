@@ -73,7 +73,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         }
 
 
-        if (!localLearningList.get(position).isPurchase()) {
+        if (!localLearningList.get(position).isPurchase() || String.valueOf(localLearningList.get(position).getLearningModel().getPrice()).equalsIgnoreCase("0")) {
             holder.bt_preview.setVisibility(View.GONE);
             holder.bt_purchase.setText("Open");
         } else {
@@ -187,7 +187,11 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             bt_purchase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!localLearningList.get(getLayoutPosition()).isPurchase()) {
+                    if (!localLearningList.get(getLayoutPosition()).isPurchase()
+                            || String.valueOf(localLearningList.get(getLayoutPosition()).getLearningModel().getPrice()).equalsIgnoreCase("0")
+                    )
+
+                    {
                         openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true);
                     } else {
                         proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
