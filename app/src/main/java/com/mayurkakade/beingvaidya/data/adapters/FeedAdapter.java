@@ -41,6 +41,7 @@ import com.mayurkakade.beingvaidya.data.models.DoctorModel;
 import com.mayurkakade.beingvaidya.data.models.FeedModel;
 import com.mayurkakade.beingvaidya.data.models.SliderItem;
 import com.mayurkakade.beingvaidya.ui.ProgressUtils;
+import com.mayurkakade.beingvaidya.ui.fragments.doctor.MyViewModel;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.io.ByteArrayOutputStream;
@@ -56,7 +57,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
-    Context context;
+    static Context context;
     List<FeedModel> fList;
     ProgressUtils progressUtils;
 
@@ -190,49 +191,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             }else {
                 holder.sliderView.setVisibility(View.VISIBLE);
                 SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(context);
+                sliderAdapterFeed.setDocId(fList.get(position).DocId);
                 sliderAdapterFeed.renewItems(holder.images_uri);
                 sliderAdapterFeed.addItemAll(fList.get(position).getmSliderItemsDoctor());
                 holder.sliderView.setSliderAdapter(sliderAdapterFeed);
                 holder.sliderView.setInfiniteAdapterEnabled(true);
             }
 
-
-
-            holder.photoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavController navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
-                    Bundle args = new Bundle();
-                    args.putString("imgUrl", fList.get(position).getImg_url());
-                    registerView(fList.get(position).DocId);
-                    navController.navigate(R.id.action_feedFragment_to_fullScreenImageFragment, args);
-                }
-            });
-
-            holder.tv_comment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NavController navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
-                    Bundle args = new Bundle();
-                    args.putString("feedId", fList.get(position).DocId);
-                    navController.navigate(R.id.action_feedFragment_to_commentsFragment, args);
-                }
-            });
-
-
-            holder.tv_share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    registerShare(fList.get(position), fList.get(position).DocId);
-                }
-            });
-
-            holder.tv_save.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    savePost(fList.get(position).DocId);
-                }
-            });
         }
     }
 
@@ -407,7 +372,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView photoView;
         public CircleImageView civ_profile;
         public ProgressBar circularProgressIndicator;
@@ -438,6 +403,44 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 //            iv_feed = itemView.findViewById(R.id.iv_feed);
             photoView = itemView.findViewById(R.id.iv_feed);
             circularProgressIndicator = itemView.findViewById(R.id.c_progress);
+
+            photoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    // new MyViewModel().addFeedView(fList.get(position).DocId);
+                    NavController navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
+                    Bundle args = new Bundle();
+                    args.putString("imgUrl", fList.get(getLayoutPosition()).getImg_url());
+                    registerView(fList.get(getLayoutPosition()).DocId);
+                    navController.navigate(R.id.action_feedFragment_to_fullScreenImageFragment, args);
+                }
+            });
+
+            tv_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavController navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
+                    Bundle args = new Bundle();
+                    args.putString("feedId", fList.get(getLayoutPosition()).DocId);
+                    navController.navigate(R.id.action_feedFragment_to_commentsFragment, args);
+                }
+            });
+
+
+            tv_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    registerShare(fList.get(getLayoutPosition()), fList.get(getLayoutPosition()).DocId);
+                }
+            });
+
+            tv_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    savePost(fList.get(getLayoutPosition()).DocId);
+                }
+            });
 
         }
     }

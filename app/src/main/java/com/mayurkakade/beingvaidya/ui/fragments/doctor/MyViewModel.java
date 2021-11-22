@@ -590,6 +590,27 @@ public class MyViewModel {
         });
     }
 
+    public void addFeedView(String feedId) {
+        Date currentTime = Calendar.getInstance().getTime();
+        Map<String, Object> params = new HashMap<>();
+        params.put("docId",FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+        params.put("timestamp",currentTime);
+
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("DoctorsFeed/"+feedId+"/views").document()
+                .set(params).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "addFeedView: isSuccessful " + task.getException().getMessage());
+                } else {
+                    Log.d(TAG, "addFeedView: Failed");
+                }
+            }
+        });
+    }
+
     public void getImagePatientsCommunity(PatientsCommunityFragment fragment, FragmentActivity context) {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
 

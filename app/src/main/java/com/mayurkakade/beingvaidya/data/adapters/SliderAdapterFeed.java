@@ -3,27 +3,39 @@ package com.mayurkakade.beingvaidya.data.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.SliderItem;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SliderAdapterFeed extends
         SliderViewAdapter<SliderAdapterFeed.SliderAdapterVH> {
 
     private Context context;
     private List<SliderItem> mSliderItems;
+    private String DocId = "";
+
 
     public SliderAdapterFeed(Context context) {
         this.context = context;
@@ -32,6 +44,10 @@ public class SliderAdapterFeed extends
     public void renewItems(List<SliderItem> sliderItems) {
         this.mSliderItems = sliderItems;
         notifyDataSetChanged();
+    }
+
+    public void setDocId(String id) {
+        this.DocId = id;
     }
 
     public void deleteItem(int position) {
@@ -79,6 +95,7 @@ public class SliderAdapterFeed extends
 
                 NavController navController = null;
                 try {
+                    registerView(DocId);
                     navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
                     Bundle args = new Bundle();
                     args.putString("imgUrl", sliderItem.getUrl());
@@ -89,6 +106,28 @@ public class SliderAdapterFeed extends
 
             }
         });
+    }
+
+    private void registerView(String docId) {
+        Date currentTime = Calendar.getInstance().getTime();
+        Map<String, Object> params = new HashMap<>();
+        params.put("docId", FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+        params.put("timestamp", currentTime);
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            firebaseFirestore.collection("DoctorsFeed/" + docId + "/views").document(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
+                    .set(params).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("registerView", "onComplete: ");
+                    } else {
+                        Log.d("registerView", "onFail: ");
+                    }
+                }
+            });
+        }
     }
 
     @Override

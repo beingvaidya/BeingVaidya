@@ -132,7 +132,7 @@ public class DoctorRegistration extends Fragment {
                                     pincode = et_pincode.getText().toString();
 
                                     if (profile_uri != null) {
-                                        Toast.makeText(requireContext(), "profile not null", Toast.LENGTH_SHORT).show();
+                                      //  Toast.makeText(requireContext(), "profile not null", Toast.LENGTH_SHORT).show();
                                         mViewModel.uploadProfileImage(profile_uri, uploadToStorageInterface, "profiles", requireContext());
                                     } else {
                                         Toast.makeText(requireContext(), "no profile", Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class DoctorRegistration extends Fragment {
                                 Snackbar.make(view,"Please Enter University", BaseTransientBottomBar.LENGTH_SHORT).show();
                             }
                         } else {
-                            Snackbar.make(view,"Please Enter Qualification", BaseTransientBottomBar.LENGTH_SHORT).show();
+                            Snackbar.make(view,"Please Enter Specialization", BaseTransientBottomBar.LENGTH_SHORT).show();
                         }
                     } else {
                         Snackbar.make(view,"Please Enter Email", BaseTransientBottomBar.LENGTH_SHORT).show();

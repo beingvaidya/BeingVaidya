@@ -45,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Patient  "
+                android:textSize="16sp"
                 android:textColor="@color/white" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -59,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Doctor  "
+                android:textSize="16sp"
                 android:textColor="@color/white" />
 
         </LinearLayout>

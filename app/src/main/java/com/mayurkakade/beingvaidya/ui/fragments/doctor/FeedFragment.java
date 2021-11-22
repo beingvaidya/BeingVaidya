@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,7 +44,7 @@ import java.util.Objects;
 public class FeedFragment extends Fragment {
 
     public static final String TAG = "FeedFragment";
-    FloatingActionButton fab_upload;
+    ExtendedFloatingActionButton fab_upload;
     List<FeedModel> fList;
     RecyclerView recyclerView;
     FeedAdapter adapter;

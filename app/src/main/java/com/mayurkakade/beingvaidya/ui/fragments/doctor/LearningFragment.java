@@ -49,8 +49,11 @@ import com.mayurkakade.beingvaidya.ui.activities.PDFSubscriptionsActivity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -270,6 +273,15 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
                                 public void run() {
                                     if (adapter != null && progress_loader != null) {
                                         progress_loader.setVisibility(View.GONE);
+
+                                        Collections.sort(localLearningList, new Comparator() {
+                                            @Override
+                                            public int compare(Object softDrinkOne, Object softDrinkTwo) {
+                                                //use instanceof to verify the references are indeed of the type in question
+                                                return ((LocalLearningModel)softDrinkOne).getLearningModel().getTitle().toLowerCase().compareTo(((LocalLearningModel)softDrinkTwo).getLearningModel().getTitle().toLowerCase());
+                                            }
+                                        });
+
                                         adapter.notifyDataSetChanged();
                                     }
                                 }

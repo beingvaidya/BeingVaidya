@@ -14,13 +14,13 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/round_corner_grey_background"
+        android:drawableStart="@drawable/ic_baseline_search_24"
         android:hint="Search"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:singleLine="true"
         android:maxLines="1"
         android:padding="12dp"
-        android:drawableStart="@drawable/ic_baseline_search_24"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,13 +29,15 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_search" />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,18 +46,29 @@
         android:clickable="true"
         android:contentDescription="@string/upload"
         android:focusable="true"
-        android:src="@drawable/ic_baseline_file_upload_24"
+        android:icon="@drawable/ic_baseline_file_upload_24"
+        android:text="@string/post_something"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!--  <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="8dp"
+          android:contentDescription="@string/extended_fab_content_desc"
+
+          app:icon="@drawable/ic_plus_24px"
+          app:layout_anchor="@id/app_bar"
+          app:layout_anchorGravity="bottom|right|end"/>-->
+
     <ProgressBar
         android:id="@+id/progress_loader"
-        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

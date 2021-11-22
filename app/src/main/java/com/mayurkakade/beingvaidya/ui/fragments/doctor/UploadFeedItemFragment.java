@@ -168,20 +168,23 @@ public class UploadFeedItemFragment extends Fragment {
 
         if (requestCode == ActivityDoctor.CAMERA_REQUEST_FEED) {
             // Get the Image from data
-            if (data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
-                numOfImages = count;
-                for (int i = 0; i < count; i++) {
-                    Uri imageurl = data.getClipData().getItemAt(i).getUri();
+
+            if(data != null) {
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount();
+                    numOfImages = count;
+                    for (int i = 0; i < count; i++) {
+                        Uri imageurl = data.getClipData().getItemAt(i).getUri();
+                        images_uri.add(new SliderItem(imageurl));
+                    }
+                } else {
+                    Uri imageurl = data.getData();
                     images_uri.add(new SliderItem(imageurl));
                 }
-            } else {
-                Uri imageurl = data.getData();
-                images_uri.add(new SliderItem(imageurl));
+                SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(requireContext());
+                sliderView.setSliderAdapter(sliderAdapterFeed);
+                sliderAdapterFeed.renewItems(images_uri);
             }
-            SliderAdapterFeed sliderAdapterFeed = new SliderAdapterFeed(requireContext());
-            sliderView.setSliderAdapter(sliderAdapterFeed);
-            sliderAdapterFeed.renewItems(images_uri);
 
         }
 
