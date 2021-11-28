@@ -63,7 +63,7 @@ public class StarredPatientsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         btn_add_patients = view.findViewById(R.id.btn_add_patients);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new PatientsAdapter(requireContext(), pList);
+        adapter = new PatientsAdapter(requireContext(), pList,true);
         recyclerView.setAdapter(adapter);
 
 

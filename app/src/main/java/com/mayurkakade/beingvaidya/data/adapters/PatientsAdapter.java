@@ -34,10 +34,12 @@ public class PatientsAdapter extends RecyclerView.Adapter<PatientsAdapter.ViewHo
     private final Context context;
     private List<PatientModel> pList = new ArrayList<>();
     public static final String TAG = "PatientsAdapter";
+    boolean mIsStarted = false;
 
-    public PatientsAdapter(Context context, List<PatientModel> pList) {
+    public PatientsAdapter(Context context, List<PatientModel> pList, boolean mIsStarted) {
         this.context = context;
         this.pList = pList;
+        this.mIsStarted = mIsStarted;
     }
 
     @NonNull
@@ -75,6 +77,7 @@ public class PatientsAdapter extends RecyclerView.Adapter<PatientsAdapter.ViewHo
                 args.putString("argEmail",pList.get(position).getEmail());
                 args.putString("argAddress",pList.get(position).getAddress());
                 args.putString("argDoctorId",pList.get(position).getDoctor_unique_id());
+                args.putBoolean("mIsStarted",mIsStarted);
                 navController.navigate(R.id.action_patientsFragment_to_patientDetailsFragment,args);
             }
         });

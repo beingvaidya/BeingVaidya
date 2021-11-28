@@ -111,10 +111,12 @@ public class PatientDetailsFragment extends Fragment {
         tv_phone.setText("Phone no :"+getArguments().getString("argPhoneNo"));
         tv_email.setText("Email :"+getArguments().getString("argEmail"));
         tv_address.setText("Address :"+getArguments().getString("argAddress"));
+        isStarted  =  getArguments().getBoolean("mIsStarted");
     }
 
         return view;
     }
+    boolean isStarted =false;
 
     private MyViewModel mViewModel;
     @Override
@@ -239,12 +241,18 @@ public class PatientDetailsFragment extends Fragment {
         switchStarPatient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isFirstTime){
-                    isFirstTime = false;
+                if(isStarted){
+                    if(isFirstTime){
+                        isFirstTime = false;
+                    }else {
+                        ProgressUtils progressUtils = ProgressUtils.getInstance(requireContext());
+                        progressUtils.showProgress("Please Wait", "Updating Starred Status");
+                        mViewModel.setStarPatientOrNot(switchStarPatient, getArguments().getString("argPhoneNo"), isChecked, progressUtils);
+                    }
                 }else {
-                    ProgressUtils progressUtils = ProgressUtils.getInstance(requireContext());
-                    progressUtils.showProgress("Please Wait", "Updating Starred Status");
-                    mViewModel.setStarPatientOrNot(switchStarPatient, getArguments().getString("argPhoneNo"), isChecked, progressUtils);
+                        ProgressUtils progressUtils = ProgressUtils.getInstance(requireContext());
+                        progressUtils.showProgress("Please Wait", "Updating Starred Status");
+                        mViewModel.setStarPatientOrNot(switchStarPatient, getArguments().getString("argPhoneNo"), isChecked, progressUtils);
                 }
             }
         });

@@ -53,7 +53,7 @@ public class NonStarredPatientsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_non_starred_patients, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new PatientsAdapter(requireContext(),pList);
+        adapter = new PatientsAdapter(requireContext(),pList,false);
         recyclerView.setAdapter(adapter);
 
         search = view.findViewById(R.id.et_search);
