@@ -4,14 +4,24 @@ public class PdfModel extends DocId {
     String title;
     String downloadUrl;
     boolean isPurchased;
+    String thumbnail;
 
     public PdfModel() {
     }
 
-    public PdfModel(String downloadUrl, String title, boolean isPurchased) {
+    public PdfModel(String downloadUrl, String title, boolean isPurchased,String thumbnail) {
         this.title = title;
         this.downloadUrl = downloadUrl;
         this.isPurchased = isPurchased;
+        this.thumbnail = thumbnail;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public boolean isPurchased() {

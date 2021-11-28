@@ -2,7 +2,6 @@ package com.mayurkakade.beingvaidya.data.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +23,6 @@ import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.LearningModel;
 import com.mayurkakade.beingvaidya.data.models.LocalLearningModel;
 import com.mayurkakade.beingvaidya.data.models.SubscriptionModel;
-import com.mayurkakade.beingvaidya.ui.activities.SubscriptionsActivity;
 import com.mayurkakade.beingvaidya.ui.fragments.doctor.LearningFragment;
 
 import java.util.List;
@@ -73,16 +71,16 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         }
 
 
-        if(localLearningList.get(position).isPurchase()){
+        if (localLearningList.get(position).isPurchase()) {
             holder.bt_preview.setVisibility(View.GONE);
             holder.bt_purchase.setText("Open");
             holder.bt_purchase.setVisibility(View.VISIBLE);
-        }else {
-            if(localLearningList.get(position).getLearningModel().getPrice() == 0){
+        } else {
+            if (localLearningList.get(position).getLearningModel().getPrice() == 0) {
                 holder.bt_preview.setVisibility(View.GONE);
                 holder.bt_purchase.setText("Open");
                 holder.bt_purchase.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.bt_preview.setVisibility(View.VISIBLE);
                 holder.bt_purchase.setVisibility(View.VISIBLE);
             }
@@ -128,10 +126,11 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
 
     }
 
-    private void openPdfs(String docId, boolean isPurchased) {
+    private void openPdfs(String docId, boolean isPurchased , String thumbnail) {
         NavController navController = Navigation.findNavController(((Activity) context), R.id.doctors_nav_host);
         Bundle args = new Bundle();
         args.putString("docId", docId);
+        args.putString("thumbnail", thumbnail);
         args.putBoolean("is_purchased", isPurchased);
         navController.navigate(R.id.action_learningFragment_to_pdfListFragment, args);
     }
@@ -196,13 +195,13 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             bt_purchase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(localLearningList.get(getLayoutPosition()).isPurchase()){
-                        openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true);
-                    }else {
-                        if(localLearningList.get(getLayoutPosition()).getLearningModel().getPrice() == 0){
-                            openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true);
+                    if (localLearningList.get(getLayoutPosition()).isPurchase()) {
+                        openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true,localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
+                    } else {
+                        if (localLearningList.get(getLayoutPosition()).getLearningModel().getPrice() == 0) {
+                            openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true,localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
 
-                        }else {
+                        } else {
                             proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
                         }
                     }
@@ -224,7 +223,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             bt_preview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, false);
+                    openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, false,localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
                 }
             });
 

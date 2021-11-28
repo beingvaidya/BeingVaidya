@@ -9,6 +9,7 @@
     <string name="step2">2. Register as patient</string>
     <string name="step1">1. Tell your patients to install Being Vaidya App</string>
     <string name="post_something">Post Something</string>
+    <string name="txt_please_wait">Please wait</string>
 
     <array name="sp_gender">
         <item>Select Gender</item>
@@ -26,4 +27,6 @@
         <item>BNYS</item>
         <item>MD/MS</item>
     </array>
+    <string name="str_error_permission">The app was not allowed to read or write to your storage. Hence, it cannot function properly. Please consider granting it this permission</string>
+
 </resources>

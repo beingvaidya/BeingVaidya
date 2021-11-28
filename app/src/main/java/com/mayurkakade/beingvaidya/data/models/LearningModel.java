@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp;
 
 public class LearningModel extends DocId {
     Timestamp currentTime;
-    String title, description,product_id;
+    String title, description,product_id , thumbnail;
     long price;
 
     public LearningModel() {
@@ -20,6 +20,14 @@ public class LearningModel extends DocId {
 
     public Timestamp getCurrentTime() {
         return currentTime;
+    }
+
+    public String getThumbnail() {
+        return thumbnail = "https://images-na.ssl-images-amazon.com/images/I/51Warh2mBVL.png";
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public void setCurrentTime(Timestamp currentTime) {

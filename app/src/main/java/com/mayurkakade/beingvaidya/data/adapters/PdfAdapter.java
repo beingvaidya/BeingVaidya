@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.mayurkakade.beingvaidya.R;
+import com.mayurkakade.beingvaidya.custom.SquareImageView;
 import com.mayurkakade.beingvaidya.data.models.PdfModel;
+import com.mayurkakade.beingvaidya.listener.onPDFOpen;
 import com.rajat.pdfviewer.PdfViewerActivity;
 import com.skyhope.showmoretextview.ShowMoreTextView;
 
@@ -27,10 +30,12 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
     public static final String TAG = "PDFADAPTER";
     private Context context;
     private List<PdfModel> pdfUrlList;
+    onPDFOpen listener ;
 
-    public PdfAdapter(Context context, List<PdfModel> pdfUrlList) {
+    public PdfAdapter(Context context, List<PdfModel> pdfUrlList , onPDFOpen callBack) {
         this.context = context;
         this.pdfUrlList = pdfUrlList;
+        this.listener = callBack;
     }
 
     @NonNull
@@ -42,7 +47,9 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         try {
-            getPdf(pdfUrlList.get(position).getDownloadUrl(), holder.pdfView);
+            // getPdf(pdfUrlList.get(position).getDownloadUrl(), holder.pdfView);
+            Glide.with(context)
+                    .load(pdfUrlList.get(position).getThumbnail()).into(holder.pdfView);
         } catch (NullPointerException e) {
             Log.d("pdfViewer", "onBindViewHolder: " + e.getMessage());
         }
@@ -77,7 +84,8 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        PDFView pdfView;
+        //        PDFView pdfView;
+        SquareImageView pdfView;
         //        TextView tv_description;
         ShowMoreTextView text_view_show_more;
 
@@ -96,8 +104,8 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (pdfUrlList.get(getLayoutPosition()).isPurchased()) {
-
-                        Log.e("Path: ", ""+pdfUrlList.get(getLayoutPosition()).getDownloadUrl());
+                        listener.onPath(pdfUrlList.get(getLayoutPosition()));
+                        /*Log.e("Path: ", "" + pdfUrlList.get(getLayoutPosition()).getDownloadUrl());
                         Log.d(TAG, "onBindViewHolder: " + "isPurchased");
                         try {
                             Intent intent = PdfViewerActivity.Companion.launchPdfFromUrl(           //PdfViewerActivity.Companion.launchPdfFromUrl(..   :: incase of JAVA
@@ -111,13 +119,9 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
                             context.startActivity(intent);
 
 
-
-
-
-
                         } catch (Exception e) {
                             Log.d("pdfViewer", "onBindViewHolder: " + e.getMessage());
-                        }
+                        }*/
                     } else {
                         Log.d(TAG, "onBindViewHolder: " + "NOT Purchased");
                     }

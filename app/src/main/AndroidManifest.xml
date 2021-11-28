@@ -45,6 +45,7 @@
         <activity android:name=".ui.activities.ActivityMyProfilePatients" />
         <activity android:name=".ui.activities.EditProfilePatients" />
         <activity android:name=".ui.activities.ActivityDoctor" />
+        <activity android:name=".ui.activities.PDFViewerActivity" />
         <activity android:name=".ui.activities.ImageViewPagerActivity" />
         <activity android:name=".ui.activities.ActivityPatient" />
         <activity android:name=".ui.activities.HowToAddPatientsActivity" />
@@ -86,6 +87,17 @@
         </service>
 
         <receiver android:name=".ui.fragments.patient.AlarmReceiver" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+
     </application>
 
 </manifest>
