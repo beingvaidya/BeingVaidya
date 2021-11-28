@@ -56,6 +56,7 @@ import com.mayurkakade.beingvaidya.data.models.FeedModel;
 import com.mayurkakade.beingvaidya.data.models.PatientModel;
 import com.mayurkakade.beingvaidya.data.models.PatientsCommunityImageModel;
 import com.mayurkakade.beingvaidya.data.models.SliderItem;
+import com.mayurkakade.beingvaidya.listener.UnSaveCalled;
 import com.mayurkakade.beingvaidya.notification.MessagingUtils;
 import com.mayurkakade.beingvaidya.ui.ProgressUtils;
 
@@ -729,6 +730,96 @@ public class MyViewModel {
             }
         });
     }
+
+
+    public void getMyPostsData(MyPostsAdapter adapter, List<FeedModel> fList , ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("Doctors/"+FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/MyFeeds")/*.orderBy("currentTime", Query.Direction.DESCENDING)*/.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        if (!task.getResult().isEmpty()) {
+                            Log.d(TAG, "onComplete: " + "success in task");
+                            for (DocumentChange doc : task.getResult().getDocumentChanges()) {
+                                Log.d(TAG, "onComplete: " + doc.getDocument().getId());
+                                firebaseFirestore.collection("DoctorsFeed").document(doc.getDocument().getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if (task.getResult().exists()) {
+                                                FeedModel feedModel = task.getResult().toObject(FeedModel.class).withId(task.getResult().getId());
+
+                                                getDoctorName(feedModel.getDoctor_id(),feedModel );
+                                                getNumberOfCommentsViews(feedModel.DocId, feedModel);
+                                                firebaseFirestore.collection("Doctors").document(feedModel.getDoctor_id()).get()
+                                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    if (task.getResult() != null) {
+                                                                        DoctorModel doctorModel = task.getResult().toObject(DoctorModel.class);
+                                                                        if (doctorModel != null) {
+
+                                                                            if (doctorModel.getPhone_no() != null) {
+                                                                                if (!doctorModel.getPhone_no().equals("") || !doctorModel.getPhone_no().equals("no_profile")) {
+                                                                                    feedModel.setDoctor_profile_photo(doctorModel.getProfile_url());
+//                                                                        Glide.with(context).load(doctorModel.getProfile_url()).into(holder.civ_profile);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                firebaseFirestore.collection("DoctorsFeed/" + feedModel.DocId + "/images").get()
+                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    List<SliderItem> local  = new ArrayList<>();
+                                                                    for (DocumentChange doc : task.getResult().getDocumentChanges()) {
+                                                                        local.add(new SliderItem(doc.getDocument().getString("img_url")));
+                                                                    }
+                                                                    feedModel.setmSliderItemsDoctor(local);
+
+                                                                }
+                                                            }
+                                                        });
+
+
+                                                fList.add(feedModel);
+
+                                            }
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if(adapter != null && progressBar != null) {
+                                                        progressBar.setVisibility(View.GONE);
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                }
+                                            }, 1000);
+                                        } else {
+                                            progressBar.setVisibility(View.GONE);
+                                            Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
+                }
+            }
+        });
+    }
+
+
     public void getAllPostsFeed(FeedAdapter adapter, List<FeedModel> fList , ProgressBar  progress_loader, RecyclerView recyclerView) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("DoctorsFeed").orderBy("currentTime", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -821,10 +912,10 @@ public class MyViewModel {
     }
 
 
-    public void getMyPostsData(MyPostsAdapter adapter, List<FeedModel> fList , ProgressBar progressBar) {
-        progressBar.setVisibility(View.VISIBLE);
+    //aaa
+    public void getSavedPostsData(SavedPostsAdapter adapter, List<FeedModel> fList , ProgressBar  progress_loader, RecyclerView recyclerView) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseFirestore.collection("Doctors/"+FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/MyFeeds")/*.orderBy("currentTime", Query.Direction.DESCENDING)*/.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Doctors/"+FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/savedPosts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -839,7 +930,8 @@ public class MyViewModel {
                                         if (task.isSuccessful()) {
                                             if (task.getResult().exists()) {
                                                 FeedModel feedModel = task.getResult().toObject(FeedModel.class).withId(task.getResult().getId());
-
+                                                /*fList.add(feedModel);
+                                                adapter.notifyDataSetChanged();*/
                                                 getDoctorName(feedModel.getDoctor_id(),feedModel );
                                                 getNumberOfCommentsViews(feedModel.DocId, feedModel);
                                                 firebaseFirestore.collection("Doctors").document(feedModel.getDoctor_id()).get()
@@ -876,67 +968,39 @@ public class MyViewModel {
                                                                 }
                                                             }
                                                         });
-
-
                                                 fList.add(feedModel);
 
                                             }
 
-                                            new Handler().postDelayed(new Runnable() {
+                                            handler =  new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    if(adapter != null && progressBar != null) {
-                                                        progressBar.setVisibility(View.GONE);
+                                                    if(adapter != null && progress_loader != null && recyclerView != null) {
+                                                        progress_loader.setVisibility(View.GONE);
+                                                        recyclerView.setVisibility(View.VISIBLE);
                                                         adapter.notifyDataSetChanged();
                                                     }
                                                 }
                                             }, 1000);
-                                        } else {
-                                            progressBar.setVisibility(View.GONE);
-                                            Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
-                }
-            }
-        });
-    }
 
-    public void getSavedPostsData(SavedPostsAdapter adapter, List<FeedModel> fList) {
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseFirestore.collection("Doctors/"+FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()+"/savedPosts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult() != null) {
-                        if (!task.getResult().isEmpty()) {
-                            Log.d(TAG, "onComplete: " + "success in task");
-                            for (DocumentChange doc : task.getResult().getDocumentChanges()) {
-                                Log.d(TAG, "onComplete: " + doc.getDocument().getId());
-                                firebaseFirestore.collection("DoctorsFeed").document(doc.getDocument().getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            if (task.getResult().exists()) {
-                                                FeedModel feedModel = task.getResult().toObject(FeedModel.class).withId(task.getResult().getId());
-                                                fList.add(feedModel);
-                                                adapter.notifyDataSetChanged();
-                                            }
+
+
                                         } else {
+                                            progress_loader.setVisibility(View.GONE);
+                                            recyclerView.setVisibility(View.GONE);
                                             Log.d(TAG, "onComplete: " + task.getException().getMessage());
                                         }
                                     }
                                 });
                             }
+                        }else {
+                            progress_loader.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.GONE);
                         }
                     }
                 } else {
+                    progress_loader.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                     Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
             }

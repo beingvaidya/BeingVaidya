@@ -99,7 +99,7 @@ public class FeedFragment extends Fragment {
     private void filterResults(String query) {
         List<FeedModel> filteredList = new ArrayList<>();
         for (FeedModel model : fList) {
-            if (model.getTitle().toLowerCase().contains(query.toLowerCase())) {
+            if (model.getTitle() != null && model.getTitle().toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(model);
             }
         }

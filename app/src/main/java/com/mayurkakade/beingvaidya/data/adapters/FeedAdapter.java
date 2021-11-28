@@ -269,7 +269,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                             @Override
                             public void run() {
                                 try {
-                                    URL url = new URL(feedModel.getImg_url());
+                                    String pathImage = "";
+                                    if(feedModel.getImg_url() == null || feedModel.getImg_url().equalsIgnoreCase("no_image")){
+                                        pathImage = feedModel.getmSliderItemsDoctor().get(0).getUrl();
+                                    }else {
+                                        pathImage = feedModel.getImg_url();
+                                    }
+                                    URL url = new URL(pathImage);
                                     Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
                                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();

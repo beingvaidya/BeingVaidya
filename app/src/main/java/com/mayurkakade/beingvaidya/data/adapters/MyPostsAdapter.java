@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +37,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mayurkakade.beingvaidya.BuildConfig;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.DoctorModel;
 import com.mayurkakade.beingvaidya.data.models.FeedModel;
@@ -275,12 +278,60 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    URL url = new URL(feedModel.getImg_url());
+                                    String pathImage = "";
+                                    if(feedModel.getImg_url() == null || feedModel.getImg_url().equalsIgnoreCase("no_image")){
+                                        pathImage = feedModel.getmSliderItemsDoctor().get(0).getUrl();
+                                    }else {
+                                        pathImage = feedModel.getImg_url();
+                                    }
+                                    URL url = new URL(pathImage);
+                                    Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+                                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                                    String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Image", null);
+                                    Uri imageUri = Uri.parse(path);
+
+                                    Intent waIntent = new Intent(Intent.ACTION_SEND);
+                                    waIntent.setType("image/*");
+                                    waIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                                    waIntent.putExtra(Intent.EXTRA_TEXT, "Hey, check this awesome application ... \n\n https://play.google.com/store/apps/details?id="+ BuildConfig.APPLICATION_ID + "\n\n"+feedModel.getCaption());
+                                    context.startActivity(Intent.createChooser(waIntent, "Share with"));
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressUtils.hideProgress();
+                                        }
+                                    });
+
+
+                                } catch(IOException e) {
+                                    Log.e("Error FeedAdapter: " , ""+e.getMessage());
+                                    System.out.println(e);
+//                                    Toast.makeText(requi, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressUtils.hideProgress();
+                                }
+                            }
+                        }).start();
+
+
+
+                      /*  new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+//                                    URL url = new URL(feedModel.getImg_url());
+                                    String pathImage = "";
+                                    if(feedModel.getImg_url() == null || feedModel.getImg_url().equalsIgnoreCase("no_image")){
+                                        pathImage = feedModel.getmSliderItemsDoctor().get(0).getUrl();
+                                    }else {
+                                        pathImage = feedModel.getImg_url();
+                                    }
+                                    URL url = new URL(pathImage);
                                     Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
                                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -301,7 +352,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ViewHold
                             }
                         }).start();
 
-                        progressUtils.hideProgress();
+                        progressUtils.hideProgress();*/
                     } else {
                         Log.d(TAG, "onComplete: " + task.getException().getMessage());
                     }
