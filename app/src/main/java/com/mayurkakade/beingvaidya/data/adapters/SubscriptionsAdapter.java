@@ -3,7 +3,6 @@ package com.mayurkakade.beingvaidya.data.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,31 +14,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.SubscriptionModel;
+import com.mayurkakade.beingvaidya.listener.PurchasePlanCalled;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TimeZone;
 
 public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdapter.ViewHolder> {
     Context context;
     List<SubscriptionModel> subscriptionModelList;
     BillingProcessor bp;
+    PurchasePlanCalled listener ;
 
-    public SubscriptionsAdapter(Context context, List<SubscriptionModel> subscriptionModelList, BillingProcessor bp) {
+    public SubscriptionsAdapter(Context context, List<SubscriptionModel> subscriptionModelList, BillingProcessor bp , PurchasePlanCalled callback) {
         this.context = context;
         this.subscriptionModelList = subscriptionModelList;
         this.bp = bp;
+        this.listener = callback;
     }
 
     @NonNull
@@ -58,13 +51,13 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         String numberOfPatients = subscriptionModelList.get(position).getNumberOfPatients();
         holder.tv_number_of_patients.setText(numberOfPatients);
 
-       if(subscriptionModelList.get(position).isSelected()){
-           holder.bt_subscribe.setText("Subscribed");
-           holder.bt_subscribe.setBackgroundColor(Color.RED);
-       }else {
-           holder.bt_subscribe.setText("Subscribe");
-           holder.bt_subscribe.setBackgroundColor(context.getResources().getColor(R.color.green_700));
-       }
+        if (subscriptionModelList.get(position).isSelected()) {
+            holder.bt_subscribe.setText("Subscribed");
+            holder.bt_subscribe.setBackgroundColor(Color.RED);
+        } else {
+            holder.bt_subscribe.setText("Subscribe");
+            holder.bt_subscribe.setBackgroundColor(context.getResources().getColor(R.color.green_700));
+        }
 
     }
 
@@ -97,6 +90,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
 
 
         if (bp.isSubscriptionUpdateSupported()) {
+            listener.onPlan(subscriptionModel);
             bp.purchase((Activity) context, subscriptionModel.getSubscriptionId());
         }
     }
@@ -106,10 +100,11 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         return subscriptionModelList.size();
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_price;
         TextView tv_number_of_patients;
         Button bt_subscribe;
+
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             tv_price = itemView.findViewById(R.id.tv_price);
@@ -119,9 +114,9 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
             bt_subscribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!subscriptionModelList.get(getLayoutPosition()).isSelected()){
+                    if (!subscriptionModelList.get(getLayoutPosition()).isSelected()) {
                         subscribe(getLayoutPosition(), subscriptionModelList.get(getLayoutPosition()));
-                    }else {
+                    } else {
                         Toast.makeText(context, "You have already have this subscription", Toast.LENGTH_SHORT).show();
                     }
                 }
