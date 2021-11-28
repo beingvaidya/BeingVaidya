@@ -65,6 +65,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/bt_purchase"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -74,6 +75,7 @@
                 android:text="Purchase"/>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/bt_preview"
                 android:layout_width="0dp"
                 android:layout_weight="1"

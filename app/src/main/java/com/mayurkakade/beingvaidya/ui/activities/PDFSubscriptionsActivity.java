@@ -36,34 +36,26 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
 
         try {
             List<BillingHistoryRecord> purchaseHistory = bp.getPurchaseHistory(Constants.PRODUCT_TYPE_SUBSCRIPTION, null);
-
         } catch (BillingCommunicationException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void onBillingInitialized() {
         Log.d(TAG, "onBillingInitialized: ");
-
         if (bp.isSubscriptionUpdateSupported()) {
             progressBar.setVisibility(View.GONE);
             bp.purchase(this, getIntent().getStringExtra("code"));
         }
-
     }
 
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
         Log.d(TAG, "onProductPurchased: ");
-
-
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
-
-
     }
 
     @Override
@@ -77,7 +69,6 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_CANCELED,returnIntent);
         finish();
-
     }
 
     @Override

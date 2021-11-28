@@ -253,12 +253,12 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
                                         if (task.isSuccessful()) {
                                             if (task.getResult() != null) {
                                                 if (task.getResult().exists()) {
-                                                    finalLocalLearningModel.setPurchase(false);
-                                                } else {
                                                     finalLocalLearningModel.setPurchase(true);
+                                                } else {
+                                                    finalLocalLearningModel.setPurchase(false);
                                                 }
                                             } else {
-                                                finalLocalLearningModel.setPurchase(true);
+                                                finalLocalLearningModel.setPurchase(false);
                                             }
                                         }
                                     }

@@ -73,12 +73,21 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         }
 
 
-        if (!localLearningList.get(position).isPurchase() || String.valueOf(localLearningList.get(position).getLearningModel().getPrice()).equalsIgnoreCase("0")) {
+        if(localLearningList.get(position).isPurchase()){
             holder.bt_preview.setVisibility(View.GONE);
             holder.bt_purchase.setText("Open");
-        } else {
-            holder.bt_preview.setVisibility(View.VISIBLE);
+            holder.bt_purchase.setVisibility(View.VISIBLE);
+        }else {
+            if(localLearningList.get(position).getLearningModel().getPrice() == 0){
+                holder.bt_preview.setVisibility(View.GONE);
+                holder.bt_purchase.setText("Open");
+                holder.bt_purchase.setVisibility(View.VISIBLE);
+            }else {
+                holder.bt_preview.setVisibility(View.VISIBLE);
+                holder.bt_purchase.setVisibility(View.VISIBLE);
+            }
         }
+
 
         /*FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.collection("AdminPdfs/"+ localLearningList.get(position).getLearningModel().DocId+"/buyers")
@@ -187,7 +196,18 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             bt_purchase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!localLearningList.get(getLayoutPosition()).isPurchase()
+                    if(localLearningList.get(getLayoutPosition()).isPurchase()){
+                        openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true);
+                    }else {
+                        if(localLearningList.get(getLayoutPosition()).getLearningModel().getPrice() == 0){
+                            openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true);
+
+                        }else {
+                            proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
+                        }
+                    }
+
+                    /*if (!localLearningList.get(getLayoutPosition()).isPurchase()
                             || String.valueOf(localLearningList.get(getLayoutPosition()).getLearningModel().getPrice()).equalsIgnoreCase("0")
                     )
 
@@ -197,7 +217,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
                         proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
 //                        Intent intentSubscription = new Intent(context, SubscriptionsActivity.class);
 //                        context.startActivity(intentSubscription);
-                    }
+                    }*/
                 }
             });
 
