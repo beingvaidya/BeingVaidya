@@ -27,11 +27,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anjlab.android.iab.v3.BillingCommunicationException;
-import com.anjlab.android.iab.v3.BillingHistoryRecord;
 import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.Constants;
-import com.anjlab.android.iab.v3.TransactionDetails;
+import com.anjlab.android.iab.v3.PurchaseInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +50,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -92,12 +88,12 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         bp = new BillingProcessor(requireContext(), getString(R.string.google_play_license_key), this);
         bp.initialize();
 
-        try {
+        /*try {
             List<BillingHistoryRecord> purchaseHistory = bp.getPurchaseHistory(Constants.PRODUCT_TYPE_SUBSCRIPTION, null);
 
         } catch (BillingCommunicationException e) {
             e.printStackTrace();
-        }
+        }*/
 
         recyclerView = view.findViewById(R.id.recyclerView);
         progress_loader = view.findViewById(R.id.progress_loader);
@@ -173,12 +169,12 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
                 });
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }*/
 
     @Override
     public void onDestroy() {
@@ -278,7 +274,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
                                             @Override
                                             public int compare(Object softDrinkOne, Object softDrinkTwo) {
                                                 //use instanceof to verify the references are indeed of the type in question
-                                                return ((LocalLearningModel)softDrinkOne).getLearningModel().getTitle().toLowerCase().compareTo(((LocalLearningModel)softDrinkTwo).getLearningModel().getTitle().toLowerCase());
+                                                return ((LocalLearningModel) softDrinkOne).getLearningModel().getTitle().toLowerCase().compareTo(((LocalLearningModel) softDrinkTwo).getLearningModel().getTitle().toLowerCase());
                                             }
                                         });
 
@@ -303,13 +299,6 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         mViewModel = new MyViewModel();
     }
 
-    @Override
-    public void onProductPurchased(@NotNull String productId, TransactionDetails details) {
-        Log.d(TAG, "onProductPurchased: ");
-        if (details != null) {
-            addProductToUser(productId, details.purchaseInfo.purchaseData.developerPayload);
-        }
-    }
 
     public void addToSub(String mproductId, String mdeveloperPayload) {
         developerPayload = mdeveloperPayload;
@@ -354,6 +343,14 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
             }
         });
 
+    }
+
+    @Override
+    public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
+        Log.d(TAG, "onProductPurchased: ");
+        if (details != null) {
+            addProductToUser(productId, details.purchaseData.developerPayload);
+        }
     }
 
     @Override

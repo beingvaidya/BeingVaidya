@@ -7,14 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.anjlab.android.iab.v3.BillingCommunicationException;
+
 import com.anjlab.android.iab.v3.BillingHistoryRecord;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
-import com.anjlab.android.iab.v3.TransactionDetails;
+import com.anjlab.android.iab.v3.PurchaseInfo;
 import com.mayurkakade.beingvaidya.R;
 
 import java.util.List;
@@ -34,11 +35,11 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         bp = new BillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
 
-        try {
+        /*try {
             List<BillingHistoryRecord> purchaseHistory = bp.getPurchaseHistory(Constants.PRODUCT_TYPE_SUBSCRIPTION, null);
         } catch (BillingCommunicationException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -50,8 +51,10 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         }
     }
 
+
+
     @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
+    public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
         Log.d(TAG, "onProductPurchased: ");
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_OK,returnIntent);
@@ -71,12 +74,12 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         finish();
     }
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }*/
 
     @Override
     protected void onDestroy() {

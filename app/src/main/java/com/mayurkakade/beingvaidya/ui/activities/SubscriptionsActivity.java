@@ -12,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anjlab.android.iab.v3.BillingCommunicationException;
+
 import com.anjlab.android.iab.v3.BillingHistoryRecord;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
-import com.anjlab.android.iab.v3.TransactionDetails;
+import com.anjlab.android.iab.v3.PurchaseInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,12 +59,12 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         bp = new BillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
 
-        try {
+       /* try {
             List<BillingHistoryRecord> purchaseHistory = bp.getPurchaseHistory(Constants.PRODUCT_TYPE_SUBSCRIPTION, null);
 
         } catch (BillingCommunicationException e) {
             e.printStackTrace();
-        }
+        }*/
 
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
@@ -192,11 +192,7 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         setSubscriptions();
     }
 
-    @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
-        Log.d(TAG, "onProductPurchased: ");
-        onPurchaseDone();
-    }
+
 
     private void onPurchaseDone() {
         Map<String, Object> params = new HashMap<>();
@@ -228,6 +224,12 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
     }
 
     @Override
+    public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
+        Log.d(TAG, "onProductPurchased: ");
+        onPurchaseDone();
+    }
+
+    @Override
     public void onPurchaseHistoryRestored() {
         Log.d(TAG, "onPurchaseHistoryRestored: ");
     }
@@ -237,12 +239,12 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         Log.d(TAG, "onBillingError: ");
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    }*/
 
     @Override
     protected void onDestroy() {
