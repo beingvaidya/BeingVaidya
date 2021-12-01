@@ -56,7 +56,7 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         initScreen();
     }
     public void initScreen(){
-        bp = new BillingProcessor(this, getString(R.string.google_play_license_key), this);
+        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
 
        /* try {
@@ -246,17 +246,20 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         }
     }*/
 
-    @Override
-    protected void onDestroy() {
-        if (bp != null) {
-            bp.release();
-        }
-        super.onDestroy();
-    }
+
 
     interface ReturnString {
         void onSuccess(String subscriptionId);
 
         void onFailure(String freeSubscriptionId);
     }
+
+    @Override
+    public void onDestroy() {
+        if (bp != null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
+
 }

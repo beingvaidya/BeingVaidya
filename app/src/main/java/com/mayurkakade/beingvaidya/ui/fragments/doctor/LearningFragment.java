@@ -85,7 +85,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
 //        bp = new BillingProcessor(, getString(R.string.google_play_license_key), this);
 //        bp.initialize();
 
-        bp = new BillingProcessor(requireContext(), getString(R.string.google_play_license_key), this);
+        bp = BillingProcessor.newBillingProcessor(requireContext(), getString(R.string.google_play_license_key), this);
         bp.initialize();
 
         /*try {
@@ -222,6 +222,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         firebaseFirestore.collection("AdminPdfs").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                localLearningList.clear();
                 if (isAdded() && getContext() != null) {
                     if (task.isSuccessful()) {
                         if (!Objects.requireNonNull(task.getResult()).isEmpty()) {
@@ -360,7 +361,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
 
     @Override
     public void onBillingError(int errorCode, Throwable error) {
-        Log.d(TAG, "onBillingError: ");
+        Log.d(TAG, "onBillingError: "+error.getMessage());
         getPdfData();
     }
 

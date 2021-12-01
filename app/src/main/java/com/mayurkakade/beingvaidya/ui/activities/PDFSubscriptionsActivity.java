@@ -32,7 +32,7 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         setContentView(R.layout.activity_blank);
         progressBar =findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        bp = new BillingProcessor(this, getString(R.string.google_play_license_key), this);
+        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
 
         /*try {

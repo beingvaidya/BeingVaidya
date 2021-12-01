@@ -84,7 +84,7 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 
-        bp = new BillingProcessor(this, getString(R.string.google_play_license_key), this);
+        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
 
         ImageView iv_notifications = findViewById(R.id.iv_notifications);
@@ -432,7 +432,7 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
     public void onBillingInitialized() {
         if (bp.isPurchased(Config.Subscriptions.freePlanSubscriptionId)) {
             updateSubscription(Config.Subscriptions.freePlanSubscriptionId);
-//            TransactionDetails subscriptionTransactionDetails = bp.getSubscriptionTransactionDetails(Config.Subscriptions.freePlanSubscriptionId);
+            /*TransactionDetails subscriptionTransactionDetails =*/ bp.getSubscriptionPurchaseInfo(Config.Subscriptions.freePlanSubscriptionId);
         } else if (bp.isPurchased(Config.Subscriptions.yearlyUnlimitedPlanSubscriptionId)) {
             updateSubscription(Config.Subscriptions.yearlyUnlimitedPlanSubscriptionId);
         } else if (bp.isPurchased(Config.Subscriptions.halfYearlyUnlimitedPlanSubscriptionId)) {
