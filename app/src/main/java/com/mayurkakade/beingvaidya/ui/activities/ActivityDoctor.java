@@ -367,4 +367,12 @@ public class ActivityDoctor extends AppCompatActivity  implements BillingProcess
             }
         });*/
     }
+
+    @Override
+    protected void onDestroy() {
+        if (bp!=null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
 }

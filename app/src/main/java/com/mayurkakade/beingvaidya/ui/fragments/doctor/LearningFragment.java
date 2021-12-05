@@ -249,4 +249,12 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
     @Override
     public void onBillingInitialized() {
     }
+
+    @Override
+    public void onDestroy() {
+        if (bp!=null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
 }
