@@ -34,7 +34,6 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         progressBar.setVisibility(View.VISIBLE);
         bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
-
         /*try {
             List<BillingHistoryRecord> purchaseHistory = bp.getPurchaseHistory(Constants.PRODUCT_TYPE_SUBSCRIPTION, null);
         } catch (BillingCommunicationException e) {

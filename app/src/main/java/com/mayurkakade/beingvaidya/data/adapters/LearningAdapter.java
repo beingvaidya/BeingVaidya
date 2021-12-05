@@ -18,12 +18,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.LearningModel;
 import com.mayurkakade.beingvaidya.data.models.LocalLearningModel;
-import com.mayurkakade.beingvaidya.data.models.SubscriptionModel;
-import com.mayurkakade.beingvaidya.ui.fragments.doctor.LearningFragment;
+import com.mayurkakade.beingvaidya.listener.onPDFPurchase;
 
 import java.util.List;
 
@@ -31,17 +29,14 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
 
     public static final String TAG = "LearningAdapter";
     private final Context context;
-    private final BillingProcessor bp;
-    private final LearningFragment learningFragment;
     public List<LocalLearningModel> localLearningList;
     SharedPreferences.Editor editor;
-    private List<LearningModel> learningList;
+    onPDFPurchase listener;
 
-    public LearningAdapter(Context context, List<LocalLearningModel> localLearningList, BillingProcessor bp, LearningFragment learningFragment) {
+    public LearningAdapter(Context context, List<LocalLearningModel> localLearningList, onPDFPurchase callback) {
         this.context = context;
         this.localLearningList = localLearningList;
-        this.bp = bp;
-        this.learningFragment = learningFragment;
+        this.listener = callback;
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("StarLearningItems", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -126,7 +121,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
 
     }
 
-    private void openPdfs(String docId, boolean isPurchased , String thumbnail) {
+    private void openPdfs(String docId, boolean isPurchased, String thumbnail) {
         NavController navController = Navigation.findNavController(((Activity) context), R.id.doctors_nav_host);
         Bundle args = new Bundle();
         args.putString("docId", docId);
@@ -135,19 +130,22 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
         navController.navigate(R.id.action_learningFragment_to_pdfListFragment, args);
     }
 
+/*
 
     private void subscribe(int position, SubscriptionModel subscriptionModel) {
         if (bp.isSubscriptionUpdateSupported()) {
             bp.purchase((Activity) context, subscriptionModel.getSubscriptionId());
         }
     }
+*/
 
     public void proceedToPayments(LearningModel learningModel, String docId) {
 
 //        if (bp.isSubscriptionUpdateSupported()) {
 //            bp.purchase((Activity) context, learningModel.getProduct_id());
 //        }
-        learningFragment.addToSub(learningModel.getProduct_id(), docId);
+//        learningFragment.addToSub(learningModel.getProduct_id(), docId);
+        listener.onPath(learningModel.getProduct_id(), docId);
 //        learningFragment.addProductToUser(learningModel.getProduct_id(), docId);
     }
 
@@ -196,10 +194,10 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     if (localLearningList.get(getLayoutPosition()).isPurchase()) {
-                        openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true,localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
+                        openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true, localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
                     } else {
                         if (localLearningList.get(getLayoutPosition()).getLearningModel().getPrice() == 0) {
-                            openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true,localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
+                            openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, true, localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
 
                         } else {
                             proceedToPayments(localLearningList.get(getLayoutPosition()).getLearningModel(), localLearningList.get(getLayoutPosition()).getLearningModel().DocId);
@@ -223,7 +221,7 @@ public class LearningAdapter extends RecyclerView.Adapter<LearningAdapter.ViewHo
             bt_preview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, false,localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
+                    openPdfs(localLearningList.get(getLayoutPosition()).getLearningModel().DocId, false, localLearningList.get(getLayoutPosition()).getLearningModel().getThumbnail());
                 }
             });
 

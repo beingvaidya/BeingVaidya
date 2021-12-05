@@ -1,8 +1,6 @@
 package com.mayurkakade.beingvaidya.ui.fragments.doctor;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,10 +15,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,7 +35,6 @@ import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.adapters.LearningAdapter;
 import com.mayurkakade.beingvaidya.data.models.LearningModel;
 import com.mayurkakade.beingvaidya.data.models.LocalLearningModel;
-import com.mayurkakade.beingvaidya.ui.activities.PDFSubscriptionsActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,13 +47,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class LearningFragment extends Fragment implements BillingProcessor.IBillingHandler {
-    @Override
-    public void onDestroy() {
-        if (bp!=null) {
-            bp.release();
-        }
-        super.onDestroy();
-    }
     public static final String TAG = "learningFrag";
     BillingProcessor bp;
     boolean handler;
@@ -71,17 +57,15 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
     private LearningAdapter adapter;
     private EditText search;
     private ProgressBar progress_loader;
-    ActivityResultLauncher<Intent> purchaseResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        addProductToUser(productId, developerPayload);
-                    }
-                }
-            });
-    private MyViewModel mViewModel;
+
+
+    @Override
+    public void onDestroy() {
+        if (bp != null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +89,18 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         progress_loader = view.findViewById(R.id.progress_loader);
         progress_loader.setVisibility(View.VISIBLE);
         localLearningList = new ArrayList<>();
-        adapter = new LearningAdapter(requireContext(), localLearningList, bp, this);
+        adapter = new LearningAdapter(requireContext(), localLearningList, (mproductId, mdeveloperPayload) -> {
+            developerPayload = mdeveloperPayload;
+            productId = mproductId;
+            if (bp.isSubscriptionUpdateSupported()) {
+                bp.purchase(requireActivity(), productId);
+            }
+
+
+//            Intent intent = new Intent(requireContext(), PDFSubscriptionsActivity.class);
+//            intent.putExtra("code", mproductId);
+//            purchaseResultLauncher.launch(intent);
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
@@ -175,13 +170,25 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
                 });
     }
 
+
+    /*ActivityResultLauncher<Intent> purchaseResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        addProductToUser(productId, developerPayload);
+                    }
+                }
+            });*/
+
+
     /*@Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }*/
-
 
 
     private void filterResults(String query) {
@@ -294,23 +301,6 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new MyViewModel();
-    }
-
-
-    public void addToSub(String mproductId, String mdeveloperPayload) {
-        developerPayload = mdeveloperPayload;
-        productId = mproductId;
-
-        Intent intent = new Intent(requireContext(), PDFSubscriptionsActivity.class);
-        intent.putExtra("code", mproductId);
-        purchaseResultLauncher.launch(intent);
-//        addProductToUser(productId, developerPayload);
-
-    }
 
     public void addProductToUser(String productId, String developerPayload) {
         Map<String, Object> params = new HashMap<>();
@@ -350,7 +340,8 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
     public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
         Log.d(TAG, "onProductPurchased: ");
         if (details != null) {
-            addProductToUser(productId, details.purchaseData.developerPayload);
+//            addProductToUser(productId, details.purchaseData.developerPayload);
+            addProductToUser(productId, developerPayload);
         }
     }
 
@@ -361,8 +352,8 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
 
     @Override
     public void onBillingError(int errorCode, Throwable error) {
-        Log.d(TAG, "onBillingError: "+error.getMessage());
-        getPdfData();
+        Log.d(TAG, "onBillingError:");
+//        getPdfData();
     }
 
     @Override

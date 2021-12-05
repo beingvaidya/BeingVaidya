@@ -135,7 +135,7 @@ public class DoctorRegistration extends Fragment {
                                       //  Toast.makeText(requireContext(), "profile not null", Toast.LENGTH_SHORT).show();
                                         mViewModel.uploadProfileImage(profile_uri, uploadToStorageInterface, "profiles", requireContext());
                                     } else {
-                                        Toast.makeText(requireContext(), "no profile", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(requireContext(), "no profile", Toast.LENGTH_SHORT).show();
                                         mViewModel.storeDoctorToDb(name, degree,phone_no,email,qualification,university,pincode,"no_profile",requireContext());
                                     }
 
