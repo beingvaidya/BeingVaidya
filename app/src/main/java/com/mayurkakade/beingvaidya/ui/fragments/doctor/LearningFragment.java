@@ -54,7 +54,13 @@ import java.util.Map;
 import java.util.Objects;
 
 public class LearningFragment extends Fragment implements BillingProcessor.IBillingHandler {
-
+    @Override
+    public void onDestroy() {
+        if (bp!=null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
     public static final String TAG = "learningFrag";
     BillingProcessor bp;
     boolean handler;
@@ -176,13 +182,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         }
     }*/
 
-    @Override
-    public void onDestroy() {
-        if (bp != null) {
-            bp.release();
-        }
-        super.onDestroy();
-    }
+
 
     private void filterResults(String query) {
         List<LocalLearningModel> filteredList = new ArrayList<>();

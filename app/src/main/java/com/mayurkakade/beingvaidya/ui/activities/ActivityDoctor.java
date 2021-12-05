@@ -55,6 +55,15 @@ import java.util.List;
 
 public class ActivityDoctor extends AppCompatActivity implements BillingProcessor.IBillingHandler {
 
+
+    @Override
+    protected void onDestroy() {
+        if (bp!=null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
+    
     public static final int CAMERA_REQUEST_PRESCRIPTION = 101;
     public static final int CAMERA_REQUEST_REPORT = 102;
     public static final int MY_CAMERA_PERMISSION_CODE = 103;

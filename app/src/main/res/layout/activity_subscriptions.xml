@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Basic"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/textSize_16"
                         android:textStyle="bold" />
@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="2"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="@dimen/textSize_16"
                         android:textStyle="bold" />
