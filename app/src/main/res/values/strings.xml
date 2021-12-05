@@ -28,5 +28,7 @@
         <item>MD/MS</item>
     </array>
     <string name="str_error_permission">The app was not allowed to read or write to your storage. Hence, it cannot function properly. Please consider granting it this permission</string>
+    <string name="current_plan">Current Plan: </string>
+    <string name="patients_limit">Patients Limit: </string>
 
 </resources>

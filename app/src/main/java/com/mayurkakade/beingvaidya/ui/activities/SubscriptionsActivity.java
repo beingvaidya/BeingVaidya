@@ -1,10 +1,11 @@
 package com.mayurkakade.beingvaidya.ui.activities;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,10 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.anjlab.android.iab.v3.BillingHistoryRecord;
 import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.PurchaseInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,6 +45,8 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
     ProgressBar progressBar;
     SubscriptionModel subscriptionModel;
     private BillingProcessor bp;
+    private TextView tv_patient_limit;
+    private TextView tv_my_plan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,8 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
 
         initScreen();
     }
-    public void initScreen(){
+
+    public void initScreen() {
         bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
         bp.initialize();
 
@@ -67,6 +68,8 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         }*/
 
         progressBar = findViewById(R.id.progressBar);
+        tv_patient_limit = findViewById(R.id.tv_patient_limit);
+        tv_my_plan = findViewById(R.id.tv_my_plan);
         recyclerView = findViewById(R.id.recyclerView);
         subscriptionModelList = new ArrayList<>();
         adapter = new SubscriptionsAdapter(this, subscriptionModelList, bp, new PurchasePlanCalled() {
@@ -174,6 +177,18 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
                 subscriptionModelList.add(modelMonthlyFifteenPatients);
                 progressBar.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
+
+                for(int i = 0 ; i<subscriptionModelList.size() ; i++){
+                    if (subscriptionModelList.get(i).isSelected()) {
+
+                        String numberOfPatients = subscriptionModelList.get(i).getNumberOfPatients();
+                        tv_patient_limit.setText(numberOfPatients);
+                        String priceString = String.valueOf(subscriptionModelList.get(i).getPrice()) + " ₹ /" + subscriptionModelList.get(i).getSubscriptionPeriod();
+                        tv_my_plan.setText(priceString);
+
+                    }
+                }
+
             }
 
             @Override
@@ -191,7 +206,6 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         Log.d(TAG, "onBillingInitialized: ");
         setSubscriptions();
     }
-
 
 
     private void onPurchaseDone() {
@@ -246,20 +260,18 @@ public class SubscriptionsActivity extends AppCompatActivity implements BillingP
         }
     }*/
 
-
-
-    interface ReturnString {
-        void onSuccess(String subscriptionId);
-
-        void onFailure(String freeSubscriptionId);
-    }
-
     @Override
     public void onDestroy() {
         if (bp != null) {
             bp.release();
         }
         super.onDestroy();
+    }
+
+    interface ReturnString {
+        void onSuccess(String subscriptionId);
+
+        void onFailure(String freeSubscriptionId);
     }
 
 }
