@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -166,6 +167,13 @@ public class DoctorRegistration extends Fragment {
         civ_profile = view.findViewById(R.id.profile_image);
         et_name = view.findViewById(R.id.et_name);
         sp_degree = view.findViewById(R.id.sp_degree);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.sp_degree, R.layout.spinner_item);
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        sp_degree.setAdapter(adapter);
+
         et_phone_no = view.findViewById(R.id.et_phone_no);
         et_mail = view.findViewById(R.id.et_mail);
         et_qualification = view.findViewById(R.id.et_qualification);

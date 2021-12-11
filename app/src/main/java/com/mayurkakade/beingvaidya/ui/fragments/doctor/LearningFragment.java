@@ -75,7 +75,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
 //        bp = new BillingProcessor(, getString(R.string.google_play_license_key), this);
 //        bp.initialize();
 
-        bp = BillingProcessor.newBillingProcessor(requireContext(), getString(R.string.google_play_license_key), this);
+        bp = BillingProcessor.newBillingProcessor(requireContext(), requireActivity().getString(R.string.google_play_license_key), this);
         bp.initialize();
 
         /*try {
@@ -92,6 +92,7 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
         adapter = new LearningAdapter(requireContext(), localLearningList, (mproductId, mdeveloperPayload) -> {
             developerPayload = mdeveloperPayload;
             productId = mproductId;
+//            if (((ActivityDoctor)getActivity()).getBillingProcessor().isSubscriptionUpdateSupported()) {
             if (bp.isSubscriptionUpdateSupported()) {
                 bp.purchase(requireActivity(), productId);
             }
@@ -339,10 +340,10 @@ public class LearningFragment extends Fragment implements BillingProcessor.IBill
     @Override
     public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
         Log.d(TAG, "onProductPurchased: ");
-        if (details != null) {
+//        if (details != null) {
 //            addProductToUser(productId, details.purchaseData.developerPayload);
-            addProductToUser(productId, developerPayload);
-        }
+        addProductToUser(productId, developerPayload);
+//        }
     }
 
     @Override

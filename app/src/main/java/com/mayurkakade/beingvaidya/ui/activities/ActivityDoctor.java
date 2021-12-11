@@ -53,16 +53,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActivityDoctor extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+public class ActivityDoctor extends AppCompatActivity /*implements BillingProcessor.IBillingHandler*/ {
 
-
+/*
     @Override
     protected void onDestroy() {
         if (bp!=null) {
             bp.release();
         }
         super.onDestroy();
-    }
+    }*/
     
     public static final int CAMERA_REQUEST_PRESCRIPTION = 101;
     public static final int CAMERA_REQUEST_REPORT = 102;
@@ -82,7 +82,11 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
     String token;
     OnUpdateToken onUpdateToken;
     List<NotificationModel> notificationList = new ArrayList<>();
-    private BillingProcessor bp;
+//    public BillingProcessor bp;
+
+    /*public BillingProcessor getBillingProcessor(){
+        return bp;
+    } */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +97,8 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 
-        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
-        bp.initialize();
+//        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
+//        bp.initialize();
 
         ImageView iv_notifications = findViewById(R.id.iv_notifications);
         iv_notifications.setOnClickListener(new View.OnClickListener() {
@@ -414,7 +418,7 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
     }
 
 
-    @Override
+  /*  @Override
     public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
 
     }
@@ -427,7 +431,7 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
     @Override
     public void onBillingError(int errorCode, Throwable error) {
 
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -437,11 +441,12 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
         }
     }
 
-    @Override
+
+    /*@Override
     public void onBillingInitialized() {
         if (bp.isPurchased(Config.Subscriptions.freePlanSubscriptionId)) {
             updateSubscription(Config.Subscriptions.freePlanSubscriptionId);
-            /*TransactionDetails subscriptionTransactionDetails =*/ bp.getSubscriptionPurchaseInfo(Config.Subscriptions.freePlanSubscriptionId);
+            *//*TransactionDetails subscriptionTransactionDetails =*//* bp.getSubscriptionPurchaseInfo(Config.Subscriptions.freePlanSubscriptionId);
         } else if (bp.isPurchased(Config.Subscriptions.yearlyUnlimitedPlanSubscriptionId)) {
             updateSubscription(Config.Subscriptions.yearlyUnlimitedPlanSubscriptionId);
         } else if (bp.isPurchased(Config.Subscriptions.halfYearlyUnlimitedPlanSubscriptionId)) {
@@ -455,7 +460,7 @@ public class ActivityDoctor extends AppCompatActivity implements BillingProcesso
         } else {
             updateSubscription(Config.Subscriptions.freePlanSubscriptionId);
         }
-    }
+    }*/
 
     private void updateSubscription(String planSubscriptionId) {
         /*Map<String,Object> params = new HashMap<>();
