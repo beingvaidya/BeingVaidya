@@ -3,10 +3,11 @@ package com.mayurkakade.beingvaidya.data.models;
 public class DoctorModel {
     String name,degree,phone_no,email,qualification,university,pincode,profile_url,bio,awards_and_honors,awards_and_honors_link,publication,publication_link,presentation,presentation_link,course,course_link;
 
+    int current_plan_patients = 5, total_patients = 5;
     public DoctorModel() {
     }
 
-    public DoctorModel(String name, String degree, String phone_no, String email, String qualification, String university, String pincode, String profile_url) {
+    public DoctorModel(String name, String degree, String phone_no, String email, String qualification, String university, String pincode, String profile_url ,int  current_plan_patients , int total_patients) {
         this.name = name;
         this.degree = degree;
         this.phone_no = phone_no;
@@ -15,9 +16,11 @@ public class DoctorModel {
         this.university = university;
         this.pincode = pincode;
         this.profile_url = profile_url;
+        this.current_plan_patients = current_plan_patients;
+        this.total_patients = total_patients;
     }
 
-    public DoctorModel(String name, String degree, String phone_no, String email, String qualification, String university, String pincode, String profile_url, String bio, String awards_and_honors, String awards_and_honors_link, String publication, String publication_link, String presentation, String presentation_link, String course, String course_link) {
+    public DoctorModel(String name, String degree, String phone_no, String email, String qualification, String university, String pincode, String profile_url, String bio, String awards_and_honors, String awards_and_honors_link, String publication, String publication_link, String presentation, String presentation_link, String course, String course_link,int  current_plan_patients , int total_patients) {
         this.name = name;
         this.degree = degree;
         this.phone_no = phone_no;
@@ -35,6 +38,24 @@ public class DoctorModel {
         this.presentation_link = presentation_link;
         this.course = course;
         this.course_link = course_link;
+        this.current_plan_patients = current_plan_patients;
+        this.total_patients = total_patients;
+    }
+
+    public int getCurrent_plan_patients() {
+        return current_plan_patients;
+    }
+
+    public void setCurrent_plan_patients(int current_plan_patients) {
+        this.current_plan_patients = current_plan_patients;
+    }
+
+    public int getTotal_patients() {
+        return total_patients;
+    }
+
+    public void setTotal_patients(int total_patients) {
+        this.total_patients = total_patients;
     }
 
     public String getBio() {

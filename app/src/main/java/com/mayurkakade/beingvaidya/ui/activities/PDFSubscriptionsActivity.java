@@ -12,18 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.anjlab.android.iab.v3.BillingHistoryRecord;
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.Constants;
-import com.anjlab.android.iab.v3.PurchaseInfo;
+//import com.anjlab.android.iab.v3.BillingHistoryRecord;
+//import com.anjlab.android.iab.v3.BillingProcessor;
+//import com.anjlab.android.iab.v3.Constants;
+//import com.anjlab.android.iab.v3.PurchaseInfo;
 import com.mayurkakade.beingvaidya.R;
 
 import java.util.List;
 
-public class PDFSubscriptionsActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+public class PDFSubscriptionsActivity extends AppCompatActivity /*implements BillingProcessor.IBillingHandler*/ {
 
     public static final String TAG = "billing_PDF";
-    private BillingProcessor bp;
+//    private BillingProcessor bp;
      ProgressBar progressBar;
 
     @Override
@@ -32,14 +32,15 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         setContentView(R.layout.activity_blank);
         progressBar =findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
-        bp.initialize();
+//        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
+//        bp.initialize();
         /*try {
             List<BillingHistoryRecord> purchaseHistory = bp.getPurchaseHistory(Constants.PRODUCT_TYPE_SUBSCRIPTION, null);
         } catch (BillingCommunicationException e) {
             e.printStackTrace();
         }*/
     }
+/*
 
     @Override
     public void onBillingInitialized() {
@@ -49,18 +50,19 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
             bp.purchase(this, getIntent().getStringExtra("code"));
         }
     }
+*/
 
 
 
-    @Override
+    /*@Override
     public void onProductPurchased(@NonNull String productId, @Nullable PurchaseInfo details) {
         Log.d(TAG, "onProductPurchased: ");
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public void onPurchaseHistoryRestored() {
         Log.d(TAG, "onPurchaseHistoryRestored: ");
     }
@@ -71,7 +73,7 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_CANCELED,returnIntent);
         finish();
-    }
+    }*/
 
    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
@@ -82,9 +84,9 @@ public class PDFSubscriptionsActivity extends AppCompatActivity implements Billi
 
     @Override
     protected void onDestroy() {
-        if (bp != null) {
+        /*if (bp != null) {
             bp.release();
-        }
+        }*/
         super.onDestroy();
     }
 }

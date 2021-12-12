@@ -186,7 +186,8 @@ public class MainViewModel extends ViewModel {
         alertDialog.show();
     }
 
-    public void storeDoctorToDb(String name, String degree, String phone_no, String email, String qualification, String university, String pincode,String profileUrl, Context context) {
+    public void storeDoctorToDb(String name, String degree, String phone_no, String email, String qualification, String university, String pincode,String profileUrl, Context context,int current_plan_patients
+            , int total_patients) {
         OnQueryDataListener onQueryDataListener = new OnQueryDataListener() {
             @Override
             public void onSuccess() {
@@ -212,7 +213,7 @@ public class MainViewModel extends ViewModel {
             }
         };
 
-        DoctorModel doctorModel = new DoctorModel(name,degree,phone_no,email,qualification,university,pincode,profileUrl);
+        DoctorModel doctorModel = new DoctorModel(name,degree,phone_no,email,qualification,university,pincode,profileUrl,current_plan_patients,total_patients);
         Repository.addDoctorToSharedPrefs(doctorModel, context);
         Repository.addDoctor(doctorModel,onQueryDataListener);
 

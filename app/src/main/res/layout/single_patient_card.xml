@@ -23,12 +23,29 @@
             android:layout_margin="12dp"
             android:text="1"/>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civ_profile"
+        <RelativeLayout
             android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/doctor_png" />
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/doctor_png" />
+
+            <ImageView
+                android:visibility="gone"
+                android:padding="@dimen/margin_8"
+                android:layout_centerInParent="true"
+                android:id="@+id/ivLock"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_lock" />
+
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"

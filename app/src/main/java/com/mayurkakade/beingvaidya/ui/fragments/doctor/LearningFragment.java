@@ -530,21 +530,22 @@ public class LearningFragment extends Fragment /*implements BillingProcessor.IBi
         progress_loader.setVisibility(View.GONE);
         if (billingResult.getResponseCode() == OK && purchases != null && purchases.size() > 0) {
             Log.d("TAG", "onPurchasesUpdated() response: " + billingResult.getResponseCode());
-            for (int p = 0; p < purchases.size(); p++) {
-                handlePurchase(purchases.get(p));
-            }
+//            for (int p = 0; p < purchases.size(); p++) {
+                handlePurchase(purchases.get(0));
+//            }
         } else { // Failed payment or cancel payment
-            if (billingResult.getResponseCode() == 7) {
+           /* if (billingResult.getResponseCode() == 7) {
                 Toast.makeText(requireActivity(), "You are already subscribed with another user. Please login with the subscribed user.", Toast.LENGTH_SHORT).show();
-            } else {
+            } else {*/
                 Toast.makeText(requireActivity(), !TextUtils.isEmpty(billingResult.getDebugMessage()) ? billingResult.getDebugMessage() : "Subscription Failed, Try again.", Toast.LENGTH_SHORT).show();
-            }
+//            }
             isBillingReady = false;
-            mBillingClient.endConnection();
-            mBillingClient = null;
-            purchaseHistoryList = null;
+            if(mBillingClient != null){
+                mBillingClient.endConnection();
+            }
+            /*purchaseHistoryList = null;
             currPurchase = null;
-            playStoreSkuDetailsList.clear();
+            playStoreSkuDetailsList.clear();*/
         }
     }
 
@@ -562,6 +563,7 @@ public class LearningFragment extends Fragment /*implements BillingProcessor.IBi
     public void handleConsumableProduct(Purchase purchase) {
 
         if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+
             if (!purchase.isAcknowledged()) {
                 AcknowledgePurchaseParams acknowledgePurchaseParams =
                         AcknowledgePurchaseParams.newBuilder()
@@ -573,13 +575,25 @@ public class LearningFragment extends Fragment /*implements BillingProcessor.IBi
 
                         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             // doPurchaseNextStep(purchase);
+                            isBillingReady = false;
+                            if(mBillingClient != null){
+                                mBillingClient.endConnection();
+                            }
                             addProductToUser(productId, developerPayload);
                             //Toast.makeText(requireActivity(), "doPurchaseNextStep", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                 });
+            }else {
+                isBillingReady = false;
+                if(mBillingClient != null){
+                    mBillingClient.endConnection();
+                }
+                addProductToUser(productId, developerPayload);
             }
+
+
         }else {
             Toast.makeText(requireActivity(), "Failed : "+ purchase.getPurchaseState(), Toast.LENGTH_SHORT).show();
         }

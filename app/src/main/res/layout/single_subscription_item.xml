@@ -34,7 +34,6 @@
             android:text="Unlimited Patients" />
 
         <Button
-
             android:id="@+id/bt_subscribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

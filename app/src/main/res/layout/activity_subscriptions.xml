@@ -87,6 +87,32 @@
                 </LinearLayout>
 
 
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:id="@+id/lin_hold_restore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/tv_hold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin_16"
+                        android:text="Hold" />
+
+
+                    <Button
+                        android:id="@+id/tv_restore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin_16"
+                        android:text="Restore" />
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
 

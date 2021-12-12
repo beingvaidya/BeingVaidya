@@ -3,6 +3,7 @@ package com.mayurkakade.beingvaidya.data.models;
 public class PatientModel {
     String name = "",phone_no,email,address,doctor_unique_id,profile_url;
     int age;
+    boolean isLocked = false;
 
     public PatientModel() {
     }
@@ -24,6 +25,14 @@ public class PatientModel {
         this.doctor_unique_id = doctor_unique_id;
         this.profile_url = profile_url;
         this.age = age;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
     }
 
     public String getProfile_url() {

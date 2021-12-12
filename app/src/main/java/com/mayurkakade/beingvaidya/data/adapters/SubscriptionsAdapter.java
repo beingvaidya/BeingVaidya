@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
+//import com.anjlab.android.iab.v3.BillingProcessor;
 import com.mayurkakade.beingvaidya.R;
 import com.mayurkakade.beingvaidya.data.models.SubscriptionModel;
 import com.mayurkakade.beingvaidya.listener.PurchasePlanCalled;
@@ -25,13 +25,13 @@ import java.util.List;
 public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdapter.ViewHolder> {
     Context context;
     List<SubscriptionModel> subscriptionModelList;
-    BillingProcessor bp;
+//    BillingProcessor bp;
     PurchasePlanCalled listener ;
 
-    public SubscriptionsAdapter(Context context, List<SubscriptionModel> subscriptionModelList, BillingProcessor bp , PurchasePlanCalled callback) {
+    public SubscriptionsAdapter(Context context, List<SubscriptionModel> subscriptionModelList, /*BillingProcessor bp ,*/ PurchasePlanCalled callback) {
         this.context = context;
         this.subscriptionModelList = subscriptionModelList;
-        this.bp = bp;
+//        this.bp = bp;
         this.listener = callback;
     }
 
@@ -89,10 +89,12 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         });*/
 
 
-        if (bp.isSubscriptionUpdateSupported()) {
+        /*if (bp.isSubscriptionUpdateSupported()) {
             listener.onPlan(subscriptionModel);
             bp.purchase((Activity) context, subscriptionModel.getSubscriptionId());
-        }
+        }*/
+        listener.onPlan(subscriptionModel);
+
     }
 
     @Override
@@ -114,7 +116,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
             bt_subscribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!subscriptionModelList.get(getLayoutPosition()).isSelected()) {
+                    if (!subscriptionModelList.get(getLayoutPosition()).isSelected() ) {
                         subscribe(getLayoutPosition(), subscriptionModelList.get(getLayoutPosition()));
                     } else {
                         Toast.makeText(context, "You have already have this subscription", Toast.LENGTH_SHORT).show();

@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.barteksc.pdfviewer.util.Constants;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.mayurkakade.beingvaidya.Config;
@@ -52,6 +53,7 @@ public class DoctorRegistration extends Fragment {
     private Spinner sp_degree;
     private Button bt_submit;
     private String name,degree,phone_no,email,qualification,university,pincode;
+    private int current_plan_patients ,total_patients;
     private View view;
     private Uri profile_uri = null;
     private CircleImageView civ_profile;
@@ -112,7 +114,10 @@ public class DoctorRegistration extends Fragment {
     private void getDataFromViews() {
         //name
         if (!TextUtils.isEmpty(et_name.getText())) {
+            current_plan_patients = Constants.CurrentPlanPatients;
+            total_patients =Constants.CurrentPlanPatients;
             name = et_name.getText().toString();
+
             //select dr ug pg
             if (!sp_degree.getSelectedItem().toString().equals("Select Degree")) {
                 degree = sp_degree.getSelectedItem().toString();
@@ -137,7 +142,7 @@ public class DoctorRegistration extends Fragment {
                                         mViewModel.uploadProfileImage(profile_uri, uploadToStorageInterface, "profiles", requireContext());
                                     } else {
 //                                        Toast.makeText(requireContext(), "no profile", Toast.LENGTH_SHORT).show();
-                                        mViewModel.storeDoctorToDb(name, degree,phone_no,email,qualification,university,pincode,"no_profile",requireContext());
+                                        mViewModel.storeDoctorToDb(name, degree,phone_no,email,qualification,university,pincode,"no_profile",requireContext(),Constants.CurrentPlanPatients,Constants.TotalPatients);
                                     }
 
                                 } else {
@@ -204,7 +209,7 @@ public class DoctorRegistration extends Fragment {
 
             @Override
             public void onSuccess(Uri downloadUri,String field) {
-                mViewModel.storeDoctorToDb(name, degree,phone_no,email,qualification,university,pincode,downloadUri.toString(),requireContext());
+                mViewModel.storeDoctorToDb(name, degree,phone_no,email,qualification,university,pincode,downloadUri.toString(),requireContext(),current_plan_patients ,total_patients);
             }
 
             @Override

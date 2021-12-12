@@ -19,6 +19,8 @@ public class Constants {
 
     public static boolean DEBUG_MODE = false;
     public static String SUBSCRIPTION_SKU_ADS_FREE = "test12";
+    public static int CurrentPlanPatients = 5;
+    public static int TotalPatients = 5;
 
     /** Between 0 and 1, the thumbnails quality (default 0.3). Increasing this value may cause performance decrease */
     public static float THUMBNAIL_RATIO = 0.3f;

@@ -30,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.barteksc.pdfviewer.util.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -173,7 +174,7 @@ public class PatientRegistration extends Fragment {
                                     @Override
                                     public void onSuccess(String subscriptionId) {
                                         Log.d(TAG, "1 : onSuccess: " + subscriptionId);
-                                        int quota = 5;
+                                        int quota = Constants.CurrentPlanPatients;
                                         int validityInMonths = 1;
                                         switch (subscriptionId) {
                                             case Config.Subscriptions.freePlanSubscriptionId:

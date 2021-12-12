@@ -18,8 +18,8 @@ android {
         applicationId "com.ayur.beingvaidya"
         minSdkVersion 17
         targetSdkVersion 30
-        versionCode 20
-        versionName "2.8"
+        versionCode 21
+        versionName "2.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -66,7 +66,7 @@ dependencies {
     implementation 'com.github.CanHub:Android-Image-Cropper:3.0.1'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
-    implementation 'com.anjlab.android.iab.v3:library:2.0.3'
+//    implementation 'com.anjlab.android.iab.v3:library:2.0.3'
 
 //    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
     implementation 'com.github.afreakyelf:Pdf-Viewer:1.0.7'

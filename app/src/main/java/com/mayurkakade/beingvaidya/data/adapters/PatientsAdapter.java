@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,20 +66,31 @@ public class PatientsAdapter extends RecyclerView.Adapter<PatientsAdapter.ViewHo
             }
         }
 
+        if(mIsStarted && pList.get(position).isLocked()){
+         holder.ivLock.setVisibility(View.VISIBLE);
+        }else{
+            holder.ivLock.setVisibility(View.GONE);
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavController navController = Navigation.findNavController((Activity)context, R.id.doctors_nav_host);
-                Bundle args = new Bundle();
-                args.putString("argName",pList.get(position).getName());
-                args.putInt("argAge",pList.get(position).getAge());
-                args.putString("argPhoneNo",pList.get(position).getPhone_no());
-                args.putString("argEmail",pList.get(position).getEmail());
-                args.putString("argAddress",pList.get(position).getAddress());
-                args.putString("argDoctorId",pList.get(position).getDoctor_unique_id());
-                args.putBoolean("mIsStarted",mIsStarted);
-                navController.navigate(R.id.action_patientsFragment_to_patientDetailsFragment,args);
+                if(mIsStarted && pList.get(position).isLocked()){
+                    return;
+                }
+
+                    NavController navController = Navigation.findNavController((Activity) context, R.id.doctors_nav_host);
+                    Bundle args = new Bundle();
+                    args.putString("argName", pList.get(position).getName());
+                    args.putInt("argAge", pList.get(position).getAge());
+                    args.putString("argPhoneNo", pList.get(position).getPhone_no());
+                    args.putString("argEmail", pList.get(position).getEmail());
+                    args.putString("argAddress", pList.get(position).getAddress());
+                    args.putString("argDoctorId", pList.get(position).getDoctor_unique_id());
+                    args.putBoolean("mIsStarted", mIsStarted);
+                    navController.navigate(R.id.action_patientsFragment_to_patientDetailsFragment, args);
+
             }
         });
     }
@@ -103,12 +115,14 @@ public class PatientsAdapter extends RecyclerView.Adapter<PatientsAdapter.ViewHo
         TextView tv_patient_age;
         TextView tv_number;
         CircleImageView civ_profile;
+        ImageView ivLock;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_patient_name = itemView.findViewById(R.id.tv_patient_name);
             tv_patient_age = itemView.findViewById(R.id.tv_patient_age);
             tv_number = itemView.findViewById(R.id.tv_number);
             civ_profile = itemView.findViewById(R.id.civ_profile);
+            ivLock = itemView.findViewById(R.id.ivLock);
         }
     }
 }
