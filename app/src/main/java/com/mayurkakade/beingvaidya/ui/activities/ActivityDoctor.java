@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActivityDoctor extends AppCompatActivity /*implements BillingProcessor.IBillingHandler*/ {
+public class ActivityDoctor extends BaseActivity /*implements BillingProcessor.IBillingHandler*/ {
 
 /*
     @Override
@@ -89,13 +89,14 @@ public class ActivityDoctor extends AppCompatActivity /*implements BillingProces
     } */
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
+     //   BillingManager();
 
 //        bp = BillingProcessor.newBillingProcessor(this, getString(R.string.google_play_license_key), this);
 //        bp.initialize();
