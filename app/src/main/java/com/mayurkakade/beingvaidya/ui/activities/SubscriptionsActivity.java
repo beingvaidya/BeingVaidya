@@ -480,7 +480,7 @@ int oldTotal = 0;
                     getSkuDetails();
                     getHistory();
 
-                    purchaseProAccount();
+//                    purchaseProAccount();
                     new Handler(getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -569,7 +569,7 @@ int oldTotal = 0;
                 }
             }
         };
-        mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.SUBS, purchaseHistoryListener);
+        mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, purchaseHistoryListener);
     }
 
     private PurchaseHistoryRecord getCurrentSubscription() {

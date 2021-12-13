@@ -428,7 +428,7 @@ public class LearningFragment extends Fragment /*implements BillingProcessor.IBi
                     getSkuDetails();
                     getHistory();
 
-                    purchaseProAccount();
+//                    purchaseProAccount();
                    new Handler(requireActivity().getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -502,7 +502,7 @@ public class LearningFragment extends Fragment /*implements BillingProcessor.IBi
                 }
             }
         };
-        mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.SUBS, purchaseHistoryListener);
+        mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, purchaseHistoryListener);
     }
 
     private PurchaseHistoryRecord getCurrentSubscription() {

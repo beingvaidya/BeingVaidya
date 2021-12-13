@@ -174,7 +174,7 @@ public class BaseActivity extends AppCompatActivity implements PurchasesUpdatedL
                 }
             }
         };
-        mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.SUBS, purchaseHistoryListener);
+        mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, purchaseHistoryListener);
     }
 
     @Override
